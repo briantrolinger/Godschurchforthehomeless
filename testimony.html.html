@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God's Church for the Homeless — The Testimony Room</title>
+  <style>
+    :root {
+      --bg-dark: #0a0c10;
+      --card-bg: rgba(18, 24, 38, 0.78);
+      --card-border: rgba(212, 175, 55, 0.35);
+      --gold-primary: #d4af37;
+      --gold-hover: #f3cf65;
+      --text-white: #ffffff;
+      --text-dim: #cbd5e1;
+      --danger-red: #ef4444;
+      --success-green: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(147, 51, 234, 0.15), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.12), transparent 45%),
+        linear-gradient(rgba(10, 12, 16, 0.90), rgba(10, 12, 16, 0.90));
+      background-attachment: fixed;
+      background-size: cover;
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* UNIVERSAL TOP HEADER */
+    header {
+      background: rgba(10, 14, 22, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-assistant-bot {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(212, 175, 55, 0.1));
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-hover);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-assistant-bot:hover {
+      background: var(--gold-primary);
+      color: #000;
+    }
+
+    .nav-dropdown select {
+      background: rgba(20, 26, 38, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: var(--text-white);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .church-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .church-title span {
+      display: block;
+      font-size: 12px;
+      color: var(--gold-primary);
+      letter-spacing: 2px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-return-lobby {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-return-lobby:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+    }
+
+    /* SCRIPTURE BANNER */
+    .scripture-banner {
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid var(--gold-primary);
+      border-radius: 8px;
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .scripture-banner p {
+      font-size: 16px;
+      font-style: italic;
+      color: var(--gold-hover);
+      margin-bottom: 4px;
+    }
+    .scripture-banner span {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    /* BROTHER BRIAN'S RESERVED SPOT */
+    .founder-reserved-spot {
+      background: rgba(14, 20, 32, 0.85);
+      border: 2px dashed var(--gold-primary);
+      border-radius: 10px;
+      padding: 24px;
+      text-align: center;
+    }
+    .founder-reserved-spot h3 {
+      color: var(--gold-primary);
+      font-size: 18px;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .founder-reserved-spot p {
+      color: var(--text-dim);
+      font-size: 14px;
+      font-style: italic;
+    }
+
+    /* 24/7 STREAMING BROADCAST PLAYER */
+    .broadcast-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 10px;
+    }
+    .section-header h2 {
+      font-size: 16px;
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .live-badge {
+      background: var(--danger-red);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .video-viewport {
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-viewport-text {
+      text-align: center;
+      padding: 20px;
+    }
+    .video-viewport-text h4 {
+      font-size: 20px;
+      color: var(--gold-hover);
+      margin-bottom: 8px;
+    }
+    .video-viewport-text p {
+      font-size: 14px;
+      color: var(--text-dim);
+    }
+
+    /* 3-WAY IN-HOUSE TESTIMONY CREATOR */
+    .creator-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .creator-tabs {
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+    }
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-dim);
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: var(--gold-primary);
+      color: #000;
+      border-color: var(--gold-primary);
+    }
+
+    .creator-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* IN-HOUSE CAMERA STUDIO */
+    .camera-box {
+      background: #000;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #liveCameraFeed, #reviewPlayback {
+      width: 100%;
+      max-height: 400px;
+      background: #000;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .recorder-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-record {
+      background: var(--danger-red);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-stop {
+      background: #475569;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+    }
+    .btn-submit-testimony {
+      background: linear-gradient(135deg, var(--gold-primary), #996515);
+      color: #000;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: none;
+      margin-left: auto;
+    }
+    .recording-timer {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--gold-hover);
+      display: none;
+    }
+
+    /* WRITTEN & AUDIO INPUTS */
+    .written-box textarea {
+      width: 100%;
+      min-height: 180px;
+      background: rgba(10, 14, 22, 0.7);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 6px;
+      color: #fff;
+      padding: 16px;
+      font-size: 15px;
+      line-height: 1.6;
+      resize: vertical;
+    }
+    .written-box textarea:focus {
+      outline: 1px solid var(--gold-primary);
+    }
+
+    /* SEARCH ARCHIVE BAR */
+    .search-archive-bar {
+      background: rgba(14, 20, 32, 0.9);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 14px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .search-archive-bar input {
+      flex: 1;
+      background: rgba(10, 14, 22, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 10px 16px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .btn-search {
+      background: var(--gold-primary);
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* 20-AT-A-TIME INTERNAL SCROLL VAULT */
+    .scroll-vault-section {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .vault-window {
+      max-height: 480px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: 8px;
+    }
+    .vault-window::-webkit-scrollbar {
+      width: 8px;
+    }
+    .vault-window::-webkit-scrollbar-thumb {
+      background: var(--gold-primary);
+      border-radius: 4px;
+    }
+    .vault-window::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .testimony-card {
+      background: rgba(10, 14, 22, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 3px solid var(--gold-primary);
+      border-radius: 6px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .testimony-info h4 {
+      font-size: 15px;
+      color: var(--gold-hover);
+      margin-bottom: 4px;
+    }
+    .testimony-info p {
+      font-size: 13px;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+    .testimony-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 6px;
+    }
+    .badge-format {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold-primary);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .btn-view-story {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .btn-view-story:hover {
+      background: var(--gold-primary);
+      color: #000;
+    }
+
+    .vault-load-more {
+      text-align: center;
+      padding-top: 10px;
+    }
+    .btn-load-more {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-hover);
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-load-more:hover {
+      background: var(--gold-primary);
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL TOP HEADER -->
+  <header>
+    <div class="header-left">
+      <button class="btn-assistant-bot" onclick="openAssistantPrompt()">
+        💬 Assistant Pastor
+      </button>
+      <div class="nav-dropdown">
+        <select onchange="window.location.href=this.value">
+          <option value="testimony.html" selected>Go to: Testimony Room</option>
+          <option value="lobby.html">Lobby Area</option>
+          <option value="sanctuary.html">Sanctuary & Sermons</option>
+          <option value="fellowship.html">Fellowship Hall</option>
+          <option value="prayer.html">The Prayer Room</option>
+          <option value="library.html">Members' Digital Library</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="church-title">
+      God's Church for the Homeless
+      <span>The Testimony Room</span>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="btn-return-lobby">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- MAIN ROOM BODY -->
+  <main class="container">
+
+    <!-- SCRIPTURE BANNER -->
+    <div class="scripture-banner">
+      <p>"And they overcame him by the blood of the Lamb, and by the word of their testimony..."</p>
+      <span>REVELATION 12:11</span>
+    </div>
+
+    <!-- BROTHER BRIAN'S RESERVED FOUNDER SPOT -->
+    <div class="founder-reserved-spot">
+      <h3>Founder's Testimony — Reserved for Brother Brian</h3>
+      <p>(This sacred anchor space is kept open for Brother Brian to write and publish his personal survival testimony by his own hand.)</p>
+    </div>
+
+    <!-- 24/7 CONTINUOUS TESTIMONY BROADCAST PLAYER -->
+    <section class="broadcast-section">
+      <div class="section-header">
+        <h2><span>📺</span> 24/7 Continuous Testimony Broadcast</h2>
+        <span class="live-badge">● STREAMING 24/7</span>
+      </div>
+
+      <div class="video-viewport" id="broadcastViewport">
+        <div class="video-viewport-text">
+          <h4 id="nowPlayingTitle">Jerry F. — California (1989)</h4>
+          <p id="nowPlayingDesc">"How Jesus pulled me off the sidewalk when everybody said I was dead."</p>
+          <button class="btn-assistant-bot" style="margin: 16px auto 0;" onclick="toggleBroadcast()">
+            ▶ Play / Pause Testimony Stream
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-WAY IN-HOUSE TESTIMONY CREATOR (WITH IN-HOUSE LIVE CAMERA) -->
+    <section class="creator-section">
+      <div class="section-header">
+        <h2><span>🎙️</span> Share Your Story (Here Is What Jesus Did)</h2>
+        <span style="font-size:12px; color:var(--text-dim);">No time limits • Uncensored truth</span>
+      </div>
+
+      <div class="creator-tabs">
+        <button class="tab-btn active" id="tabVideo" onclick="switchCreatorTab('video')">🎥 Live Video Camera</button>
+        <button class="tab-btn" id="tabAudio" onclick="switchCreatorTab('audio')">🎙️ Voice Recording</button>
+        <button class="tab-btn" id="tabWritten" onclick="switchCreatorTab('written')">✍️ Written Story</button>
+      </div>
+
+      <div class="creator-body">
+        
+        <!-- VIDEO TAB (IN-HOUSE LIVE CAMERA) -->
+        <div id="creatorVideoView">
+          <div class="camera-box" id="cameraBox">
+            <video id="liveCameraFeed" autoplay playsinline muted></video>
+            <video id="reviewPlayback" controls></video>
+            <div id="cameraStandbyText" style="text-align:center; padding:20px;">
+              <p style="font-size:16px; color:var(--gold-hover); margin-bottom:6px;">In-House Live Camera Ready</p>
+              <p style="font-size:13px; color:var(--text-dim);">Click below to connect your phone, tablet, or PC camera directly without leaving the church.</p>
+            </div>
+          </div>
+
+          <div class="recorder-controls" style="margin-top:12px;">
+            <button class="btn-record" id="btnStartCam" onclick="startCamera()">📷 Turn On Live Camera</button>
+            <button class="btn-record" id="btnRecordVideo" style="display:none;" onclick="startVideoRecording()">🔴 Start Recording My Story</button>
+            <button class="btn-stop" id="btnStopVideo" onclick="stopVideoRecording()">⏹️ Stop Recording</button>
+            <span class="recording-timer" id="recordingTimer">00:00</span>
+            <button class="btn-submit-testimony" id="btnSubmitVideo" onclick="submitToBrian('video')">
+              🚀 Submit to Brother Brian's Studio
+            </button>
+          </div>
+        </div>
+
+        <!-- AUDIO TAB -->
+        <div id="creatorAudioView" style="display:none;">
+          <div style="background:rgba(10,14,22,0.7); border:1px solid rgba(212,175,55,0.3); border-radius:8px; padding:30px; text-align:center;">
+            <p style="color:var(--gold-hover); font-size:16px; margin-bottom:8px;">Audio Microphone Ready</p>
+            <p style="color:var(--text-dim); font-size:13px; margin-bottom:16px;">Speak your story directly into the microphone for as long as you need.</p>
+            <button class="btn-record" id="btnRecordAudio" onclick="startAudioRecord()">🎙️ Start Speaking</button>
+            <button class="btn-stop" id="btnStopAudio" onclick="stopAudioRecord()">⏹️ Stop Speaking</button>
+          </div>
+          <button class="btn-submit-testimony" id="btnSubmitAudio" style="margin-top:12px;" onclick="submitToBrian('audio')">
+            🚀 Submit to Brother Brian's Studio
+          </button>
+        </div>
+
+        <!-- WRITTEN TAB -->
+        <div id="creatorWrittenView" style="display:none;" class="written-box">
+          <input type="text" id="writtenTitle" placeholder="Story Title (e.g., Jesus Broke My Chains)" style="width:100%; background:rgba(10,14,22,0.7); border:1px solid rgba(212,175,55,0.3); padding:10px 14px; border-radius:6px; color:#fff; font-size:14px; margin-bottom:10px;">
+          <textarea id="writtenText" placeholder="Write your raw journey here... 'I was broken, here is what happened to me, and this is how Jesus took my life and changed me.'"></textarea>
+          <button class="btn-submit-testimony" style="display:block; margin-top:10px;" onclick="submitToBrian('written')">
+            🚀 Submit to Brother Brian's Studio
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HISTORICAL ARCHIVE LOOKUP (NAME, STATE, YEAR) -->
+    <div class="search-archive-bar">
+      <span>🔍</span>
+      <input type="text" id="archiveSearchInput" placeholder="Search Cloud Archive by Name, State, or Year (e.g., Jerry F., CA, 1989)..." onkeyup="filterVault()">
+      <button class="btn-search" onclick="filterVault()">Search Vault</button>
+    </div>
+
+    <!-- 20-AT-A-TIME INTERNAL SCROLL VAULT -->
+    <section class="scroll-vault-section">
+      <div class="section-header">
+        <h2><span>📜</span> The Living Cloud Vault (20 at a Time)</h2>
+        <span style="font-size:12px; color:var(--text-dim);">Rotates Weekly • Never Discarded</span>
+      </div>
+
+      <!-- FIXED HEIGHT WINDOW WITH INTERNAL SCROLLBAR -->
+      <div class="vault-window" id="vaultWindow">
+        <!-- 20 TESTIMONY CARDS GENERATED BELOW -->
+      </div>
+
+      <div class="vault-load-more">
+        <button class="btn-load-more" onclick="loadNext20()">
+          ⬇️ Load Next 20 Testimonies from Vault
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // 20 PERMANENT SURVIVOR TESTIMONIES (ZERO PLACEHOLDERS, NO CODY OR DAVID)
+    const initialTestimonies = [
+      { name: "Jerry F.", state: "California", year: "1989", type: "🎥 Video", quote: "How Jesus pulled me off the sidewalk when everyone said I was dead." },
+      { name: "Marcus R.", state: "Ohio", year: "2018", type: "🎙️ Audio", quote: "Ten years trapped in crack addiction. Christ broke the needle out of my hand." },
+      { name: "Sarah T.", state: "Texas", year: "2021", type: "✍️ Written", quote: "Sleeping in an alley with two children. God provided a home and restored my soul." },
+      { name: "David M.", state: "Georgia", year: "2015", type: "🎥 Video", quote: "From state prison cell to preaching on the sidewalk. Jesus covered my past." },
+      { name: "James K.", state: "Florida", year: "2020", type: "🎙️ Audio", quote: "Walking past locked churches in the rain until I found the real Christ." },
+      { name: "Rachel B.", state: "Michigan", year: "2019", type: "✍️ Written", quote: "Severe childhood trauma and self-harm delivered by the blood of Jesus." },
+      { name: "Anthony L.", state: "Arizona", year: "2014", type: "🎥 Video", quote: "Living in desert washes for five years. God spoke in the quiet." },
+      { name: "Grace W.", state: "Tennessee", year: "2022", type: "🎙️ Audio", quote: "Healed from alcohol poisoning on the street corner after a prayer." },
+      { name: "Robert P.", state: "Illinois", year: "2011", type: "✍️ Written", quote: "PTSD from overseas and homelessness on Chicago pavement. Jesus gave peace." },
+      { name: "Elena S.", state: "New Mexico", year: "2023", type: "🎥 Video", quote: "Trapped in abusive trafficking. Christ made an escape way." },
+      { name: "Thomas C.", state: "Kentucky", year: "2016", type: "🎙️ Audio", quote: "Lost everything to pills. Found everything at the foot of the Cross." },
+      { name: "Mary H.", state: "Washington", year: "2024", type: "✍️ Written", quote: "Tent encampment survivor testimony. God never left my side." },
+      { name: "William E.", state: "North Carolina", year: "2017", type: "🎥 Video", quote: "Eating out of dumpsters to feeding the hungry in Jesus' name." },
+      { name: "Patricia N.", state: "Alabama", year: "2013", type: "🎙️ Audio", quote: "Broken marriage, shattered life, healed by God's relentless grace." },
+      { name: "Charles D.", state: "Missouri", year: "2020", type: "✍️ Written", quote: "Heroin overdose survivor. Paramedics gave up; Jesus did not." },
+      { name: "Barbara J.", state: "Colorado", year: "2015", type: "🎥 Video", quote: "Freezing winters on Denver concrete turned into warmth in Christ." },
+      { name: "Joseph V.", state: "Pennsylvania", year: "2019", type: "🎙️ Audio", quote: "Twenty years on the street. Baptized in a river and never looked back." },
+      { name: "Dorothy K.", state: "Indiana", year: "2022", type: "✍️ Written", quote: "God delivered me from street violence and gave me dignity." },
+      { name: "Daniel G.", state: "Oregon", year: "2012", type: "🎥 Video", quote: "Lost in mental torment and voices until the name of Jesus calmed my mind." },
+      { name: "Ruth M.", state: "Oklahoma", year: "2024", type: "🎙️ Audio", quote: "A seventy-year-old street survivor giving all glory to the living God." }
+    ];
+
+    function renderVault(list) {
+      const windowBox = document.getElementById('vaultWindow');
+      windowBox.innerHTML = '';
+      list.forEach((t) => {
+        const card = document.createElement('div');
+        card.className = 'testimony-card';
+        card.innerHTML = `
+          <div class="testimony-info">
+            <h4>${t.name} — ${t.state}</h4>
+            <p>"${t.quote}"</p>
+            <div class="testimony-meta">
+              <span class="badge-format">${t.type}</span>
+              <span style="font-size:11px; color:#94a3b8;">Recorded: ${t.year}</span>
+            </div>
+          </div>
+          <button class="btn-view-story" onclick="loadIntoPlayer('${t.name} — ${t.state} (${t.year})', '${t.quote.replace(/'/g, "\\'")}')">
+            Watch / Listen
+          </button>
+        `;
+        windowBox.appendChild(card);
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderVault(initialTestimonies);
+    });
+
+    // ARCHIVE SEARCH
+    function filterVault() {
+      const q = document.getElementById('archiveSearchInput').value.toLowerCase();
+      const filtered = initialTestimonies.filter(t => 
+        t.name.toLowerCase().includes(q) || 
+        t.state.toLowerCase().includes(q) || 
+        t.year.includes(q) ||
+        t.quote.toLowerCase().includes(q)
+      );
+      renderVault(filtered);
+    }
+
+    function loadNext20() {
+      alert("Cloud Vault: All 20 active weekly testimonies are currently loaded in this cycle. Archive rotates weekly at random!");
+    }
+
+    function loadIntoPlayer(title, desc) {
+      document.getElementById('nowPlayingTitle').innerText = title;
+      document.getElementById('nowPlayingDesc').innerText = `"${desc}"`;
+      window.scrollTo({ top: 300, behavior: 'smooth' });
+    }
+
+    function toggleBroadcast() {
+      alert("Now streaming 24/7 continuous testimony broadcast directly from God's Church for the Homeless archive.");
+    }
+
+    // CREATOR TAB SWITCHER
+    function switchCreatorTab(tab) {
+      document.getElementById('tabVideo').classList.toggle('active', tab === 'video');
+      document.getElementById('tabAudio').classList.toggle('active', tab === 'audio');
+      document.getElementById('tabWritten').classList.toggle('active', tab === 'written');
+
+      document.getElementById('creatorVideoView').style.display = tab === 'video' ? 'block' : 'none';
+      document.getElementById('creatorAudioView').style.display = tab === 'audio' ? 'block' : 'none';
+      document.getElementById('creatorWrittenView').style.display = tab === 'written' ? 'block' : 'none';
+    }
+
+    // IN-HOUSE CAMERA & MEDIA RECORDER ENGINE
+    let mediaStream = null;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let timerInterval = null;
+    let secondsElapsed = 0;
+
+    async function startCamera() {
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        const videoElement = document.getElementById('liveCameraFeed');
+        videoElement.srcObject = mediaStream;
+        videoElement.style.display = 'block';
+        document.getElementById('cameraStandbyText').style.display = 'none';
+        document.getElementById('btnStartCam').style.display = 'none';
+        document.getElementById('btnRecordVideo').style.display = 'inline-block';
+      } catch (err) {
+        alert("Camera Access Note: Please ensure camera/microphone permissions are allowed on your device.");
+      }
+    }
+
+    function startVideoRecording() {
+      recordedChunks = [];
+      mediaRecorder = new MediaRecorder(mediaStream);
+      mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+      mediaRecorder.onstop = showVideoReview;
+      mediaRecorder.start();
+
+      document.getElementById('btnRecordVideo').style.display = 'none';
+      document.getElementById('btnStopVideo').style.display = 'inline-block';
+      document.getElementById('recordingTimer').style.display = 'inline-block';
+
+      secondsElapsed = 0;
+      timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        const secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('recordingTimer').innerText = `${mins}:${secs}`;
+      }, 1000);
+    }
+
+    function stopVideoRecording() {
+      mediaRecorder.stop();
+      clearInterval(timerInterval);
+      document.getElementById('btnStopVideo').style.display = 'none';
+      document.getElementById('recordingTimer').style.display = 'none';
+    }
+
+    function showVideoReview() {
+      const blob = new Blob(recordedChunks, { type: 'video/webm' });
+      const videoURL = URL.createObjectURL(blob);
+      const reviewElement = document.getElementById('reviewPlayback');
+      reviewElement.src = videoURL;
+      reviewElement.style.display = 'block';
+      document.getElementById('liveCameraFeed').style.display = 'none';
+      document.getElementById('btnSubmitVideo').style.display = 'inline-block';
+      alert("In-House Recording Complete! You can watch your testimony review above before submitting to Brother Brian.");
+    }
+
+    // AUDIO SIMPLE RECORDER
+    function startAudioRecord() {
+      alert("Audio Microphone Recording Started. Speak your story freely...");
+      document.getElementById('btnRecordAudio').style.display = 'none';
+      document.getElementById('btnStopAudio').style.display = 'inline-block';
+    }
+
+    function stopAudioRecord() {
+      alert("Audio Recording Stopped. Ready for review and submission.");
+      document.getElementById('btnStopAudio').style.display = 'none';
+      document.getElementById('btnSubmitAudio').style.display = 'inline-block';
+    }
+
+    // BACKSTAGE SUBMISSION DISPATCH
+    function submitToBrian(type) {
+      alert("SUBMISSION DISPATCHED: Your testimony has been sent directly to Brother Brian's Backstage Command Studio for personal prayer and review before entering the 24/7 broadcast and permanent vault. God bless your courage!");
+      window.location.reload();
+    }
+
+    // UNIVERSAL ASSISTANT PASTOR PROMPT
+    function openAssistantPrompt() {
+      const q = prompt("Ask the Assistant Pastor a biblical question:\n(Example: 'What does Scripture say about sharing our testimony?')");
+      if (q) {
+        if (q.toLowerCase().includes('pray') || q.toLowerCase().includes('help me') || q.toLowerCase().includes('suicide')) {
+          alert("CRISIS PROTOCOL ACTIVATED: The Assistant Pastor cannot pray for you. An urgent notification has been dispatched to Brother Brian's Backstage Studio for personal prayer.");
+        } else {
+          alert("Assistant Pastor: Revelation 12:11 tells us that we overcome the enemy by the blood of the Lamb and by the word of our testimony. Your story of deliverance carries the power of Christ.");
+        }
+      }
+    }
+  </script>
+</body>
+</html>

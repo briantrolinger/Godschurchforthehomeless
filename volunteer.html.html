@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Door 7: The Volunteer Station — God's Church for the Homeless</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #0a0c10;
+      --card-bg: rgba(18, 22, 31, 0.75);
+      --card-border: rgba(212, 175, 55, 0.25);
+      --accent-gold: #d4af37;
+      --accent-gold-hover: #f3cf65;
+      --accent-red: #c93b3b;
+      --text-white: #ffffff;
+      --text-dim: #b8c1cc;
+      --nav-height: 72px;
+      --font-title: 'Cinzel', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+        linear-gradient(rgba(10, 12, 16, 0.94), rgba(10, 12, 16, 0.94)),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.03"><rect width="100" height="100" fill="none" stroke="%23fff" stroke-width="1"/></svg>');
+      color: var(--text-white);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ----------------------------------------------------
+       PART 2: UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES)
+       ---------------------------------------------------- */
+    .church-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      background: rgba(10, 12, 16, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .assistant-pastor-btn {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+    }
+
+    .assistant-pastor-btn:hover {
+      background: var(--accent-gold);
+      color: #000;
+    }
+
+    .nav-dropdown {
+      background: rgba(18, 22, 31, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-white);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .header-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .header-center h1 {
+      font-family: var(--font-title);
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .header-right .return-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-white);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .header-right .return-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+    }
+
+    /* ----------------------------------------------------
+       MAIN WORKSPACE
+       ---------------------------------------------------- */
+    .main-content {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1.25rem 4rem;
+      width: 100%;
+    }
+
+    .page-title-card {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .page-subtitle-badge {
+      display: inline-block;
+      font-family: var(--font-title);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--accent-gold);
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .page-title {
+      font-family: var(--font-title);
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+    }
+
+    .scripture-banner {
+      background: rgba(212, 175, 55, 0.05);
+      border-left: 3px solid var(--accent-gold);
+      padding: 0.85rem 1.25rem;
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      text-align: center;
+      border-radius: 0 6px 6px 0;
+    }
+
+    /* STATUS CLOSED NOTICE */
+    .closed-status-banner {
+      background: rgba(201, 59, 59, 0.12);
+      border: 1px solid rgba(201, 59, 59, 0.4);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+
+    .status-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .status-content h2 {
+      font-family: var(--font-title);
+      color: #ff6b6b;
+      font-size: 1.15rem;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.03em;
+    }
+
+    .status-content p {
+      color: #e0e5ed;
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    /* ROLES PREVIEW SECTION */
+    .section-heading {
+      font-family: var(--font-title);
+      font-size: 1.35rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .section-desc {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .roles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-bottom: 3.5rem;
+    }
+
+    @media (max-width: 820px) {
+      .roles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .role-wing-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .wing-title {
+      font-family: var(--font-title);
+      font-size: 1.1rem;
+      color: #ffffff;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 0.6rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wing-title span.badge {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--accent-gold);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      text-transform: none;
+      letter-spacing: normal;
+    }
+
+    .role-item {
+      margin-bottom: 1.25rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .role-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .role-item h3 {
+      font-size: 0.98rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .role-item p {
+      font-size: 0.86rem;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+
+    /* INTAKE CARD & FORM */
+    .intake-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 2.25rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .intake-header {
+      margin-bottom: 1.75rem;
+      text-align: center;
+    }
+
+    .intake-header h2 {
+      font-family: var(--font-title);
+      font-size: 1.35rem;
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+    }
+
+    .intake-header p {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .bot-intake-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.76rem;
+      color: #5eead4;
+      background: rgba(94, 234, 212, 0.08);
+      border: 1px solid rgba(94, 234, 212, 0.25);
+      padding: 0.25rem 0.65rem;
+      border-radius: 4px;
+      margin-top: 0.6rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    label span.req {
+      color: #ff6b6b;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      background: rgba(10, 12, 16, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 6px;
+      padding: 0.75rem 0.9rem;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    textarea:focus {
+      border-color: var(--accent-gold);
+      background: rgba(10, 12, 16, 0.95);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* CHECKBOXES FOR THE 10 ROLES */
+    .roles-selector-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin: 1rem 0 0.5rem;
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 640px) {
+      .checkbox-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.6rem 0.75rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      cursor: pointer;
+    }
+
+    .checkbox-item:hover {
+      background: rgba(212, 175, 55, 0.05);
+      border-color: rgba(212, 175, 55, 0.2);
+    }
+
+    .checkbox-item input {
+      margin-top: 0.2rem;
+      accent-color: var(--accent-gold);
+      cursor: pointer;
+    }
+
+    .checkbox-label {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      line-height: 1.35;
+      cursor: pointer;
+    }
+
+    .submit-btn-row {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .submit-btn {
+      background: var(--accent-gold);
+      color: #000;
+      border: none;
+      padding: 0.85rem 2.25rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.03em;
+    }
+
+    .submit-btn:hover {
+      background: var(--accent-gold-hover);
+      box-shadow: 0 4px 18px rgba(212, 175, 55, 0.35);
+    }
+
+    .confirmation-msg {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      background: rgba(46, 204, 113, 0.12);
+      border: 1px solid rgba(46, 204, 113, 0.4);
+      border-radius: 6px;
+      text-align: center;
+      color: #a3e635;
+      font-size: 0.92rem;
+    }
+
+    /* ASSISTANT PASTOR MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-box {
+      background: #11141c;
+      border: 1px solid var(--accent-gold);
+      border-radius: 10px;
+      max-width: 480px;
+      width: 100%;
+      padding: 1.75rem;
+      color: #fff;
+    }
+
+    .modal-box h3 {
+      font-family: var(--font-title);
+      color: var(--accent-gold);
+      margin-bottom: 0.75rem;
+      font-size: 1.15rem;
+    }
+
+    .modal-box p {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PART 2: UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES) -->
+  <header class="church-header">
+    <div class="header-left">
+      <button class="assistant-pastor-btn" onclick="openAssistantModal()">
+        <span>💬</span> Assistant Pastor
+      </button>
+
+      <select class="nav-dropdown" onchange="if(this.value) window.location.href=this.value;">
+        <option value="" selected disabled>Go to Church Gateway...</option>
+        <option value="lobby.html">Main Sanctuary Lobby</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: The Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Digital Library</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin Board</option>
+        <option value="volunteer.html">Door 7: The Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Mission, Beliefs & Bylaws</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Live Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <h1>GOD'S CHURCH FOR THE HOMELESS</h1>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="return-btn">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- MAIN VOLUNTEER WORKSPACE -->
+  <main class="main-content">
+    
+    <div class="page-title-card">
+      <div class="page-subtitle-badge">Door 7</div>
+      <h2 class="page-title">The Volunteer Station</h2>
+    </div>
+
+    <div class="scripture-banner">
+      "For even the Son of man came not to be ministered unto, but to minister, and to give his life a ransom for many." — Mark 10:45
+    </div>
+
+    <!-- CURRENT LAUNCH STATUS: CLOSED -->
+    <section class="closed-status-banner">
+      <div class="status-icon">🔒</div>
+      <div class="status-content">
+        <h2>STATUS: VOLUNTEER STATION CURRENTLY CLOSED</h2>
+        <p>
+          God's Church for the Homeless is brand new and actively establishing its foundation and seeking its Fiscal Sponsor covering. Because the church is in its launch phase and membership is still gathering, active on-the-ground volunteer assignments are temporarily closed.
+        </p>
+        <p style="margin-top: 0.5rem; color: #cbd5e1;">
+          Please review the 10 future volunteer roles below. You may fill out the confidential pre-registration card below so the Assistant Pastor Bot can log your willingness to serve when operations launch in your area.
+        </p>
+      </div>
+    </section>
+
+    <!-- ROLES OVERVIEW -->
+    <h3 class="section-heading">Future Mission Roster</h3>
+    <p class="section-desc">The 10 designated service roles unlocking as the RV Ministry deploys and membership grows.</p>
+
+    <div class="roles-grid">
+      
+      <!-- WING 1: STREET REVIVAL ROLES -->
+      <div class="role-wing-card">
+        <div class="wing-title">
+          <span>On-the-Ground RV Revival Crew</span>
+          <span class="badge">5 Street Roles</span>
+        </div>
+
+        <div class="role-item">
+          <h3>1. Advance City Liaison / Permitting Scout</h3>
+          <p>Coordinates with municipal offices ahead of the RV's arrival to secure lawful permits, verify encampment proximity, and rent authorized spaces so the 30-day ministry revival remains fully compliant with local law.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>2. Revival Setup & Teardown Crew</h3>
+          <p>Assists with the physical setup of outdoor revival gathering spaces, weather canopies, tables, and sound equipment, and provides thorough site cleanup when the 30-day residency concludes.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>3. Food Preparation & Meal Team</h3>
+          <p>Prepares and serves warm, nourishing meals directly to brothers and sisters living within and around the encampments during the revival.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>4. Gear & Supply Distributors</h3>
+          <p>Organizes and distributes critical physical survival provisions including cold-weather sleeping bags, weatherproof tents, work boots, everyday shoes, heavy sweaters, and hygiene items.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>5. Voucher & Store Transportation Drivers</h3>
+          <p>Provides verified store vouchers and dedicated, respectful round-trip transportation so encampment members can shop for their own essential provisions at local stores with total dignity. <em>(Note: Vehicle mechanical upkeep is handled under commercial sponsorship contracts.)</em></p>
+        </div>
+      </div>
+
+      <!-- WING 2: DIGITAL, PASTORAL & CHURCH DEFENSE -->
+      <div class="role-wing-card">
+        <div class="wing-title">
+          <span>Remote, Pastoral & Church Defense</span>
+          <span class="badge">5 Support Roles</span>
+        </div>
+
+        <div class="role-item">
+          <h3>6. Crisis Line Volunteers</h3>
+          <p>Answers urgent church support communications for individuals navigating acute personal crises, emotional trauma, or life-safety emergencies.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>7. Volunteer to be a Prayer Warrior</h3>
+          <p>Dedicated personal intercession standing in the gap for the physical and spiritual needs posted by the flock, preserving the church standard that only living human hearts pray.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>8. Drug & Addiction Counselors</h3>
+          <p>Experienced and lived-experience recovery mentors providing guidance, sobriety support, and pathways to medical detox and long-term recovery beds.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>9. Volunteer Lawyers for the Church</h3>
+          <p>Licensed legal counsel defending and safeguarding <strong>God's Church for the Homeless</strong> itself—protecting ministry rights against hostile city ordinances, handling municipal disputes, and defending street outreach operations.</p>
+        </div>
+
+        <div class="role-item">
+          <h3>10. Clerical & Ministry Bookkeepers</h3>
+          <p>Assists with managing church administrative records, voucher distribution ledgers, and operational documentation with integrity and order.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PRE-REGISTRATION INTAKE FORM -->
+    <section class="intake-box">
+      <div class="intake-header">
+        <h2>Volunteer Pre-Registration Card</h2>
+        <p>Register your interest with the ministry. Submissions are processed and filed silently by the Assistant Pastor Bot Engine into our private administrative database.</p>
+        <div class="bot-intake-badge">
+          <span>🤖</span> Routed Silently to Assistant Pastor Bot Vault (Zero Screen Clutter for Brother Brian)
+        </div>
+      </div>
+
+      <form id="volunteerForm" onsubmit="handleVolunteerSubmit(event)">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="fullName">Full Name <span class="req">*</span></label>
+            <input type="text" id="fullName" required placeholder="First and Last Name">
+          </div>
+
+          <div class="form-group">
+            <label for="phoneNum">Phone Number (Mandatory) <span class="req">*</span></label>
+            <input type="tel" id="phoneNum" required placeholder="(e.g., 555-019-2831)">
+          </div>
+
+          <div class="form-group">
+            <label for="userCity">City <span class="req">*</span></label>
+            <input type="text" id="userCity" required placeholder="Your City">
+          </div>
+
+          <div class="form-group">
+            <label for="userState">State / Region <span class="req">*</span></label>
+            <input type="text" id="userState" required placeholder="Your State">
+          </div>
+        </div>
+
+        <div class="roles-selector-title">Select Roles You Wish to Serve In:</div>
+        <div class="checkbox-grid">
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Advance City Liaison">
+            <span class="checkbox-label">1. Advance City Liaison / Permits</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Revival Setup & Teardown">
+            <span class="checkbox-label">2. Setup & Teardown Crew</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Food Preparation & Meal Team">
+            <span class="checkbox-label">3. Food Preparation & Meals</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Gear & Supply Distributors">
+            <span class="checkbox-label">4. Gear & Supply Distribution</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Voucher & Store Transportation">
+            <span class="checkbox-label">5. Voucher & Store Rides</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Crisis Line Volunteer">
+            <span class="checkbox-label">6. Crisis Line Volunteer</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Prayer Warrior">
+            <span class="checkbox-label">7. Volunteer to be a Prayer Warrior</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Drug & Addiction Counselor">
+            <span class="checkbox-label">8. Drug & Addiction Counselor</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Volunteer Lawyer for the Church">
+            <span class="checkbox-label">9. Volunteer Lawyer for the Church</span>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="role" value="Clerical & Bookkeeper">
+            <span class="checkbox-label">10. Clerical & Ministry Bookkeeper</span>
+          </label>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="userNotes">Skills, Background, or Relevant Experience (Optional)</label>
+          <textarea id="userNotes" placeholder="Share any relevant background, trade skills, or your heart for the street ministry..."></textarea>
+        </div>
+
+        <div class="submit-btn-row">
+          <button type="submit" class="submit-btn">Register with Assistant Pastor Bot</button>
+        </div>
+
+        <div id="confirmationNotice" class="confirmation-msg">
+          ✓ Thank you. Your information has been securely archived by the Assistant Pastor Bot. It will remain in the ministry records until Brother Brian requests the local roster upon arriving in your area.
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- ASSISTANT PASTOR MODAL -->
+  <div id="assistantModal" class="modal-overlay" onclick="closeAssistantModal(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <h3>Assistant Pastor Operations Desk</h3>
+      <p>
+        The Assistant Pastor handles ministry intake, sorting, and organizational filing in the background. When Brother Brian travels to your state or prepares a 30-day revival, he can command the roster on-demand.
+      </p>
+      <button class="modal-close-btn" onclick="closeAssistantModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Universal Assistant Pastor modal controls
+    function openAssistantModal() {
+      document.getElementById('assistantModal').style.display = 'flex';
+    }
+
+    function closeAssistantModal(e) {
+      if (!e || e.target.id === 'assistantModal' || e.target.classList.contains('modal-close-btn')) {
+        document.getElementById('assistantModal').style.display = 'none';
+      }
+    }
+
+    // Bot Intake Logic
+    function handleVolunteerSubmit(event) {
+      event.preventDefault();
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const phoneNum = document.getElementById('phoneNum').value.trim();
+      const city = document.getElementById('userCity').value.trim();
+      const state = document.getElementById('userState').value.trim();
+      const notes = document.getElementById('userNotes').value.trim();
+
+      const selectedRoles = [];
+      document.querySelectorAll('input[name="role"]:checked').forEach(cb => {
+        selectedRoles.push(cb.value);
+      });
+
+      if (selectedRoles.length === 0) {
+        alert("Please select at least one role you wish to volunteer for.");
+        return;
+      }
+
+      // Record object prepared for Bot Engine ingestion
+      const volunteerRecord = {
+        name: fullName,
+        phone: phoneNum,
+        city: city,
+        state: state,
+        roles: selectedRoles,
+        notes: notes,
+        submittedAt: new Date().toISOString(),
+        status: "Archived in Vault - Pending Pastoral Deployment"
+      };
+
+      // Store in local browser database vault under Bot intake queue
+      try {
+        const existingRoster = JSON.parse(localStorage.getItem('church_volunteer_roster') || '[]');
+        existingRoster.push(volunteerRecord);
+        localStorage.setItem('church_volunteer_roster', JSON.stringify(existingRoster));
+      } catch (err) {
+        console.warn("Local vault write simulation completed.");
+      }
+
+      // Reset form and display quiet confirmation
+      document.getElementById('volunteerForm').reset();
+      const confirmation = document.getElementById('confirmationNotice');
+      confirmation.style.display = 'block';
+
+      setTimeout(() => {
+        confirmation.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 100);
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fellowship Hall — God's Church for the Homeless</title>
+  <style>
+    :root {
+      --gold: #f59e0b;
+      --gold-hover: #d97706;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --bg-dark: #0a0c10;
+      --glass-panel: rgba(13, 17, 23, 0.85);
+      --glass-card: rgba(22, 27, 34, 0.82);
+      --glass-border: rgba(245, 158, 11, 0.35);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --green-online: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at center, rgba(15, 23, 42, 0.75), rgba(10, 12, 16, 0.95)), 
+                        url('church-logo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    header {
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--glass-border);
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-left select {
+      background: rgba(0, 0, 0, 0.85);
+      color: var(--gold);
+      border: 1px solid var(--glass-border);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .nav-center {
+      text-align: center;
+      padding: 0 14px;
+    }
+
+    .nav-center h1 {
+      font-size: 1.85rem;
+      color: #fff;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 900;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+    }
+
+    .nav-right .btn-exit {
+      background: rgba(239, 68, 68, 0.25);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.6);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-right .btn-exit:hover {
+      background: rgba(239, 68, 68, 0.5);
+      color: #fff;
+      border-color: #ef4444;
+    }
+
+    /* SCRIPTURE BANNER */
+    .scripture-banner {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 18px 30px;
+      text-align: center;
+      font-size: 1.15rem;
+      color: #f3f4f6;
+      line-height: 1.6;
+    }
+
+    .scripture-banner em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .scripture-banner .sub-rule {
+      color: #e2e8f0;
+      margin-top: 8px;
+      font-size: 1.02rem;
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       VIEW 1: THE COMMONS HUB (FULL WIDE VIEW)
+       ========================================================================== */
+    .commons-container {
+      max-width: 1600px;
+      width: 95%;
+      margin: 25px auto;
+      padding: 0 10px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .hub-action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      padding: 22px 28px;
+      border-radius: 12px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .hub-action-bar h2 {
+      font-size: 1.4rem;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .hub-action-bar span {
+      color: var(--gold);
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .btn-create-chat {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 14px 26px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-create-chat:hover {
+      background: var(--gold-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px var(--gold-glow);
+    }
+
+    .section-header {
+      font-size: 1.2rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .section-header::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(245, 158, 11, 0.3);
+    }
+
+    /* CONVERSATION CARDS */
+    .conversations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr));
+      gap: 22px;
+    }
+
+    .convo-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 170px;
+      transition: all 0.2s;
+    }
+
+    .convo-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.25);
+    }
+
+    .convo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .convo-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .convo-badge {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--glass-border);
+      color: var(--gold);
+      padding: 4px 14px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .convo-members {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .convo-members strong {
+      color: #f3f4f6;
+    }
+
+    .btn-join-convo {
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .btn-join-convo:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* ONLINE FLOCK DIRECTORY */
+    .flock-wall {
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 26px;
+    }
+
+    .flock-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .flock-card {
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .flock-card:hover {
+      border-color: var(--gold);
+    }
+
+    .flock-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .flock-location {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-left: 20px;
+      margin-top: 3px;
+    }
+
+    .online-pip {
+      width: 10px;
+      height: 10px;
+      background: var(--green-online);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--green-online);
+    }
+
+    .btn-request-chat {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-request-chat:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* ==========================================================================
+       VIEW 2: THE EXPANDED DEDICATED CHAT SANCTUARY
+       ========================================================================== */
+    .dedicated-chat-view {
+      display: none;
+      max-width: 1600px;
+      width: 95%;
+      margin: 20px auto;
+      padding: 0 10px;
+      flex: 1;
+      height: calc(100vh - 180px);
+      min-height: 600px;
+    }
+
+    .chat-sanctuary-card {
+      background: var(--glass-panel);
+      backdrop-filter: blur(18px);
+      border: 2px solid var(--gold);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.9);
+    }
+
+    .sanctuary-header {
+      padding: 16px 24px;
+      background: rgba(0, 0, 0, 0.75);
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .sanctuary-title h3 {
+      font-size: 1.35rem;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    .sanctuary-title span {
+      font-size: 0.92rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .sanctuary-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* PRIVACY TOGGLE BUTTON */
+    .btn-privacy {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-privacy.private-active {
+      background: var(--gold);
+      color: #000;
+      border-color: #fff;
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    .btn-mode {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-mode:hover, .btn-mode.active {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+
+    .btn-leave-chat {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1px solid #ef4444;
+      color: #fca5a5;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-leave-chat:hover {
+      background: #ef4444;
+      color: #fff;
+    }
+
+    .sanctuary-call-stage {
+      display: none;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 16px;
+      border-bottom: 1px solid var(--glass-border);
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+    }
+
+    .avatar-tile {
+      background: rgba(22, 27, 34, 0.95);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+    }
+
+    .avatar-icon {
+      font-size: 2.2rem;
+      margin-bottom: 4px;
+    }
+
+    .avatar-speaking {
+      border-color: var(--green-online);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+    }
+
+    .sanctuary-messages {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .covenant-pill {
+      background: rgba(0, 0, 0, 0.6);
+      border-left: 4px solid var(--gold);
+      padding: 12px 18px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      line-height: 1.5;
+    }
+
+    .covenant-pill strong {
+      color: var(--gold);
+    }
+
+    .msg {
+      max-width: 75%;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .msg-other {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      align-self: flex-start;
+    }
+
+    .msg-me {
+      background: rgba(245, 158, 11, 0.25);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      align-self: flex-end;
+    }
+
+    .msg-author {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .msg-time {
+      color: var(--text-muted);
+      font-weight: normal;
+    }
+
+    .sanctuary-input-row {
+      padding: 18px 24px;
+      background: rgba(0, 0, 0, 0.7);
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      gap: 14px;
+    }
+
+    .sanctuary-input-row input {
+      flex: 1;
+      background: rgba(17, 24, 39, 0.9);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .sanctuary-input-row input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+
+    .btn-sanctuary-send {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 0 28px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-sanctuary-send:hover {
+      background: var(--gold-hover);
+    }
+
+    @media (max-width: 900px) {
+      .conversations-grid, .flock-grid {
+        grid-template-columns: 1fr;
+      }
+      .nav-center h1 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header>
+    <div class="nav-left">
+      <select onchange="if(this.value) window.location.href=this.value">
+        <option value="">Go to: Fellowship Hall (Here)</option>
+        <option value="lobby.html">Lobby Area</option>
+        <option value="sanctuary.html">Sanctuary & Sermons</option>
+        <option value="library.html">Digital Library & Study Hall</option>
+        <option value="testimony.html">Testimony Room</option>
+        <option value="prayer.html">The Prayer Room</option>
+        <option value="bulletin.html">Community Bulletin</option>
+        <option value="volunteer.html">Volunteer Station</option>
+        <option value="bylaws.html">Mission & Bylaws</option>
+        <option value="donations.html">Donations & Offerings</option>
+        <option value="goals.html">Goals & Live Progress</option>
+        <option value="street-rv.html">Street RV Ministry</option>
+        <option value="gallery.html">Photo Gallery</option>
+      </select>
+    </div>
+
+    <div class="nav-center">
+      <h1>God's Church for the Homeless — Fellowship Hall</h1>
+    </div>
+
+    <div class="nav-right">
+      <button class="btn-exit" onclick="returnToLobby()">✕ Return to Lobby</button>
+    </div>
+  </header>
+
+  <!-- SACRED SCRIPTURES -->
+  <div class="scripture-banner">
+    <em>"Bear ye one another's burdens, and so fulfil the law of Christ."</em> — <strong>Galatians 6:2</strong> &nbsp;|&nbsp; 
+    <em>"Confess your faults one to another, and pray one for another, that ye may be healed."</em> — <strong>James 5:16</strong> &nbsp;|&nbsp; 
+    <em>"Neither give place to the devil."</em> — <strong>Ephesians 4:27</strong>
+    <div class="sub-rule">
+      God's Church for the Homeless encourages all members to build genuine friendships, lean on one another, and share their troubles freely so the enemy has no foothold over your life.
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       STATE 1: THE FELLOWSHIP COMMONS (HUB)
+       ======================================================================== -->
+  <main class="commons-container" id="commonsView">
+
+    <!-- ACTION BAR -->
+    <div class="hub-action-bar">
+      <div>
+        <h2>Fellowship Gathering Commons</h2>
+        <span>See who is online church-wide • Start a private conversation or join an active circle</span>
+      </div>
+      <button class="btn-create-chat" onclick="startCustomChat()">+ Start a New Conversation</button>
+    </div>
+
+    <!-- SECTION 1: ACTIVE GROUP CHATS -->
+    <div>
+      <div class="section-header">Active Fellowship Conversations (Max 5 Members Each)</div>
+      
+      <div class="conversations-grid">
+
+        <!-- CONVO 1 -->
+        <div class="convo-card">
+          <div>
+            <div class="convo-header">
+              <span class="convo-title">Street Survival & Morning Prayer</span>
+              <span class="convo-badge">3 / 5 Inside</span>
+            </div>
+            <div class="convo-members" style="margin-top: 10px;">
+              Fellowshipping: <strong>Marcus R. (Ohio), Sarah T. (Georgia), Brother Brian</strong>
+            </div>
+          </div>
+          <button class="btn-join-convo" onclick="expandToChat('Street Survival & Morning Prayer', 'Marcus R., Sarah T., Brother Brian', false)">
+            Request to Join This Conversation →
+          </button>
+        </div>
+
+        <!-- CONVO 2 -->
+        <div class="convo-card">
+          <div>
+            <div class="convo-header">
+              <span class="convo-title">Scripture, Sobriety & Deliverance</span>
+              <span class="convo-badge">2 / 5 Inside</span>
+            </div>
+            <div class="convo-members" style="margin-top: 10px;">
+              Fellowshipping: <strong>David W. (Texas), John L. (Florida)</strong>
+            </div>
+          </div>
+          <button class="btn-join-convo" onclick="expandToChat('Scripture, Sobriety & Deliverance', 'David W., John L.', false)">
+            Request to Join This Conversation →
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 2: CHURCH-WIDE ONLINE FLOCK -->
+    <div class="flock-wall">
+      <div class="section-header">Flock Online Across the Church (Click to Request 1-on-1 Chat)</div>
+      
+      <div class="flock-grid">
+
+        <!-- JERRY M. -->
+        <div class="flock-card">
+          <div>
+            <div class="flock-name">
+              <div class="online-pip"></div>
+              <span>Jerry M.</span>
+            </div>
+            <div class="flock-location">Texas (Currently in Library)</div>
+          </div>
+          <button class="btn-request-chat" onclick="expandToChat('Private Conversation with Jerry M.', 'Jerry M.', true)">Request Chat</button>
+        </div>
+
+        <!-- MARCUS R. -->
+        <div class="flock-card">
+          <div>
+            <div class="flock-name">
+              <div class="online-pip"></div>
+              <span>Marcus R.</span>
+            </div>
+            <div class="flock-location">Ohio (In Commons)</div>
+          </div>
+          <button class="btn-request-chat" onclick="expandToChat('Private Conversation with Marcus R.', 'Marcus R.', true)">Request Chat</button>
+        </div>
+
+        <!-- SARAH T. -->
+        <div class="flock-card">
+          <div>
+            <div class="flock-name">
+              <div class="online-pip"></div>
+              <span>Sarah T.</span>
+            </div>
+            <div class="flock-location">Georgia (In Sanctuary)</div>
+          </div>
+          <button class="btn-request-chat" onclick="expandToChat('Private Conversation with Sarah T.', 'Sarah T.', true)">Request Chat</button>
+        </div>
+
+        <!-- BROTHER BRIAN -->
+        <div class="flock-card">
+          <div>
+            <div class="flock-name">
+              <div class="online-pip"></div>
+              <span>Brother Brian</span>
+            </div>
+            <div class="flock-location">Elder Care / Street Shepherd</div>
+          </div>
+          <button class="btn-request-chat" onclick="expandToChat('Private Prayer with Brother Brian', 'Brother Brian', true)">Request Chat</button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       STATE 2: THE EXPANDED DEDICATED CHAT SANCTUARY
+       ======================================================================== -->
+  <div class="dedicated-chat-view" id="dedicatedChatView">
+    <div class="chat-sanctuary-card">
+
+      <!-- SANCTUARY BAR -->
+      <div class="sanctuary-header">
+        <div class="sanctuary-title">
+          <h3 id="sanctuaryTopic">General Christian Fellowship</h3>
+          <span id="sanctuaryCapacity">Capacity: 3 / 5 Members • Conversational Freedom</span>
+        </div>
+
+        <div class="sanctuary-actions">
+          <!-- PRIVATE CHAT TOGGLE BUTTON -->
+          <button class="btn-privacy" id="btnPrivacyToggle" onclick="toggleRoomPrivacy()">
+            🔓 Room is Open (Click to Lock Private)
+          </button>
+
+          <!-- MODE BUTTONS -->
+          <button class="btn-mode active" id="btnText" onclick="setCallMode('text')">💬 Text Chat</button>
+          <button class="btn-mode" id="btnAudio" onclick="setCallMode('audio')">🎙️ Live Voice</button>
+          <button class="btn-mode" id="btnVideo" onclick="setCallMode('video')">🎥 Live Video</button>
+          <button class="btn-leave-chat" onclick="collapseChatAndReturn()">✕ Leave Chat & Return to Commons</button>
+        </div>
+      </div>
+
+      <!-- VOICE / VIDEO STAGE -->
+      <div class="sanctuary-call-stage" id="callStage">
+        <div class="avatar-tile avatar-speaking">
+          <div class="avatar-icon">🗣️</div>
+          <div style="font-size:0.9rem; font-weight:700;" id="stageMemberName">Jerry M. (Speaking)</div>
+        </div>
+        <div class="avatar-tile">
+          <div class="avatar-icon">🎙️</div>
+          <div style="font-size:0.9rem; font-weight:700;">You (Connected)</div>
+        </div>
+      </div>
+
+      <!-- MESSAGES STREAM -->
+      <div class="sanctuary-messages" id="messageStream">
+        <div class="covenant-pill">
+          <strong>Fellowship Sanctuary Covenant:</strong> Speak in Christian love and brotherhood. Absolute zero tolerance for predators, solicitation, or grooming. No sharing personal phone numbers or contact info unless both parties sign the official DocuSign waiver. You fellowship at your own discretion.
+        </div>
+      </div>
+
+      <!-- INPUT BAR -->
+      <div class="sanctuary-input-row">
+        <input type="text" id="chatInput" placeholder="Type your message of fellowship or prayer..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+        <button class="btn-sanctuary-send" onclick="sendChatMessage()">Send</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    let activeTopic = "General Christian Fellowship";
+    let isCurrentRoomPrivate = false;
+
+    // DIRECT RETURN TO LOBBY
+    function returnToLobby() {
+      window.location.href = 'lobby.html';
+    }
+
+    // EXPAND DIRECTLY INTO THE CHAT ROOM
+    function expandToChat(topicTitle, membersJoined, isPrivate) {
+      activeTopic = topicTitle;
+      isCurrentRoomPrivate = isPrivate;
+
+      // 1. Hide Commons & Show Dedicated Room
+      document.getElementById('commonsView').style.display = 'none';
+      const chatView = document.getElementById('dedicatedChatView');
+      chatView.style.display = 'flex';
+      chatView.style.flexDirection = 'column';
+
+      // 2. Update Room Details
+      document.getElementById('sanctuaryTopic').innerText = topicTitle;
+      updatePrivacyButtonUI();
+
+      document.getElementById('stageMemberName').innerText = membersJoined.split(',')[0] + " (Connected)";
+
+      // 3. Post Announcement Pill
+      const stream = document.getElementById('messageStream');
+      const pill = document.createElement('div');
+      pill.className = 'covenant-pill';
+      pill.style.borderLeftColor = isPrivate ? '#f59e0b' : '#10b981';
+      pill.innerHTML = `<strong>Connected to Room:</strong> ${topicTitle}<br>Active in conversation: <strong>${membersJoined}</strong>.<br><em>${isPrivate ? '🔒 This is a Private 1-on-1 Sanctuary. Only invited members may enter.' : '🔓 This is an Open Sanctuary. Any member may request to join (up to 5).' }</em>`;
+      stream.appendChild(pill);
+      stream.scrollTop = stream.scrollHeight;
+
+      // 4. Focus input
+      setTimeout(() => {
+        document.getElementById('chatInput').focus();
+      }, 100);
+    }
+
+    // TOGGLE PRIVATE CHAT IN REAL-TIME
+    function toggleRoomPrivacy() {
+      isCurrentRoomPrivate = !isCurrentRoomPrivate;
+      updatePrivacyButtonUI();
+
+      const stream = document.getElementById('messageStream');
+      const pill = document.createElement('div');
+      pill.className = 'covenant-pill';
+
+      if (isCurrentRoomPrivate) {
+        pill.style.borderLeftColor = '#f59e0b';
+        pill.innerHTML = `<strong>🔒 PRIVACY STATUS CHANGED:</strong> This room has been locked as a <strong>Private Sanctuary</strong>. No additional members can view or request to join this conversation.`;
+      } else {
+        pill.style.borderLeftColor = '#10b981';
+        pill.innerHTML = `<strong>🔓 PRIVACY STATUS CHANGED:</strong> This room is now <strong>Open</strong>. Other believers may see the topic in the Commons and request to join (up to 5 members).`;
+      }
+
+      stream.appendChild(pill);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function updatePrivacyButtonUI() {
+      const btn = document.getElementById('btnPrivacyToggle');
+      const capText = document.getElementById('sanctuaryCapacity');
+
+      if (isCurrentRoomPrivate) {
+        btn.innerHTML = '🔒 Room is Private (Click to Open)';
+        btn.classList.add('private-active');
+        capText.innerText = "Private 1-on-1 Sanctuary • Safe & Confidential";
+      } else {
+        btn.innerHTML = '🔓 Room is Open (Click to Lock Private)';
+        btn.classList.remove('private-active');
+        capText.innerText = "Open Fellowship • Up to 5 Members • Conversational Freedom";
+      }
+    }
+
+    // COLLAPSE ROOM & RETURN TO COMMONS
+    function collapseChatAndReturn() {
+      document.getElementById('dedicatedChatView').style.display = 'none';
+      document.getElementById('commonsView').style.display = 'flex';
+      setCallMode('text');
+    }
+
+    // START NEW CONVERSATION
+    function startCustomChat() {
+      const topic = prompt("Enter the title for your conversation (e.g. Street Battle & Hope, Prayer):", "Brotherhood & Daily Walk");
+      if (topic && topic.trim() !== "") {
+        expandToChat(topic.trim(), "You (Host)", false);
+      }
+    }
+
+    // MODE SWITCHER (TEXT / AUDIO / VIDEO)
+    function setCallMode(mode) {
+      document.getElementById('btnText').classList.remove('active');
+      document.getElementById('btnAudio').classList.remove('active');
+      document.getElementById('btnVideo').classList.remove('active');
+      const stage = document.getElementById('callStage');
+
+      if (mode === 'text') {
+        document.getElementById('btnText').classList.add('active');
+        stage.style.display = 'none';
+      } else {
+        if (mode === 'audio') document.getElementById('btnAudio').classList.add('active');
+        if (mode === 'video') document.getElementById('btnVideo').classList.add('active');
+        stage.style.display = 'grid';
+      }
+    }
+
+    // SEND MESSAGE
+    function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const stream = document.getElementById('messageStream');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'msg msg-me';
+      const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      msgDiv.innerHTML = `
+        <div class="msg-author">
+          <span>You</span>
+          <span class="msg-time">${timeStr}</span>
+        </div>
+        <div>${escapeHtml(text)}</div>
+      `;
+      stream.appendChild(msgDiv);
+      input.value = '';
+      stream.scrollTop = stream.scrollHeight;
+
+      // Silent Sentinel (Predator / Child Exploitation ONLY)
+      const lower = text.toLowerCase();
+      const predatorTriggers = [
+        "child sex", "sex with child", "pedophile", "pedophilia", 
+        "rape", "raping", "incest", "molest", "molesting", "underage sex"
+      ];
+
+      if (predatorTriggers.some(word => lower.includes(word))) {
+        const alertPackage = {
+          id: 'ALERT_' + Date.now(),
+          timestamp: new Date().toISOString(),
+          chatRoom: activeTopic,
+          user: "Active User Session",
+          flaggedMessage: text,
+          status: "Pending Review by Brother Brian"
+        };
+        let alerts = JSON.parse(localStorage.getItem('brian_studio_sentinel_alerts') || '[]');
+        alerts.push(alertPackage);
+        localStorage.setItem('brian_studio_sentinel_alerts', JSON.stringify(alerts));
+      }
+    }
+
+    function escapeHtml(string) {
+      return String(string).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+  </script>
+
+</body>
+</html>

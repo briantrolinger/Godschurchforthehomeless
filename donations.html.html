@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Door 9: Donations & Offerings | God's Church for the Homeless</title>
+  <style>
+    :root {
+      --bg-dark: #0c0f12;
+      --card-bg: rgba(22, 27, 34, 0.88);
+      --card-border: rgba(212, 175, 55, 0.28);
+      --card-border-subtle: rgba(255, 255, 255, 0.1);
+      --gold: #d4af37;
+      --gold-bright: #ffd700;
+      --gold-dim: #997f26;
+      --text-main: #f0f3f6;
+      --text-muted: #9ba3af;
+      --danger-badge: #d9534f;
+      --info-badge: #2d5a88;
+      --btn-hover: #e5c149;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(180deg, #06080a 0%, #0c0f12 50%, #121820 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES)
+       ========================================================================== */
+    header.universal-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 13, 17, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn-assistant {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-assistant:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .nav-dropdown {
+      background: #161b22;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .nav-dropdown option {
+      background: #161b22;
+      color: var(--text-main);
+    }
+
+    .header-center {
+      flex: 1;
+      text-align: center;
+    }
+
+    .header-center h1 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      color: #ffffff;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .header-right {
+      flex-shrink: 0;
+    }
+
+    .btn-exit {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 7px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+
+    .btn-exit:hover {
+      background: rgba(217, 83, 79, 0.3);
+      border-color: #d9534f;
+      color: #ff9999;
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== */
+    main.container {
+      max-width: 960px;
+      width: 100%;
+      margin: 32px auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    .room-title-card {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .room-badge {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      color: var(--gold-bright);
+      background: rgba(212, 175, 55, 0.12);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      margin-bottom: 10px;
+    }
+
+    .room-title-card h2 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    /* SCRIPTURE PILLAR */
+    .scripture-box {
+      background: rgba(212, 175, 55, 0.06);
+      border-left: 3px solid var(--gold);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 30px;
+      font-style: italic;
+      color: #e6dfc8;
+    }
+
+    .scripture-box span.citation {
+      display: block;
+      margin-top: 6px;
+      font-style: normal;
+      font-size: 0.88rem;
+      color: var(--gold);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* CARDS */
+    .frosted-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border-subtle);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+    }
+
+    .frosted-card.highlight {
+      border: 1px solid var(--card-border);
+      background: linear-gradient(180deg, rgba(22, 27, 34, 0.95) 0%, rgba(18, 22, 28, 0.95) 100%);
+    }
+
+    .card-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* INTEGRITY NOTICE BANNER */
+    .status-banner {
+      background: rgba(217, 83, 79, 0.15);
+      border: 1px solid rgba(217, 83, 79, 0.4);
+      border-radius: 8px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+
+    .status-banner-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .status-tag {
+      background: var(--danger-badge);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .status-sub {
+      color: #ffcccc;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .status-banner p {
+      color: #f7dcdb;
+      font-size: 0.96rem;
+      margin-bottom: 8px;
+    }
+
+    .status-banner p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* WORD FROM BROTHER BRIAN */
+    .pastor-note {
+      font-size: 1.03rem;
+      color: #e8ecf0;
+    }
+
+    .pastor-note p {
+      margin-bottom: 14px;
+    }
+
+    .pastor-note p:last-child {
+      margin-bottom: 0;
+    }
+
+    .quote-callout {
+      border-left: 3px solid var(--gold);
+      padding: 12px 18px;
+      background: rgba(212, 175, 55, 0.08);
+      border-radius: 0 6px 6px 0;
+      margin: 18px 0;
+      font-weight: 700;
+      font-size: 1.12rem;
+      color: #ffffff;
+      letter-spacing: 0.3px;
+    }
+
+    .signature-area {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.98rem;
+    }
+
+    .signature-area span {
+      display: block;
+      font-weight: 400;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    /* FREE CHURCH STATEMENT */
+    .free-banner {
+      background: rgba(45, 90, 136, 0.2);
+      border: 1px solid rgba(74, 144, 226, 0.4);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-top: 20px;
+    }
+
+    .free-banner h4 {
+      color: #7ab8f5;
+      font-size: 1.08rem;
+      margin-bottom: 6px;
+    }
+
+    .free-banner p {
+      color: #d8e5f3;
+      font-size: 0.94rem;
+    }
+
+    /* WHAT YOU CAN DO TODAY */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .action-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .action-card h3 {
+      font-size: 1.1rem;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 14px;
+      flex-grow: 1;
+    }
+
+    .btn-action {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-action:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* SOVEREIGN NOTEBOOK MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: #161b22;
+      border: 1px solid var(--gold);
+      border-radius: 10px;
+      max-width: 480px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      text-align: left;
+    }
+
+    .modal-card h3 {
+      font-size: 1.25rem;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-card p {
+      font-size: 0.94rem;
+      color: #d1d5db;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .modal-preview {
+      background: #0d1117;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 0.88rem;
+      color: #e5e7eb;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .btn-secondary:hover {
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* ASSISTANT PASTOR DRAWER */
+    .assistant-drawer {
+      position: fixed;
+      top: 0;
+      left: -400px;
+      width: 380px;
+      max-width: 85vw;
+      height: 100vh;
+      background: #11151b;
+      border-right: 1px solid var(--gold);
+      box-shadow: 8px 0 24px rgba(0, 0, 0, 0.7);
+      z-index: 2500;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .assistant-drawer.open {
+      left: 0;
+    }
+
+    .drawer-header {
+      padding: 16px 20px;
+      background: rgba(212, 175, 55, 0.1);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .drawer-header h3 {
+      font-size: 1.1rem;
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .drawer-close {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    .drawer-content {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+      font-size: 0.93rem;
+      color: #d1d5db;
+    }
+
+    .drawer-content p {
+      margin-bottom: 14px;
+    }
+
+    .drawer-qa {
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 2px solid var(--gold);
+      padding: 12px;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 14px;
+    }
+
+    .drawer-qa strong {
+      color: #ffffff;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      header.universal-header {
+        flex-wrap: wrap;
+        padding: 10px 14px;
+      }
+      .header-center {
+        order: -1;
+        width: 100%;
+        margin-bottom: 8px;
+      }
+      .header-center h1 {
+        font-size: 1.05rem;
+      }
+      .room-title-card h2 {
+        font-size: 1.6rem;
+      }
+      .frosted-card {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES)
+       ========================================================================== -->
+  <header class="universal-header">
+    <div class="header-left">
+      <button class="btn-assistant" id="btnAssistantPastor" type="button" aria-label="Open Assistant Pastor">
+        <span>💬</span> Assistant Pastor
+      </button>
+      <select class="nav-dropdown" id="masterNavDropdown" aria-label="Master Navigation">
+        <option value="">Go to: Room...</option>
+        <option value="lobby.html">Sanctuary Lobby</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Digital Library</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin Board</option>
+        <option value="volunteer.html">Door 7: The Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Mission, Beliefs & Bylaws</option>
+        <option value="donations.html" selected>Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Live Progress Center</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+        <option value="music-room.html">Extra: Music Room</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <h1>GOD'S CHURCH FOR THE HOMELESS</h1>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="btn-exit" title="Return to Sanctuary Lobby">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+  <main class="container">
+
+    <div class="room-title-card">
+      <span class="room-badge">Door 9 of the Sanctuary</span>
+      <h2>Donations & Offerings</h2>
+    </div>
+
+    <!-- SCRIPTURE ANCHOR -->
+    <div class="scripture-box">
+      "Every man according as he purposeth in his heart, so let him give; not grudgingly, or of necessity: for God loveth a cheerful giver."
+      <span class="citation">— 2 Corinthians 9:7 (KJV)</span>
+    </div>
+
+    <!-- STATUS BANNER: GIVING PAUSED / INTEGRITY STAND -->
+    <div class="status-banner">
+      <div class="status-banner-header">
+        <span class="status-tag">Status: Offerings On Hold</span>
+        <span class="status-sub">Integrity First — No Shortcuts</span>
+      </div>
+      <p>
+        <strong>Notice to all visitors and supporters:</strong> We are currently <strong>not accepting online credit card donations, checks, or financial gifts</strong> of any kind on this website. 
+      </p>
+      <p>
+        Because this church is in its infant stage, we have not yet completed our official tax exemptions or opened our designated church non-profit bank account. Until every legal standard under God and the law is 100% complete, financial contribution channels remain strictly closed.
+      </p>
+    </div>
+
+    <!-- THE TRANSPARENT TRUTH: BROTHER BRIAN'S STATEMENT -->
+    <div class="frosted-card highlight">
+      <div class="card-heading">
+        <span>📖</span> Our Stand of Integrity
+      </div>
+      <div class="pastor-note">
+        <p>
+          God's Church for the Homeless is a purely digital church right now. Just like anything online, when our giving door eventually opens, it will operate cleanly through secure credit card processing. There is no physical headquarters, no shipping warehouse, and no street address. One day maybe we will have that ground, but we are not there yet.
+        </p>
+
+        <p>
+          This church is brand new and still in its infant stage. Fulfilling official tax exemptions and securing proper non-profit legal status takes both time and money. Up to this very hour, <strong>my wife and I have personally been putting everything we own into getting this church off the ground out of our own pockets.</strong>
+        </p>
+
+        <p>
+          Unfortunately, I cannot ask you for help in this matter right now. Until we are legally established, <strong>I cannot even open a dedicated church bank account.</strong> And I am simply not willing to compromise this church by cutting corners just to take a donation. I will not accept money into a personal bank account, and I will not bend the rules.
+        </p>
+
+        <div class="quote-callout">
+          "Getting the Word of God out to the lost sheep is far more important to me than any donation I could ever receive. I will wait and do it right. God deserves His home built right."
+        </div>
+
+        <p>
+          The second our tax-exempt standing is sealed, our fiscal covering is in place, and our official church bank account is opened, <strong>we will announce it immediately on the Community Bulletin Board</strong> so all members and supporters know the door is open. Until then, we stand in faith, obedience, and total legal honesty.
+        </p>
+
+        <div class="signature-area">
+          Brother Brian Keith Trolinger
+          <span>Servant Leader | God's Church for the Homeless</span>
+        </div>
+      </div>
+
+      <!-- STREET MEMBER 100% FREE PROMISE -->
+      <div class="free-banner">
+        <h4>To Our Brothers and Sisters on the Sidewalk:</h4>
+        <p>
+          If you are sleeping in a tent, on cardboard, in a shelter, or under a bridge—<strong>this church is 100% free for you forever.</strong> You will never be asked or expected to give a dime. You are here to receive the living bread of Christ, fellowship, and love without price.
+        </p>
+      </div>
+    </div>
+
+    <!-- HOW SUPPORTERS CAN STAND WITH US TODAY (ZERO COST) -->
+    <div class="frosted-card">
+      <div class="card-heading">
+        <span>🤝</span> How You Can Stand With Us Today (Zero Cost)
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Even though financial contributions are paused, the work of God does not stop. Here are the two greatest ways you can support God's Church for the Homeless right now:
+      </p>
+
+      <div class="action-grid">
+        <div class="action-card">
+          <div>
+            <h3><span>🙏</span> Intercessory Prayer</h3>
+            <p>
+              Please keep Brother Brian and his wife lifted up in daily prayer as they continue sacrificing their own resources to build this church stone by stone. Pray that God opens the right doors for our fiscal sponsorship and legal completion.
+            </p>
+          </div>
+          <button class="btn-action" type="button" id="btnSavePrayer">
+            <span>📌</span> Pin Prayer Focus to My Notebook
+          </button>
+        </div>
+
+        <div class="action-card">
+          <div>
+            <h3><span>🌐</span> Spread the Sanctuary</h3>
+            <p>
+              Share our official website with those in need. If you know someone homeless, battling addiction, living on the street, or hungering for unfiltered truth from the scriptures, point them to this sanctuary.
+            </p>
+          </div>
+          <button class="btn-action" type="button" id="btnCopyChurchLink">
+            <span>🔗</span> Copy Church Website Link
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       SOVEREIGN NOTEBOOK MODAL (POLITE PROMPT — STRICT PROTOCOL)
+       ========================================================================== -->
+  <div class="modal-overlay" id="notebookModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <h3><span>📓</span> Sovereign Notebook Request</h3>
+      <p>
+        In accordance with our Sovereign Notebook Protocol, nothing is ever placed into your personal study notebook without your permission.
+      </p>
+      <p style="font-weight: 600; color: #ffffff;">Would you like to save this prayer focus to your notebook?</p>
+      <div class="modal-preview" id="modalPreviewText"></div>
+      <div class="modal-actions">
+        <button class="btn-secondary" id="btnNotebookCancel" type="button">No, Thanks</button>
+        <button class="btn-action" id="btnNotebookConfirm" type="button">Yes, Save to My Notebook</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ASSISTANT PASTOR SIDE DRAWER
+       ========================================================================== -->
+  <aside class="assistant-drawer" id="assistantDrawer" aria-label="Assistant Pastor Guidance">
+    <div class="drawer-header">
+      <h3><span>💬</span> Assistant Pastor</h3>
+      <button class="drawer-close" id="btnCloseDrawer" type="button" aria-label="Close Assistant Pastor">&times;</button>
+    </div>
+    <div class="drawer-content">
+      <p>
+        Peace be with you. I am here to help you understand the doctrine, operations, and biblical foundations of God's Church for the Homeless.
+      </p>
+
+      <div class="drawer-qa">
+        <strong>Why are offerings paused?</strong>
+        Brother Brian Keith Trolinger and his wife refuse to take money into a personal account. Until our 501(c)(3) tax exemption and church bank account are completely legal, giving is paused to protect the integrity of God's house.
+      </div>
+
+      <div class="drawer-qa">
+        <strong>Do street members ever have to pay?</strong>
+        Never. The gospel of Jesus Christ and all ministry rooms, sermons, and bibles in this church are 100% free always.
+      </div>
+
+      <div class="drawer-qa">
+        <strong>When will giving open?</strong>
+        As soon as our legal fiscal covering is locked and our church bank account is operational, Brother Brian will post the announcement on Door 6 (Community Bulletin Board).
+      </div>
+
+      <p style="font-size: 0.85rem; color: var(--gold-dim); margin-top: 20px; text-align: center;">
+        <em>"Providing for honest things, not only in the sight of the Lord, but also in the sight of men." — 2 Corinthians 8:21</em>
+      </p>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       CLIENT SCRIPT
+       ========================================================================== -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Master Navigation Dropdown
+      const navDropdown = document.getElementById('masterNavDropdown');
+      navDropdown.addEventListener('change', (e) => {
+        const dest = e.target.value;
+        if (dest) {
+          window.location.href = dest;
+        }
+      });
+
+      // 2. Assistant Pastor Side Drawer Toggle
+      const btnAssistant = document.getElementById('btnAssistantPastor');
+      const drawer = document.getElementById('assistantDrawer');
+      const btnCloseDrawer = document.getElementById('btnCloseDrawer');
+
+      btnAssistant.addEventListener('click', () => {
+        drawer.classList.add('open');
+      });
+
+      btnCloseDrawer.addEventListener('click', () => {
+        drawer.classList.remove('open');
+      });
+
+      // Close drawer if clicking outside on mobile
+      document.addEventListener('click', (e) => {
+        if (drawer.classList.contains('open') && 
+            !drawer.contains(e.target) && 
+            !btnAssistant.contains(e.target)) {
+          drawer.classList.remove('open');
+        }
+      });
+
+      // 3. Sovereign Notebook Protocol Handling
+      const btnSavePrayer = document.getElementById('btnSavePrayer');
+      const modal = document.getElementById('notebookModal');
+      const modalPreview = document.getElementById('modalPreviewText');
+      const btnCancel = document.getElementById('btnNotebookCancel');
+      const btnConfirm = document.getElementById('btnNotebookConfirm');
+
+      const prayerTextToSave = "PRAYER FOCUS: Keep Brother Brian Keith Trolinger and his wife in daily prayer as they personally sacrifice their own resources to build God's Church for the Homeless. Pray for swift legal breakthroughs, official fiscal covering, and divine protection over the sidewalk flock.";
+
+      btnSavePrayer.addEventListener('click', () => {
+        modalPreview.textContent = prayerTextToSave;
+        modal.style.display = 'flex';
+      });
+
+      btnCancel.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+
+      btnConfirm.addEventListener('click', () => {
+        try {
+          const existingNotes = JSON.parse(localStorage.getItem('gch_sovereign_notebook') || '[]');
+          existingNotes.push({
+            date: new Date().toLocaleDateString(),
+            title: "Intercessory Prayer Focus (Door 9)",
+            content: prayerTextToSave
+          });
+          localStorage.setItem('gch_sovereign_notebook', JSON.stringify(existingNotes));
+          alert("Saved to your personal notebook in peace.");
+        } catch (err) {
+          alert("Note acknowledged.");
+        }
+        modal.style.display = 'none';
+      });
+
+      // 4. Copy Church Link
+      const btnCopyLink = document.getElementById('btnCopyChurchLink');
+      btnCopyLink.addEventListener('click', () => {
+        const siteUrl = "https://Godschurchforthehomeless.com";
+        navigator.clipboard.writeText(siteUrl).then(() => {
+          alert("Church link copied to clipboard: " + siteUrl);
+        }).catch(() => {
+          prompt("Church website URL:", siteUrl);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

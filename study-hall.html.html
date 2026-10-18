@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God's Church for the Homeless — The Study Hall</title>
+  <style>
+    :root {
+      --bg-dark: #0a0c10;
+      --card-bg: rgba(18, 24, 38, 0.72);
+      --card-border: rgba(212, 175, 55, 0.35);
+      --gold-primary: #d4af37;
+      --gold-hover: #f3cf65;
+      --text-white: #ffffff;
+      --text-dim: #cbd5e1;
+      --highlight-gold: rgba(212, 175, 55, 0.4);
+      --highlight-green: rgba(74, 222, 128, 0.35);
+      --highlight-blue: rgba(96, 165, 250, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(147, 51, 234, 0.15), transparent 40%),
+        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.12), transparent 45%),
+        linear-gradient(rgba(10, 12, 16, 0.88), rgba(10, 12, 16, 0.88));
+      background-attachment: fixed;
+      background-size: cover;
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    header {
+      background: rgba(10, 14, 22, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-left select {
+      background: rgba(20, 26, 38, 0.9);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-hover);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* ASSISTANT PASTOR PERMANENT HEADER BUTTON */
+    .btn-assistant-header {
+      background: linear-gradient(135deg, #d4af37, #996515);
+      color: #000;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-assistant-header:hover {
+      background: linear-gradient(135deg, #f3cf65, #b8860b);
+    }
+
+    .church-title {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-white);
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .church-title span {
+      display: block;
+      font-size: 11px;
+      color: var(--gold-primary);
+      letter-spacing: 2px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-exit-lobby {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-exit-lobby:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* MATERIAL CHECKOUT TABS */
+    .checkout-tabs-bar {
+      background: rgba(14, 20, 32, 0.95);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+    }
+    .tab-label {
+      font-size: 12px;
+      color: var(--gold-primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    .book-tab {
+      background: rgba(25, 33, 48, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--text-dim);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+    .book-tab.active {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold-primary);
+      color: var(--gold-hover);
+      font-weight: 600;
+    }
+    .tab-close {
+      color: #94a3b8;
+      font-weight: bold;
+    }
+    .tab-close:hover {
+      color: #ef4444;
+    }
+
+    /* WORKSPACE CONTAINER */
+    .study-workspace {
+      flex: 1;
+      padding: 16px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      transition: all 0.25s ease;
+    }
+
+    /* SIZING ENGINE CLASSES */
+    .study-workspace.view-focus-book {
+      grid-template-columns: 3.5fr 1fr;
+    }
+    .study-workspace.view-focus-notebook {
+      grid-template-columns: 1fr 3.5fr;
+    }
+    .study-workspace.view-full-book {
+      grid-template-columns: 1fr 0fr;
+    }
+    .study-workspace.view-full-book .notebook-panel {
+      display: none;
+    }
+    .study-workspace.view-full-notebook {
+      grid-template-columns: 0fr 1fr;
+    }
+    .study-workspace.view-full-notebook .book-panel {
+      display: none;
+    }
+
+    /* PANEL STYLING */
+    .panel {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 580px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .panel-header {
+      background: rgba(14, 20, 32, 0.9);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .size-controls {
+      display: flex;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .size-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .size-btn:hover, .size-btn.active {
+      background: var(--gold-primary);
+      color: #000;
+    }
+
+    /* READING PANEL */
+    .reading-toolbar {
+      padding: 8px 16px;
+      background: rgba(20, 26, 38, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+    .font-controls button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .reading-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      line-height: 1.8;
+      font-size: 16px;
+      color: #f1f5f9;
+    }
+    .verse-num {
+      color: var(--gold-primary);
+      font-weight: bold;
+      font-size: 12px;
+      vertical-align: super;
+      margin-right: 4px;
+    }
+    .reading-content p {
+      margin-bottom: 16px;
+    }
+
+    .quote-action {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px dashed var(--gold-primary);
+      border-radius: 6px;
+      padding: 10px;
+      margin: 16px 0;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .btn-copy-quote {
+      background: var(--gold-primary);
+      color: #000;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* NOTEBOOK PANEL */
+    .privacy-prompt-banner {
+      background: rgba(212, 175, 55, 0.15);
+      border-bottom: 1px solid var(--gold-primary);
+      padding: 10px 16px;
+      font-size: 13px;
+      color: var(--gold-hover);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .privacy-prompt-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-prompt-yes {
+      background: var(--gold-primary);
+      color: #000;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-prompt-no {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .notebook-tools {
+      padding: 8px 16px;
+      background: rgba(20, 26, 38, 0.6);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .notes-history-select {
+      background: rgba(10, 14, 22, 0.8);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-hover);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .editor-btn-group {
+      display: flex;
+      gap: 4px;
+    }
+    .tool-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .tool-btn:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .highlighter-group {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .hl-btn {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid #fff;
+      cursor: pointer;
+    }
+    .hl-gold { background: #d4af37; }
+    .hl-green { background: #4ade80; }
+    .hl-blue { background: #60a5fa; }
+
+    .notebook-editor {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      outline: none;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #ffffff;
+      background: rgba(10, 14, 22, 0.4);
+    }
+    .notebook-editor:empty:before {
+      content: "This notebook is your sovereign personal space. Start typing your reflections, scriptures, and prayers here...";
+      color: #64748b;
+    }
+
+    /* BOTTOM BAR: RETURN BOOKS (SMALL & NOTICEABLE) */
+    footer.bottom-bar {
+      background: rgba(10, 14, 22, 0.95);
+      border-top: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 8px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .btn-return-books-small {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: var(--gold-hover);
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .btn-return-books-small:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--gold-primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header>
+    <div class="nav-left">
+      <select id="roomNav" onchange="window.location.href=this.value">
+        <option value="study-hall.html" selected>Go to: The Study Hall</option>
+        <option value="lobby.html">Lobby Area</option>
+        <option value="sanctuary.html">Sanctuary & Sermons</option>
+        <option value="fellowship.html">Fellowship Hall</option>
+        <option value="prayer.html">The Prayer Room</option>
+      </select>
+
+      <!-- ASSISTANT PASTOR PERMANENT HOME -->
+      <button class="btn-assistant-header" onclick="openAssistantPrompt()">
+        🤖 Summon Assistant Pastor
+      </button>
+    </div>
+
+    <div class="church-title">
+      God's Church for the Homeless
+      <span>The Study Hall Workspace</span>
+    </div>
+
+    <div class="nav-right">
+      <a href="lobby.html" class="btn-exit-lobby">✕ Lobby</a>
+    </div>
+  </header>
+
+  <!-- CHECKOUT MATERIALS TABS -->
+  <div class="checkout-tabs-bar">
+    <span class="tab-label">Checked Out (3/5):</span>
+    <div class="book-tab active" id="tab-kjv" onclick="switchBook('kjv-john')">
+      📖 KJV: Gospel of John (Ch. 1)
+      <span class="tab-close" onclick="returnIndividualItem(event, 'KJV Bible')">✕</span>
+    </div>
+    <div class="book-tab" id="tab-matthew" onclick="switchBook('matthew-henry')">
+      📚 Matthew Henry Commentary (Vol. 5)
+      <span class="tab-close" onclick="returnIndividualItem(event, 'Matthew Henry')">✕</span>
+    </div>
+    <div class="book-tab" id="tab-hillsdale" onclick="switchBook('hillsdale-genesis')">
+      🎓 Hillsdale: Ancient Christianity
+      <span class="tab-close" onclick="returnIndividualItem(event, 'Hillsdale Course')">✕</span>
+    </div>
+  </div>
+
+  <!-- MULTI-PANEL SPLIT WORKSPACE -->
+  <main class="study-workspace" id="studyWorkspace">
+
+    <!-- PANEL 1: READING MATERIAL -->
+    <section class="panel book-panel" id="bookPanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span id="bookIcon">📖</span> <span id="currentBookTitle">The Gospel According to St. John — Chapter 1</span>
+        </div>
+        <div class="size-controls">
+          <button class="size-btn" onclick="setBookSize('small')">Small</button>
+          <button class="size-btn active" onclick="setBookSize('half')">Half</button>
+          <button class="size-btn" onclick="setBookSize('full')">Full</button>
+        </div>
+      </div>
+
+      <div class="reading-toolbar">
+        <div id="materialDetails">
+          <span>Translation: <strong>KJV (Authorized)</strong></span> | 
+          <a href="#" style="color:var(--gold-primary); text-decoration:none; margin-left:8px;" onclick="alert('Strong\'s Concordance: Root words active.')">Greek Roots Active</a>
+        </div>
+        <div class="font-controls">
+          <button onclick="changeFontSize(-1)">A-</button>
+          <button onclick="changeFontSize(1)">A+</button>
+        </div>
+      </div>
+
+      <!-- READING CONTENT: DYNAMICALLY SWITCHES WHEN TABS ARE CLICKED -->
+      <div class="reading-content" id="readingText">
+        <!-- Default Content: Gospel of John -->
+      </div>
+    </section>
+
+    <!-- PANEL 2: SOVEREIGN STUDY NOTEBOOK -->
+    <section class="panel notebook-panel" id="notebookPanel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <span>📝</span> <span>My Sovereign Study Notebook</span>
+        </div>
+        <div class="size-controls">
+          <button class="size-btn" onclick="setNotebookSize('small')">Small</button>
+          <button class="size-btn active" onclick="setNotebookSize('half')">Half</button>
+          <button class="size-btn" onclick="setNotebookSize('full')">Full</button>
+        </div>
+      </div>
+
+      <!-- PERSONAL SPACE SOVEREIGNTY BANNER -->
+      <div class="privacy-prompt-banner" id="privacyBanner">
+        <span id="promptQuestion">Would you like the scripture references for John 1 added to your notes?</span>
+        <div class="privacy-prompt-actions">
+          <button class="btn-prompt-yes" onclick="acceptSuggestedNotes()">Yes, Add Notes</button>
+          <button class="btn-prompt-no" onclick="dismissSuggestedNotes()">No, Keep Blank</button>
+        </div>
+      </div>
+
+      <!-- NOTEBOOK EDITING TOOLS -->
+      <div class="notebook-tools">
+        <select class="notes-history-select" onchange="loadPastNote(this.value)">
+          <option value="current">📂 Current Study Notes</option>
+          <option value="sermon-1">Sermon: God's Grace on Concrete (Saved)</option>
+          <option value="study-romans">Romans Ch. 8 Walkthrough (Saved)</option>
+          <option value="new">+ Start Blank Study Page</option>
+        </select>
+
+        <div class="editor-btn-group">
+          <button class="tool-btn" onclick="formatDoc('bold')"><strong>B</strong></button>
+          <button class="tool-btn" onclick="formatDoc('italic')"><em>I</em></button>
+          <button class="tool-btn" onclick="formatDoc('underline')"><u>U</u></button>
+          <button class="tool-btn" onclick="formatDoc('insertUnorderedList')">• List</button>
+        </div>
+
+        <div class="highlighter-group">
+          <span style="font-size:11px; color:#cbd5e1;">Highlight:</span>
+          <button class="hl-btn hl-gold" title="Gold Highlight" onclick="highlightText('var(--highlight-gold)')"></button>
+          <button class="hl-btn hl-green" title="Green Highlight" onclick="highlightText('var(--highlight-green)')"></button>
+          <button class="hl-btn hl-blue" title="Blue Highlight" onclick="highlightText('var(--highlight-blue)')"></button>
+        </div>
+      </div>
+
+      <!-- EDITABLE NOTEBOOK BODY -->
+      <div class="notebook-editor" id="noteEditor" contenteditable="true" oninput="saveNotes()"></div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM BAR: RETURN BOOKS BUTTON (SMALL & NOTICEABLE) -->
+  <footer class="bottom-bar">
+    <div>
+      <span>Study Hall Session Active. Your notes auto-save continuously to your account.</span>
+    </div>
+    <button class="btn-return-books-small" onclick="returnAllToLibrary()">
+      📚 Return All Books & Exit to Library
+    </button>
+  </footer>
+
+  <script>
+    // INITIAL CHECKOUT PERSISTENCE
+    localStorage.setItem('church_has_checkout', 'true');
+
+    // MULTI-MATERIAL TEXT REPOSITORY (NOW SWAPS LIVE ON SCREEN)
+    const libraryVault = {
+      'kjv-john': {
+        title: "The Gospel According to St. John — Chapter 1",
+        icon: "📖",
+        details: "Translation: KJV (Authorized) | Greek Roots Active",
+        promptText: "Would you like the scripture references for John 1 added to your notes?",
+        noteStamp: "[Study Topic: St. John Chapter 1 (KJV)]\nKey Text: John 1:1-5",
+        content: `
+          <p><span class="verse-num">1</span>In the beginning was the Word, and the Word was with God, and the Word was God.</p>
+          <p><span class="verse-num">2</span>The same was in the beginning with God.</p>
+          <p><span class="verse-num">3</span>All things were made by him; and without him was not any thing made that was made.</p>
+          <p><span class="verse-num">4</span>In him was life; and the life was the light of men.</p>
+          <div class="quote-action">
+            <span>💡 <em>"In him was life; and the life was the light of men."</em> — John 1:4</span>
+            <button class="btn-copy-quote" onclick="copyVerseToNotes('John 1:4 - In him was life; and the life was the light of men.')">📋 Copy to My Notes</button>
+          </div>
+          <p><span class="verse-num">5</span>And the light shineth in darkness; and the darkness comprehended it not.</p>
+        `
+      },
+      'matthew-henry': {
+        title: "Matthew Henry's Commentary — St. John Chapter 1 Exegesis",
+        icon: "📚",
+        details: "Source: Christian Classics Ethereal Library (Public Domain)",
+        promptText: "Would you like Matthew Henry's commentary outline added to your notes?",
+        noteStamp: "[Study Topic: Matthew Henry Commentary on John 1]\nKey Doctrine: The Deity and Eternity of the Divine Logos",
+        content: `
+          <p><strong>I. The Divinity of Christ:</strong> The plainest reason why the evangelist begins with the person of Jesus Christ is to assert His true Deity. He was from all eternity. He is called <em>The Word</em> (Logos), for He is the express image of the Father's mind and purpose.</p>
+          <p><strong>II. The Agency of the Word in Creation:</strong> All things were made by Him. Not a speck of dust, not an atom in the universe, exists apart from Christ Jesus.</p>
+          <div class="quote-action">
+            <span>💡 <em>"He that was in the beginning with God was God, and was made flesh to redeem us."</em> — M. Henry</span>
+            <button class="btn-copy-quote" onclick="copyVerseToNotes('Matthew Henry: He that was in the beginning with God was God, and was made flesh to redeem us.')">📋 Copy to My Notes</button>
+          </div>
+          <p><strong>III. The Light Overcoming Darkness:</strong> The spiritual life of man floweth from Him. Even in the deepest darkness of the street and sin, His light can never be extinguished.</p>
+        `
+      },
+      'hillsdale-genesis': {
+        title: "Hillsdale College: Ancient Christianity — Lecture 1 Overview",
+        icon: "🎓",
+        details: "Source: Hillsdale College Open Theological Archives",
+        promptText: "Would you like Hillsdale's course study questions added to your notes?",
+        noteStamp: "[Course: Hillsdale Ancient Christianity - Lecture 1]\nTopic: The Greco-Roman World & The Early Church",
+        content: `
+          <p><strong>Course Overview:</strong> In this open lecture, the faculty of Hillsdale College examines the clash between early Christian faith and imperial Roman power.</p>
+          <p><strong>Key Theological Theme:</strong> How the Apostles brought the Gospel into a hostile culture marked by extreme social division, poverty, and pagan persecution—and how radical Christian charity turned the ancient world upside down.</p>
+          <div class="quote-action">
+            <span>💡 <em>"The early church conquered Rome not with the sword, but by feeding the hungry and loving the abandoned."</em></span>
+            <button class="btn-copy-quote" onclick="copyVerseToNotes('Hillsdale Lecture 1: The early church conquered Rome not with the sword, but by feeding the hungry.')">📋 Copy to My Notes</button>
+          </div>
+          <p><strong>Discipleship Takeaway:</strong> Ministry to the unhoused and forgotten is the oldest, purest tradition of the Christian Church.</p>
+        `
+      }
+    };
+
+    // ACTIVE BOOK STATE
+    let activeBookKey = 'kjv-john';
+
+    function switchBook(key) {
+      activeBookKey = key;
+      const data = libraryVault[key];
+      
+      // Update Title & Toolbar
+      document.getElementById('currentBookTitle').innerText = data.title;
+      document.getElementById('bookIcon').innerText = data.icon;
+      document.getElementById('materialDetails').innerHTML = `<span>${data.details}</span>`;
+      
+      // Update Reading Content
+      document.getElementById('readingText').innerHTML = data.content;
+
+      // Update Privacy Prompt
+      document.getElementById('promptQuestion').innerText = data.promptText;
+      document.getElementById('privacyBanner').style.display = 'flex';
+
+      // Update Active Tab Styling
+      document.querySelectorAll('.book-tab').forEach(t => t.classList.remove('active'));
+      if (key === 'kjv-john') document.getElementById('tab-kjv').classList.add('active');
+      if (key === 'matthew-henry') document.getElementById('tab-matthew').classList.add('active');
+      if (key === 'hillsdale-genesis') document.getElementById('tab-hillsdale').classList.add('active');
+    }
+
+    // INITIAL LOAD
+    window.addEventListener('DOMContentLoaded', () => {
+      switchBook('kjv-john');
+      const savedNotes = localStorage.getItem('church_study_notes_current');
+      if (savedNotes) {
+        document.getElementById('noteEditor').innerHTML = savedNotes;
+      }
+    });
+
+    // 3-STAGE SIZING ENGINE
+    const workspace = document.getElementById('studyWorkspace');
+
+    function setBookSize(mode) {
+      workspace.className = 'study-workspace';
+      if (mode === 'full') {
+        workspace.classList.add('view-full-book');
+      } else if (mode === 'half') {
+        // 50/50 split
+      } else if (mode === 'small') {
+        workspace.classList.add('view-focus-notebook');
+      }
+    }
+
+    function setNotebookSize(mode) {
+      workspace.className = 'study-workspace';
+      if (mode === 'full') {
+        workspace.classList.add('view-full-notebook');
+      } else if (mode === 'half') {
+        // 50/50 split
+      } else if (mode === 'small') {
+        workspace.classList.add('view-focus-book');
+      }
+    }
+
+    // FONT ADJUSTER
+    let currentFontSize = 16;
+    function changeFontSize(delta) {
+      currentFontSize += delta;
+      if (currentFontSize < 13) currentFontSize = 13;
+      if (currentFontSize > 26) currentFontSize = 26;
+      document.getElementById('readingText').style.fontSize = currentFontSize + 'px';
+    }
+
+    // SOVEREIGN NOTEBOOK PROTOCOL
+    function acceptSuggestedNotes() {
+      const editor = document.getElementById('noteEditor');
+      const data = libraryVault[activeBookKey];
+      const stamp = `<p><strong>${data.noteStamp}</strong></p><p>Date: ${new Date().toLocaleDateString()}</p><hr><p></p>`;
+      editor.innerHTML = stamp + editor.innerHTML;
+      document.getElementById('privacyBanner').style.display = 'none';
+      saveNotes();
+    }
+
+    function dismissSuggestedNotes() {
+      document.getElementById('privacyBanner').style.display = 'none';
+    }
+
+    // TEXT EDITING & HIGHLIGHTING
+    function formatDoc(cmd, val = null) {
+      document.execCommand(cmd, false, val);
+      document.getElementById('noteEditor').focus();
+    }
+
+    function highlightText(color) {
+      formatDoc('hiliteColor', color);
+    }
+
+    function copyVerseToNotes(text) {
+      const editor = document.getElementById('noteEditor');
+      editor.innerHTML += `<p style="background:rgba(212,175,55,0.15); border-left:3px solid #d4af37; padding:6px 10px; margin:8px 0;">"${text}"</p><p></p>`;
+      saveNotes();
+      alert('Quote successfully copied into your notebook!');
+    }
+
+    // AUTO-SAVE
+    function saveNotes() {
+      const content = document.getElementById('noteEditor').innerHTML;
+      localStorage.setItem('church_study_notes_current', content);
+    }
+
+    // LOAD PAST NOTES
+    function loadPastNote(val) {
+      const editor = document.getElementById('noteEditor');
+      if (val === 'sermon-1') {
+        editor.innerHTML = '<p><strong>[Sermon Notes: God\'s Grace on Concrete]</strong></p><p>Brother Brian taught on Romans 8. God uses broken ribs and pain as His tools.</p>';
+      } else if (val === 'study-romans') {
+        editor.innerHTML = '<p><strong>[Study Notes: Romans Chapter 8]</strong></p><p>There is therefore now no condemnation to them which are in Christ Jesus.</p>';
+      } else if (val === 'new') {
+        editor.innerHTML = '';
+      }
+      saveNotes();
+    }
+
+    // MATERIAL CHECKOUT / RETURN LOGIC
+    function returnIndividualItem(e, title) {
+      e.stopPropagation();
+      if (confirm(`Return "${title}" to the Library shelves?`)) {
+        e.target.parentElement.style.display = 'none';
+      }
+    }
+
+    function returnAllToLibrary() {
+      if (confirm("Return all checked-out study materials back to the Library shelves? (Your personal notes will remain safely saved in your vault).")) {
+        localStorage.removeItem('church_has_checkout');
+        alert("All study books checked back into Library. Returning to Library...");
+        window.location.href = "lobby.html";
+      }
+    }
+
+    // ASSISTANT BOT PROMPT & HUMAN PRAYER PROTOCOL
+    function openAssistantPrompt() {
+      const q = prompt("Ask the Assistant Pastor a biblical root word or historical question:\n(Example: 'What is the Greek word for Word in John 1:1?')");
+      if (q) {
+        if (q.toLowerCase().includes('pray') || q.toLowerCase().includes('help me') || q.toLowerCase().includes('suicide')) {
+          alert("CRISIS PROTOCOL ACTIVATED: The Assistant Pastor cannot pray for you. An urgent notification has been dispatched to Brother Brian's Backstage Studio for personal prayer.");
+        } else {
+          alert("Assistant Pastor: In John 1:1, the original Greek word is 'Logos' (λόγος), meaning the divine Reason, Word, and Plan of God revealed bodily in Jesus Christ.");
+        }
+      }
+    }
+  </script>
+</body>
+</html>

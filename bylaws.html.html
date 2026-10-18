@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God's Church for the Homeless — Charter, Bylaws & Credentials</title>
+  <style>
+    :root {
+      --bg-dark: #0a0c10;
+      --card-bg: rgba(18, 24, 38, 0.72);
+      --card-border: rgba(212, 175, 55, 0.35);
+      --gold-primary: #d4af37;
+      --gold-hover: #f3cf65;
+      --text-white: #ffffff;
+      --text-dim: #cbd5e1;
+      --seal-bg: rgba(212, 175, 55, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(147, 51, 234, 0.15), transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(212, 175, 55, 0.12), transparent 45%),
+        linear-gradient(rgba(10, 12, 16, 0.88), rgba(10, 12, 16, 0.88));
+      background-attachment: fixed;
+      background-size: cover;
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    header {
+      background: rgba(10, 14, 22, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-assistant-bot {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-hover);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-assistant-bot:hover {
+      background: var(--gold-primary);
+      color: #000;
+    }
+
+    .nav-left select {
+      background: rgba(20, 26, 38, 0.9);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-hover);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .church-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--text-white);
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .church-title span {
+      display: block;
+      font-size: 12px;
+      color: var(--gold-primary);
+      letter-spacing: 2px;
+    }
+
+    .btn-exit-lobby {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .btn-exit-lobby:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* MAIN CONTAINER */
+    .charter-container {
+      max-width: 1080px;
+      margin: 24px auto;
+      padding: 0 20px 60px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* SCRIPTURE HERO BANNER */
+    .scripture-hero {
+      text-align: center;
+      padding: 16px 20px;
+      background: rgba(14, 20, 32, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 8px;
+      font-style: italic;
+      color: var(--gold-hover);
+      font-size: 15px;
+    }
+
+    /* LEGAL CREDENTIALS WING */
+    .credentials-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--gold-primary);
+      border-radius: 10px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .credentials-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+    }
+    .credentials-header h2 {
+      font-size: 18px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .credentials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .seal-box {
+      background: var(--seal-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .seal-box h3 {
+      font-size: 14px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .seal-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+    .badge-progress {
+      background: rgba(234, 179, 8, 0.2);
+      color: #facc15;
+      border: 1px solid #facc15;
+    }
+    .badge-seeking {
+      background: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      border: 1px solid #60a5fa;
+    }
+    .seal-box p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+
+    /* CONSTITUTIONAL SECTIONS (UNCUT) */
+    .document-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border-left: 4px solid var(--gold-primary);
+      padding-left: 12px;
+    }
+
+    .document-text {
+      font-size: 15px;
+      line-height: 1.85;
+      color: #f1f5f9;
+      text-align: justify;
+    }
+    .document-text p {
+      margin-bottom: 16px;
+    }
+
+    /* CORE BELIEFS & VALUES LISTS */
+    .numbered-block {
+      background: rgba(14, 20, 32, 0.6);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+    }
+    .numbered-block h4 {
+      color: var(--gold-hover);
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+    .numbered-block p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-dim);
+    }
+
+    /* BYLAWS SPECIFIC BOX */
+    .bylaws-box {
+      background: rgba(212, 175, 55, 0.06);
+      border: 1px solid var(--gold-primary);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 10px;
+    }
+    .bylaws-box h3 {
+      font-size: 16px;
+      color: var(--gold-hover);
+      margin-bottom: 8px;
+    }
+
+    /* BOT MODAL */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #0f172a;
+      border: 2px solid var(--gold-primary);
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      color: var(--gold-primary);
+      font-size: 16px;
+    }
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .bot-input {
+      background: #1e293b;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 100%;
+    }
+    .btn-submit-bot {
+      background: var(--gold-primary);
+      color: #000;
+      border: none;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL TOP HEADER -->
+  <header>
+    <div class="nav-left">
+      <button class="btn-assistant-bot" onclick="openAssistantModal()">
+        💬 Assistant Pastor
+      </button>
+
+      <select onchange="window.location.href=this.value">
+        <option value="bylaws.html" selected>Go to: Door 8 — Bylaws & Charter</option>
+        <option value="lobby.html">Lobby Area</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="library.html">Door 3: Digital Library</option>
+        <option value="study-hall.html">Nested: The Study Hall</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="music-room.html">The Music Room</option>
+      </select>
+    </div>
+
+    <div class="church-title">
+      God's Church for the Homeless
+      <span>Charter, Credentials & Sacred Bylaws</span>
+    </div>
+
+    <div>
+      <a href="lobby.html" class="btn-exit-lobby">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <main class="charter-container">
+
+    <!-- SCRIPTURE HERO -->
+    <div class="scripture-hero">
+      "Where there is no vision, the people perish: but he that keepeth the law, happy is he." — Proverbs 29:18
+    </div>
+
+    <!-- 1. OFFICIAL LEGAL CREDENTIALS WING -->
+    <section class="credentials-card">
+      <div class="credentials-header">
+        <span>🏛️</span>
+        <h2>Official Church Credentials & Legal Standing</h2>
+      </div>
+
+      <div class="credentials-grid">
+        <!-- SECRETARY OF STATE -->
+        <div class="seal-box">
+          <h3><span>📜</span> State Non-Profit Incorporation</h3>
+          <span class="seal-badge badge-progress">In Progress / Active Filing</span>
+          <p>
+            Official Certificate of Non-Profit Incorporation and Entity Good Standing with the Secretary of State. 
+            All legal paperwork and official state acknowledgement records are anchored here for public verification.
+          </p>
+        </div>
+
+        <!-- 501(c)(3) TAX EXEMPT -->
+        <div class="seal-box">
+          <h3><span>⚖️</span> IRS 501(c)(3) Tax-Exempt Status</h3>
+          <span class="seal-badge badge-progress">Form 1023 Processing</span>
+          <p>
+            Federal public charity designation under IRS Section 501(c)(3). When the official IRS Determination Letter 
+            is granted, the complete federal letter and Employer Identification Number (EIN) will be published here.
+          </p>
+        </div>
+
+        <!-- MOTHER CHURCH COVERING -->
+        <div class="seal-box">
+          <h3><span>⛪</span> Ecclesiastical Mother Church Covering</h3>
+          <span class="seal-badge badge-seeking">Actively Seeking Partnership</span>
+          <p>
+            Church for the Homeless actively seeks partnership and spiritual covering under an established Mother Church 
+            or 501(c)(3) Fiscal Sponsor to provide accountability, oversight, and spiritual blessing as we launch.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. OFFICIAL MISSION STATEMENT (UNCUT) -->
+    <section class="document-card">
+      <h2 class="section-title">Official Mission Statement</h2>
+      <div class="document-text">
+        <p>
+          "Church for the Homeless exists to save lives, save souls, and help heal the broken by bringing the love of 
+          Jesus directly to the lost and unhoused on American streets. In a society that often criminalizes poverty 
+          and walks past the hungry, we believe that everyone has a story, everyone deserves to be loved, and everyone 
+          deserves to be treated like a human being rather than a nuisance."
+        </p>
+        <p>
+          "We do not require the hurting to come to a building; instead, we look in our own backyard, going directly 
+          to the fields of people who need to know that their current situation is not the end of their story. Our 
+          mission is to meet people exactly where they are—whether they are rich or poor, if you don't know Jesus you 
+          are Homeless—look them in the eye with God-given compassion, and help them accept the love, redemption, and 
+          hope that can only come through Jesus Christ."
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. THE 3 CORE BELIEFS (UNCUT) -->
+    <section class="document-card">
+      <h2 class="section-title">The Three Core Beliefs</h2>
+      
+      <div class="numbered-block">
+        <h4>1. The Priority of the Seed</h4>
+        <p>
+          "We believe that the planting of seeds of hope and the Gospel is the single most important work we do. 
+          We are not called to force an immediate harvest or judge a person's timeline for recovery; we are called 
+          to faithfully plant the seed of Jesus Christ in broken soil, just as someone once did for us, and trust 
+          God to make it grow."
+        </p>
+      </div>
+
+      <div class="numbered-block">
+        <h4>2. Open Eyes and Compassionate Hearts</h4>
+        <p>
+          "We believe that true ministry requires eyes that have been opened by God to see the invisible. Compassion 
+          for our fellow man is not optional. We believe in taking the time to see, care for, and genuinely listen 
+          to those the rest of the world walks by."
+        </p>
+      </div>
+
+      <div class="numbered-block">
+        <h4>3. Redemption of Pain</h4>
+        <p>
+          "We believe that Jesus Christ rescues people from the darkest pits of life—hunger, abuse, trauma, and 
+          homelessness—and transforms those devastating experiences into the very tools He uses to reach others. 
+          Our pain becomes our purpose."
+        </p>
+      </div>
+    </section>
+
+    <!-- 4. VISION STATEMENT (UNCUT) -->
+    <section class="document-card">
+      <h2 class="section-title">Our Vision for America</h2>
+      <div class="document-text">
+        <p>
+          "Our vision is to revive the spirit of the Good Samaritan on American streets, sparking a movement that 
+          helps our country become a nation of compassion and love once again. We envision a ministry that reaches 
+          into the darkest places to save as many people from themselves and their circumstances as possible by 
+          faithfully planting the seeds of Jesus Christ."
+        </p>
+        <p>
+          "Our goal is not just to offer temporary relief, but to facilitate lasting transformation—making true 
+          disciples who turn their entire lives over to Jesus. Ultimately, we see a future where the Church for the 
+          Homeless expands beyond a single outreach into a nationwide fleet of mobile RVs, led by pastors who have 
+          lived the struggle, actively planting seeds and making disciples everywhere they go."
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. THE 5 CORE VALUES -->
+    <section class="document-card">
+      <h2 class="section-title">The Five Core Values</h2>
+
+      <div class="numbered-block">
+        <h4>• Radical Hospitality</h4>
+        <p>We believe in creating a sanctuary where every individual, regardless of their housing status, is welcomed with the dignity and respect they deserve as children of God.</p>
+      </div>
+
+      <div class="numbered-block">
+        <h4>• Unconditional Compassion</h4>
+        <p>Our mission is rooted in meeting people where they are, offering grace without judgment and support without strings attached.</p>
+      </div>
+
+      <div class="numbered-block">
+        <h4>• Communal Healing</h4>
+        <p>We foster a family environment that breaks the cycle of isolation, recognizing that spiritual and emotional restoration happens best within a supportive community.</p>
+      </div>
+
+      <div class="numbered-block">
+        <h4>• Sacred Advocacy</h4>
+        <p>Beyond immediate relief, we are committed to speaking truth to power and seeking justice for those the world has overlooked.</p>
+      </div>
+
+      <div class="numbered-block">
+        <h4>• Holistic Stewardship</h4>
+        <p>We honor the physical, mental, and spiritual needs of our neighbors, providing a space where the soul can find rest while the body finds nourishment.</p>
+      </div>
+    </section>
+
+    <!-- 6. CHURCH HISTORY -->
+    <section class="document-card">
+      <h2 class="section-title">History of the Church for the Homeless</h2>
+      <div class="document-text">
+        <p>
+          "The vision for the Church for the Homeless was not born in a classroom or a boardroom; it was forged in the 
+          reality of the streets. It is a new and radical response to a broken system. My own life was marked by trauma, 
+          years of homelessness, and a desperate struggle to find hope. I know what it feels like to be invisible, to be 
+          ignored, and to be treated as less than human. I have seen firsthand how society—and even the church—often turns 
+          away from the dirty, the hungry, and the forgotten. I can no longer stand by and watch."
+        </p>
+        <p>
+          "This ministry is funded by the truth of my own experience and the grace that pulled me out of it. I have lived 
+          the pain, and I have found the power of Jesus Christ to transform a life. My goal is simple: to share that same 
+          love with every lost soul in America. We aren't here to judge; we are here to walk alongside."
+        </p>
+        <p>
+          "We are launching this church because America needs to remember what it means to love its people—the rich and 
+          the poor, the housed and the unhoused—with equal dignity. We believe that if you give someone a chance, remind 
+          them they are a precious child of God, and show them that someone cares, you can change their life."
+        </p>
+        <p>
+          "This mission is as vital as the air we breathe. We aren't waiting for people to walk through a church door; 
+          we are bringing the Church to where the people are. If this ministry reaches just one person—if it helps just 
+          one individual rediscover their worth in Jesus—then we have succeeded. We are here to bring the Gospel back to 
+          the streets, to be a voice for those who have been silenced, and to prove that no one is ever too far gone to be loved."
+        </p>
+      </div>
+    </section>
+
+    <!-- 7. PASTORAL BYLAWS (UNCUT) -->
+    <section class="document-card">
+      <h2 class="section-title">Pastoral Qualifications & Protections (The Bylaws)</h2>
+      <div class="document-text">
+        <p>
+          <em>Because the nature of this ministry requires an unparalleled depth of compassion and a profound connection 
+          to the people we serve, the leadership of this church operates under a unique standard of lived experience and grace:</em>
+        </p>
+      </div>
+
+      <div class="bylaws-box">
+        <h3>Section 1. The Lived Experience Requirement</h3>
+        <p class="document-text">
+          "To be ordained, hired, or appointed as a pastor for Church for the Homeless, an individual must have personal, 
+          lived experience with deep hardship. They must have either survived homelessness themselves or endured a terrible 
+          life experience from which God rescued them. A pastor in this ministry cannot look at the unhoused and say, 'I do 
+          not understand them.' You have to have lived this to understand this, to truly see the hurt, and to possess a 
+          genuine willingness to care and listen. Academic theology is not a substitute for a survival testimony."
+        </p>
+      </div>
+
+      <div class="bylaws-box">
+        <h3>Section 2. Protection from Disqualification by Divorce</h3>
+        <p class="document-text">
+          "We recognize that human brokenness touches every life, and that God's grace covers the deep pain of a broken marriage. 
+          Therefore, no pastor, assistant pastor, or ministry leader within Church for the Homeless shall be fired, removed 
+          from office, or disqualified from leadership on the basis of a past or present divorce. Our leadership is defined 
+          by a person's current walk with Christ and their relentless heart for the lost, not by marital history."
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ASSISTANT PASTOR MODAL -->
+  <div class="modal-backdrop" id="botModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>💬 Assistant Pastor</h3>
+        <button class="modal-close" onclick="closeAssistantModal()">✕</button>
+      </div>
+      <p style="font-size:13px; color:var(--text-dim); line-height:1.6;">
+        Ask a question about the church bylaws, our 501(c)(3) timeline, mission, or biblical foundations:
+      </p>
+      <input type="text" class="bot-input" id="botQuestion" placeholder="Type your question here...">
+      <button class="btn-submit-bot" onclick="handleBotQuestion()">Ask Question</button>
+      <div id="botAnswer" style="font-size:13px; color:#f1f5f9; line-height:1.6; display:none;"></div>
+    </div>
+  </div>
+
+  <script>
+    function openAssistantModal() {
+      document.getElementById('botModal').style.display = 'flex';
+      document.getElementById('botQuestion').focus();
+    }
+
+    function closeAssistantModal() {
+      document.getElementById('botModal').style.display = 'none';
+      document.getElementById('botAnswer').style.display = 'none';
+      document.getElementById('botQuestion').value = '';
+    }
+
+    function handleBotQuestion() {
+      const q = document.getElementById('botQuestion').value.trim();
+      const ansDiv = document.getElementById('botAnswer');
+      if (!q) return;
+
+      if (q.toLowerCase().includes('pray') || q.toLowerCase().includes('crisis') || q.toLowerCase().includes('help me')) {
+        ansDiv.style.display = 'block';
+        ansDiv.style.color = '#facc15';
+        ansDiv.innerHTML = "<strong>CRISIS PROTOCOL:</strong> The Assistant Pastor cannot pray for you. An urgent prayer alert has been dispatched directly to Brother Brian's Backstage Command Studio for personal prayer.";
+      } else {
+        ansDiv.style.display = 'block';
+        ansDiv.style.color = '#f1f5f9';
+        ansDiv.innerHTML = "<strong>Assistant Pastor:</strong> Church for the Homeless operates under two sacred leadership bylaws: the <em>Lived Experience Requirement</em> (leaders must understand street trauma firsthand) and <em>Protection from Disqualification by Divorce</em> (God's grace covers brokenness; leaders are judged solely by their current walk with Christ).";
+      }
+    }
+  </script>
+</body>
+</html>

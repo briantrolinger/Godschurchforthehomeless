@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Door 12: Photo Gallery & Creation Vault — God's Church for the Homeless</title>
+  <style>
+    :root {
+      --bg-dark: #0a0f1d;
+      --card-bg: rgba(15, 23, 42, 0.85);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --accent-gold: #f59e0b;
+      --accent-gold-hover: #d97706;
+      --accent-blue: #38bdf8;
+      --accent-emerald: #10b981;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.10) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---------------------------------------------------- */
+    /* UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES) */
+    /* ---------------------------------------------------- */
+    .church-universal-header {
+      background: rgba(10, 15, 29, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-assistant {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-assistant:hover {
+      background: var(--accent-blue);
+      color: #0a0f1d;
+    }
+
+    .nav-dropdown {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .nav-dropdown:focus {
+      border-color: var(--accent-gold);
+    }
+
+    .header-center {
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: #ffffff;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-exit {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-exit:hover {
+      background: rgba(239, 68, 68, 0.3);
+      color: #ffffff;
+    }
+
+    /* ---------------------------------------------------- */
+    /* MAIN GALLERY CONTAINER & HERO BANNER */
+    /* ---------------------------------------------------- */
+    .gallery-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5rem 1.5rem;
+      flex-grow: 1;
+      width: 100%;
+    }
+
+    .hero-banner {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 2.25rem 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold), var(--accent-emerald));
+    }
+
+    .hero-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-scripture {
+      font-style: italic;
+      color: var(--accent-gold);
+      font-size: 1.05rem;
+      max-width: 820px;
+      margin: 0 auto 0.75rem auto;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* ---------------------------------------------------- */
+    /* ACTION STRIP & DUAL UPLOADER CONTROLS */
+    /* ---------------------------------------------------- */
+    .action-strip {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    .action-info {
+      flex: 1 1 500px;
+    }
+
+    .action-info-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+
+    .action-info-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .action-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    /* Regular Member Upload Button */
+    .btn-member-upload {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--accent-emerald);
+      color: #6ee7b7;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.75rem 1.35rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-member-upload:hover {
+      background: var(--accent-emerald);
+      color: #0a0f1d;
+      transform: translateY(-1px);
+    }
+
+    /* Brother Brian's Executive Vault Uploader Button */
+    .btn-pastor-vault-upload {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.35) 100%);
+      border: 1px solid var(--accent-gold);
+      color: #fef3c7;
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.75rem 1.35rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pastor-vault-upload:hover {
+      background: var(--accent-gold);
+      color: #0a0f1d;
+      transform: translateY(-1px);
+    }
+
+    /* Session Role Switcher (For local testing & dual verification) */
+    .session-toggle-strip {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .session-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: #cbd5e1;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .session-toggle-btn.active {
+      background: var(--accent-blue);
+      color: #0a0f1d;
+      border-color: var(--accent-blue);
+    }
+
+    /* ---------------------------------------------------- */
+    /* FILTER & NAVIGATION CONTROLS */
+    /* ---------------------------------------------------- */
+    .gallery-filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent-blue);
+      color: #ffffff;
+    }
+
+    .filter-btn.active {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #0a0f1d;
+      font-weight: 700;
+    }
+
+    /* ---------------------------------------------------- */
+    /* GALLERY GRID & ANTI-DOWNLOAD SECURITY */
+    /* ---------------------------------------------------- */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .photo-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    }
+
+    .photo-media-wrapper {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      background: #0f172a;
+      overflow: hidden;
+      cursor: pointer;
+      /* Anti-drag & protected display */
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .photo-media-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none; /* Disables direct right-click on image file */
+      transition: transform 0.4s ease;
+    }
+
+    .photo-card:hover .photo-media-wrapper img {
+      transform: scale(1.05);
+    }
+
+    .badge-category {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      z-index: 2;
+    }
+
+    .badge-vault {
+      background: rgba(245, 158, 11, 0.9);
+      color: #0a0f1d;
+    }
+
+    .badge-member {
+      background: rgba(16, 185, 129, 0.92);
+      color: #0a0f1d;
+    }
+
+    .badge-bg {
+      background: rgba(168, 85, 247, 0.9);
+      color: #ffffff;
+    }
+
+    .photo-body {
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .photo-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+    }
+
+    .photo-caption {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+      line-height: 1.45;
+    }
+
+    .photo-meta {
+      font-size: 0.78rem;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .photo-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.85rem;
+    }
+
+    .btn-view-photo {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.55rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .btn-view-photo:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* ---------------------------------------------------- */
+    /* MODALS: UPLOADERS & LIGHTBOX VIEW */
+    /* ---------------------------------------------------- */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 1.5rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .modal-close-btn:hover {
+      color: #ffffff;
+    }
+
+    .modal-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 0.4rem;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.65rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .covenant-box {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1.25rem 0;
+      font-size: 0.86rem;
+      color: #fef3c7;
+      line-height: 1.45;
+    }
+
+    .covenant-check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+      font-size: 0.88rem;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .covenant-check-row input {
+      margin-top: 0.25rem;
+      cursor: pointer;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-card {
+      max-width: 950px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .lightbox-img-box {
+      width: 100%;
+      max-height: 70vh;
+      overflow: hidden;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      background: #000000;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .lightbox-img-box img {
+      width: 100%;
+      height: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      pointer-events: none; /* Disables direct right-click download */
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .church-universal-header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.75rem 1rem;
+      }
+      .header-center {
+        order: -1;
+        margin-bottom: 0.5rem;
+      }
+      .header-left, .header-right {
+        justify-content: space-between;
+      }
+      .action-strip {
+        padding: 1.25rem;
+      }
+      .action-buttons {
+        width: 100%;
+      }
+      .btn-member-upload, .btn-pastor-vault-upload {
+        width: 100%;
+        justify-content: center;
+      }
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;">
+
+  <!-- ==================================================== -->
+  <!-- UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES) -->
+  <!-- ==================================================== -->
+  <header class="church-universal-header">
+    <div class="header-left">
+      <button class="btn-assistant" onclick="openAssistantPastor()">
+        💬 Assistant Pastor
+      </button>
+
+      <select class="nav-dropdown" onchange="window.location.href=this.value">
+        <option value="" disabled selected>Go to Church Room...</option>
+        <option value="lobby.html">Gate 4: Sanctuary Lobby</option>
+        <option value="sanctuary.html">Door 2: The Sanctuary</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="library.html">Door 3: Digital Library</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin</option>
+        <option value="volunteer.html">Door 7: The Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Beliefs & Bylaws</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Live Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html" selected>Door 12: Photo Gallery</option>
+        <option value="music-room.html">Music Room Vault</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <div class="header-title">GOD'S CHURCH FOR THE HOMELESS</div>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="btn-exit">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- ==================================================== -->
+  <!-- MAIN GALLERY CONTENT -->
+  <!-- ==================================================== -->
+  <main class="gallery-container">
+
+    <!-- Hero Inscription Banner -->
+    <section class="hero-banner">
+      <h1 class="hero-title">Door 12: Creation Gallery & Ministry Vault</h1>
+      <div class="hero-scripture">
+        “The heavens declare the glory of God; and the firmament sheweth his handywork.” — Psalm 19:1
+      </div>
+      <p class="hero-subtitle">
+        A peaceful visual sanctuary celebrating the beauty of God's creation, acts of community kindness, and church memories. 
+        All photography is presented for the visual enjoyment and meditation of the church family.
+      </p>
+    </section>
+
+    <!-- Top Action Strip with Prominent Upload Buttons -->
+    <section class="action-strip">
+      <div class="action-info">
+        <div class="action-info-title">Church Photo Archive & Community Sharing</div>
+        <p class="action-info-desc">
+          Browse Brother Brian's 700+ nature, ocean, and sunset vault, or share a peaceful picture with the church family. 
+          To protect the integrity of the artists and ministry artwork, downloads are currently disabled.
+        </p>
+      </div>
+
+      <div class="action-buttons">
+        <!-- Regular Member Upload Button -->
+        <button class="btn-member-upload" id="btnMemberUpload" onclick="openMemberUploadModal()">
+          📤 UPLOAD COMMUNITY PHOTO
+        </button>
+
+        <!-- Brother Brian's Dedicated Master Vault Uploader (Session Recognized) -->
+        <button class="btn-pastor-vault-upload" id="btnPastorUpload" style="display: none;" onclick="openPastorVaultModal()">
+          🌟 BROTHER BRIAN'S VAULT UPLOADER
+        </button>
+      </div>
+    </section>
+
+    <!-- Master Filter Tabs & Role Verification Switcher -->
+    <nav class="gallery-filter-bar">
+      <div class="filter-group">
+        <button class="filter-btn active" onclick="filterGallery('all', this)">All Photography</button>
+        <button class="filter-btn" onclick="filterGallery('vault', this)">Brother Brian's Nature Vault (700+)</button>
+        <button class="filter-btn" onclick="filterGallery('member', this)">Member Community Shares</button>
+        <button class="filter-btn" onclick="filterGallery('background', this)">Website Background Candidates</button>
+      </div>
+
+      <!-- Quick Session Simulator (Allows testing Member view vs Brother Brian view) -->
+      <div class="session-toggle-strip">
+        <span>Session View:</span>
+        <button class="session-toggle-btn active" id="viewMemberBtn" onclick="setSessionView('member')">Member</button>
+        <button class="session-toggle-btn" id="viewPastorBtn" onclick="setSessionView('brother_brian')">Brother Brian</button>
+      </div>
+    </nav>
+
+    <!-- Gallery Grid -->
+    <section class="photo-grid" id="photoGrid">
+      
+      <!-- Photo 1: Brother Brian's Ocean Vault -->
+      <article class="photo-card" data-category="vault background">
+        <div class="photo-media-wrapper" onclick="openLightbox('Pacific Golden Horizon', 'Brother Brian Keith Trolinger', 'Evening light breaking over the rolling Pacific tides. From Brother Brian\'s collection of over 700 nature captures.', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Pacific Golden Horizon" loading="lazy">
+          <span class="badge-category badge-vault">Nature Vault</span>
+        </div>
+        <div class="photo-body">
+          <div>
+            <h3 class="photo-title">Pacific Golden Horizon</h3>
+            <p class="photo-caption">Evening light breaking over the rolling Pacific tides. One of over 700 creation photographs from Brother Brian's personal lens.</p>
+          </div>
+          <div>
+            <div class="photo-meta">
+              <span>Captured by Brother Brian Keith Trolinger</span>
+              <span>Official Background Vault</span>
+            </div>
+            <div class="photo-actions">
+              <button class="btn-view-photo" onclick="openLightbox('Pacific Golden Horizon', 'Brother Brian Keith Trolinger', 'Evening light breaking over the rolling Pacific tides.', 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80')">🔍 View Full Image</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Photo 2: Brother Brian's Floral Vault -->
+      <article class="photo-card" data-category="vault background">
+        <div class="photo-media-wrapper" onclick="openLightbox('Wild Mountain Blossom', 'Brother Brian Keith Trolinger', '“Consider the lilies of the field, how they grow...” Living evidence of God\'s care and provision in the wilderness.', 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=600&q=80" alt="Wild Mountain Blossom" loading="lazy">
+          <span class="badge-category badge-vault">Nature Vault</span>
+        </div>
+        <div class="photo-body">
+          <div>
+            <h3 class="photo-title">Wild Mountain Blossom</h3>
+            <p class="photo-caption">“Consider the lilies of the field, how they grow...” Living evidence of God's provision and beauty in the wilderness.</p>
+          </div>
+          <div>
+            <div class="photo-meta">
+              <span>Captured by Brother Brian Keith Trolinger</span>
+              <span>Official Background Vault</span>
+            </div>
+            <div class="photo-actions">
+              <button class="btn-view-photo" onclick="openLightbox('Wild Mountain Blossom', 'Brother Brian Keith Trolinger', 'Living evidence of God\'s care and provision in the wilderness.', 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=80')">🔍 View Full Image</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Photo 3: Brother Brian's Sunset Vault -->
+      <article class="photo-card" data-category="vault background">
+        <div class="photo-media-wrapper" onclick="openLightbox('Amber Evening Clouds', 'Brother Brian Keith Trolinger', 'Fiery clouds over the ridge, reminding us that God is our refuge and our fortress at day\'s close.', 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=600&q=80" alt="Amber Evening Clouds" loading="lazy">
+          <span class="badge-category badge-vault">Nature Vault</span>
+        </div>
+        <div class="photo-body">
+          <div>
+            <h3 class="photo-title">Amber Evening Clouds</h3>
+            <p class="photo-caption">Fiery gold sunset clouds over the ridge. Preserved in the church vault to inspire peace and gratitude.</p>
+          </div>
+          <div>
+            <div class="photo-meta">
+              <span>Captured by Brother Brian Keith Trolinger</span>
+              <span>Official Background Vault</span>
+            </div>
+            <div class="photo-actions">
+              <button class="btn-view-photo" onclick="openLightbox('Amber Evening Clouds', 'Brother Brian Keith Trolinger', 'Fiery clouds over the ridge, reminding us that God is our refuge.', 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80')">🔍 View Full Image</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Photo 4: Member Community Share (Acts of Mercy) -->
+      <article class="photo-card" data-category="member">
+        <div class="photo-media-wrapper" onclick="openLightbox('Winter Blanket Distribution', 'Marcus T. (Ohio)', 'Packing up clean, heavy-duty blankets and warm sweaters to distribute quietly on cold sidewalk curbs.', 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=600&q=80" alt="Winter Blanket Distribution" loading="lazy">
+          <span class="badge-category badge-member">Community Mercy</span>
+        </div>
+        <div class="photo-body">
+          <div>
+            <h3 class="photo-title">Winter Blanket Blessing</h3>
+            <p class="photo-caption">Packing up clean, heavy-duty blankets and warm sweaters to distribute quietly on cold sidewalk curbs. Peaceful and loving.</p>
+          </div>
+          <div>
+            <div class="photo-meta">
+              <span>Shared by Marcus T. (Ohio)</span>
+              <span>Dedicated to Church</span>
+            </div>
+            <div class="photo-actions">
+              <button class="btn-view-photo" onclick="openLightbox('Winter Blanket Distribution', 'Marcus T. (Ohio)', 'Packing up clean, heavy-duty blankets and warm sweaters to distribute quietly on cold sidewalk curbs.', 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80')">🔍 View Full Image</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Photo 5: Member Nature Share / Background Candidate -->
+      <article class="photo-card" data-category="member background">
+        <div class="photo-media-wrapper" onclick="openLightbox('Quiet Forest Meadow', 'Sister Rebecca H. (Kentucky)', '“He maketh me to lie down in green pastures: he leadeth me beside the still waters.” Submitted as a background suggestion.', 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=600&q=80" alt="Quiet Forest Meadow" loading="lazy">
+          <span class="badge-category badge-bg">Background Candidate</span>
+        </div>
+        <div class="photo-body">
+          <div>
+            <h3 class="photo-title">Quiet Forest Meadow</h3>
+            <p class="photo-caption">“He maketh me to lie down in green pastures: he leadeth me beside the still waters.” Submitted as a background suggestion.</p>
+          </div>
+          <div>
+            <div class="photo-meta">
+              <span>Shared by Rebecca H. (Kentucky)</span>
+              <span>Background Candidate</span>
+            </div>
+            <div class="photo-actions">
+              <button class="btn-view-photo" onclick="openLightbox('Quiet Forest Meadow', 'Sister Rebecca H. (Kentucky)', 'Quiet forest meadow submitted for church background consideration.', 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=80')">🔍 View Full Image</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Photo 6: Brother Brian's Ocean Wave Art -->
+      <article class="photo-card" data-category="vault background">
+        <div class="photo-media-wrapper" onclick="openLightbox('Deep Sea Morning Foam', 'Brother Brian Keith Trolinger', 'Crest of a morning wave capturing the purity and cleansing power of God\'s grace.', 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=1200&q=80')">
+          <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=600&q=80" alt="Deep Sea Morning Foam" loading="lazy">
+          <span class="badge-category badge-vault">Nature Vault</span>
+        </div>
+        <div class="photo-body">
+          <div>
+            <h3 class="photo-title">Deep Sea Morning Foam</h3>
+            <p class="photo-caption">Crisp ocean wave foam breaking under morning sunlight. Part of Brother Brian's personal photographic portfolio.</p>
+          </div>
+          <div>
+            <div class="photo-meta">
+              <span>Captured by Brother Brian Keith Trolinger</span>
+              <span>Official Background Vault</span>
+            </div>
+            <div class="photo-actions">
+              <button class="btn-view-photo" onclick="openLightbox('Deep Sea Morning Foam', 'Brother Brian Keith Trolinger', 'Crisp ocean wave foam breaking under morning sunlight.', 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=1200&q=80')">🔍 View Full Image</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+  </main>
+
+  <!-- ==================================================== -->
+  <!-- MODAL: REGULAR MEMBER PHOTO UPLOADER -->
+  <!-- ==================================================== -->
+  <div class="modal-backdrop" id="memberUploadModal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeMemberUploadModal()">&times;</button>
+      <h2 class="modal-title">Share a Peaceful Photo</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+        Members are welcome to upload photos of peaceful nature, acts of community kindness, or pictures you think would make great church backgrounds.
+      </p>
+
+      <form onsubmit="handleMemberUpload(event)">
+        <div class="form-group">
+          <label class="form-label">Photo Title</label>
+          <input type="text" class="form-input" id="memberPhotoTitle" placeholder="e.g. Sunrise over the River" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Your Name & State</label>
+          <input type="text" class="form-input" id="memberAuthor" placeholder="e.g. Brother Thomas M., Texas" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <select class="form-select" id="memberCategory" required>
+            <option value="member">Acts of Mercy & Sidewalk Love</option>
+            <option value="member">Peaceful Nature & Creation</option>
+            <option value="background">Website Background Candidate</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Photo from Phone, Tablet, or PC</label>
+          <input type="file" class="form-input" id="memberPhotoFile" accept="image/*" required onchange="previewImage(event, 'memberPreview', 'memberPreviewBox')">
+          <div id="memberPreviewBox" style="margin-top: 0.75rem; display: none;">
+            <img id="memberPreview" src="" alt="Upload Preview" style="width: 100%; max-height: 180px; object-fit: cover; border-radius: 6px;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Photo Story, Reflection, or Scripture (Optional)</label>
+          <textarea class="form-textarea" id="memberPhotoCaption" placeholder="Tell the church family what this picture means to you..."></textarea>
+        </div>
+
+        <!-- Sacred Submission Covenant -->
+        <div class="covenant-box">
+          <strong>Sacred Submission Covenant:</strong> All uploaded photos must be peaceful, wholesome, and respectful of personal dignity.
+          <div class="covenant-check-row">
+            <input type="checkbox" id="memberCovenantCheck" required>
+            <label for="memberCovenantCheck">
+              I understand that what is uploaded to God's Church for the Homeless belongs to God's Church for the Homeless to be used freely for church purposes, ministry outreach, and website backgrounds.
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-member-upload" style="width: 100%; justify-content: center; padding: 0.85rem;">
+          ✝️ Submit Photo to Church Gallery
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- MODAL: BROTHER BRIAN'S MASTER VAULT BATCH UPLOADER -->
+  <!-- ==================================================== -->
+  <div class="modal-backdrop" id="pastorVaultModal">
+    <div class="modal-card" style="border-color: rgba(245, 158, 11, 0.4);">
+      <button class="modal-close-btn" onclick="closePastorVaultModal()">&times;</button>
+      <h2 class="modal-title" style="color: var(--accent-gold);">Brother Brian's Master Creation Vault</h2>
+      <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 1.25rem;">
+        Executive batch uploader for Brother Brian Keith Trolinger's 700+ nature, ocean, sunset, and floral photographs. 
+        Select multiple files at once. All photos are automatically attributed to you and saved to the church vault.
+      </p>
+
+      <form onsubmit="handlePastorBatchUpload(event)">
+        <div class="form-group">
+          <label class="form-label">Batch Theme / Collection Name</label>
+          <input type="text" class="form-input" id="pastorBatchName" placeholder="e.g. Pacific Coast Sunset Series / Wild Mountain Flora" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Select Multiple Photos (Batch Upload from PC or Phone)</label>
+          <input type="file" class="form-input" id="pastorBatchFiles" accept="image/*" multiple required onchange="handlePastorFilesSelected(event)">
+          <div id="pastorBatchCount" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--accent-gold);"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Collection Scripture or Note</label>
+          <textarea class="form-textarea" id="pastorBatchNote" placeholder="e.g. Psalm 104:24 — Captured by Brother Brian Keith Trolinger for the sanctuary vault..."></textarea>
+        </div>
+
+        <div class="covenant-box" style="background: rgba(56, 189, 248, 0.08); border-color: rgba(56, 189, 248, 0.3); color: #e0f2fe;">
+          <strong>Executive Background Designation:</strong>
+          <div class="covenant-check-row" style="color: #ffffff;">
+            <input type="checkbox" id="pastorBgCheck" checked>
+            <label for="pastorBgCheck">
+              Automatically add these photos to the church frosted-glass background rotation across Sanctuary, Lobby, and Fellowship rooms.
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-pastor-vault-upload" style="width: 100%; justify-content: center; padding: 0.85rem;">
+          🌟 Deposit Photos into Master Nature Vault
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- MODAL: LIGHTBOX HIGH-RESOLUTION PREVIEW (NO DOWNLOADS) -->
+  <!-- ==================================================== -->
+  <div class="modal-backdrop" id="lightboxModal">
+    <div class="modal-card lightbox-card">
+      <button class="modal-close-btn" onclick="closeLightbox()">&times;</button>
+      <div class="lightbox-img-box">
+        <img id="lightboxImg" src="" alt="Church Photo">
+      </div>
+      <h3 class="modal-title" id="lightboxTitle">Photo Title</h3>
+      <p id="lightboxCaption" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem;"></p>
+      <div id="lightboxMeta" style="font-size: 0.84rem; color: #64748b; margin-bottom: 0.5rem;"></div>
+      <div style="font-size: 0.78rem; color: #94a3b8; font-style: italic;">
+        God's Church for the Homeless • Visual Sanctuary Archive
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS -->
+  <!-- ==================================================== -->
+  <script>
+    let currentPreviewUrl = "";
+    let pastorSelectedFiles = [];
+
+    // Initialize session role on load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check if session role is set in storage, default to 'member'
+      const activeRole = sessionStorage.getItem('church_user_role') || 'member';
+      applySessionRole(activeRole);
+    });
+
+    // Session Switcher for Testing / Real Recognition
+    function setSessionView(role) {
+      sessionStorage.setItem('church_user_role', role);
+      applySessionRole(role);
+    }
+
+    function applySessionRole(role) {
+      const pastorBtn = document.getElementById('btnPastorUpload');
+      const viewMemberBtn = document.getElementById('viewMemberBtn');
+      const viewPastorBtn = document.getElementById('viewPastorBtn');
+
+      if (role === 'brother_brian') {
+        pastorBtn.style.display = 'inline-flex';
+        viewPastorBtn.classList.add('active');
+        viewMemberBtn.classList.remove('active');
+      } else {
+        pastorBtn.style.display = 'none';
+        viewMemberBtn.classList.add('active');
+        viewPastorBtn.classList.remove('active');
+      }
+    }
+
+    // Assistant Pastor Modal Greeting
+    function openAssistantPastor() {
+      alert("💬 Assistant Pastor:\n\n'Welcome to Door 12: The Creation Gallery & Ministry Vault. Here you will find Brother Brian's collection of over 700 nature, ocean, and sunset photographs—which feed our frosted-glass backgrounds across the church—as well as peaceful moments shared by our church flock.'");
+    }
+
+    // Gallery Filtering Logic
+    function filterGallery(category, buttonElement) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      buttonElement.classList.add('active');
+
+      const cards = document.querySelectorAll('.photo-card');
+      cards.forEach(card => {
+        const cardCats = card.getAttribute('data-category').split(' ');
+        if (category === 'all' || cardCats.includes(category)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Lightbox Controller (Strictly viewing, no download option)
+    function openLightbox(title, author, caption, imgSrc) {
+      document.getElementById('lightboxTitle').textContent = title;
+      document.getElementById('lightboxCaption').textContent = caption;
+      document.getElementById('lightboxMeta').textContent = "Captured by " + author + " • God's Church for the Homeless";
+      document.getElementById('lightboxImg').src = imgSrc;
+      document.getElementById('lightboxModal').classList.add('open');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightboxModal').classList.remove('open');
+    }
+
+    // Member Uploader Modals & Preview
+    function openMemberUploadModal() {
+      document.getElementById('memberUploadModal').classList.add('open');
+    }
+
+    function closeMemberUploadModal() {
+      document.getElementById('memberUploadModal').classList.remove('open');
+    }
+
+    // Brother Brian Uploader Modals
+    function openPastorVaultModal() {
+      document.getElementById('pastorVaultModal').classList.add('open');
+    }
+
+    function closePastorVaultModal() {
+      document.getElementById('pastorVaultModal').classList.remove('open');
+    }
+
+    function previewImage(event, imgId, containerId) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentPreviewUrl = e.target.result;
+          document.getElementById(imgId).src = currentPreviewUrl;
+          document.getElementById(containerId).style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handlePastorFilesSelected(event) {
+      pastorSelectedFiles = Array.from(event.target.files);
+      const countDisplay = document.getElementById('pastorBatchCount');
+      countDisplay.textContent = `Selected ${pastorSelectedFiles.length} photo(s) ready for the vault.`;
+    }
+
+    // Handle Regular Member Upload
+    function handleMemberUpload(event) {
+      event.preventDefault();
+      const title = document.getElementById('memberPhotoTitle').value.trim();
+      const author = document.getElementById('memberAuthor').value.trim();
+      const category = document.getElementById('memberCategory').value;
+      const caption = document.getElementById('memberPhotoCaption').value.trim() || "A peaceful photo dedicated to the work of God.";
+
+      if (!currentPreviewUrl) {
+        alert("Please select a photo from your device.");
+        return;
+      }
+
+      const grid = document.getElementById('photoGrid');
+      const newCard = document.createElement('article');
+      newCard.className = 'photo-card';
+      newCard.setAttribute('data-category', category);
+
+      let badgeClass = 'badge-member';
+      let badgeText = 'Member Share';
+      if (category === 'background') {
+        badgeClass = 'badge-bg';
+        badgeText = 'Background Candidate';
+      }
+
+      newCard.innerHTML = `
+        <div class="photo-media-wrapper" onclick="openLightbox('${title.replace(/'/g, "\\'")}', '${author.replace(/'/g, "\\'")}', '${caption.replace(/'/g, "\\'")}', '${currentPreviewUrl}')">
+          <img src="${currentPreviewUrl}" alt="${title}">
+          <span class="badge-category ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="photo-body">
+          <div>
+            <h3 class="photo-title">${title}</h3>
+            <p class="photo-caption">${caption}</p>
+          </div>
+          <div>
+            <div class="photo-meta">
+              <span>Shared by ${author}</span>
+              <span>Dedicated to Church</span>
+            </div>
+            <div class="photo-actions">
+              <button class="btn-view-photo" onclick="openLightbox('${title.replace(/'/g, "\\'")}', '${author.replace(/'/g, "\\'")}', '${caption.replace(/'/g, "\\'")}', '${currentPreviewUrl}')">🔍 View Full Image</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      grid.prepend(newCard);
+      closeMemberUploadModal();
+      event.target.reset();
+      document.getElementById('memberPreviewBox').style.display = 'none';
+      currentPreviewUrl = "";
+
+      alert("Thank you, " + author + "! Your photo has been uploaded and dedicated to God's Church for the Homeless.");
+    }
+
+    // Handle Brother Brian's Batch Vault Upload
+    function handlePastorBatchUpload(event) {
+      event.preventDefault();
+      const batchName = document.getElementById('pastorBatchName').value.trim();
+      const batchNote = document.getElementById('pastorBatchNote').value.trim() || "Part of Brother Brian's Creation Vault.";
+      const isBgCandidate = document.getElementById('pastorBgCheck').checked;
+      const grid = document.getElementById('photoGrid');
+
+      if (!pastorSelectedFiles.length) {
+        alert("Please select one or more photos to deposit into the vault.");
+        return;
+      }
+
+      let categoryTags = "vault";
+      if (isBgCandidate) categoryTags += " background";
+
+      // Process batch uploads
+      pastorSelectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const fileDataUrl = e.target.result;
+          const photoTitle = pastorSelectedFiles.length > 1 ? `${batchName} #${index + 1}` : batchName;
+
+          const newCard = document.createElement('article');
+          newCard.className = 'photo-card';
+          newCard.setAttribute('data-category', categoryTags);
+
+          newCard.innerHTML = `
+            <div class="photo-media-wrapper" onclick="openLightbox('${photoTitle.replace(/'/g, "\\'")}', 'Brother Brian Keith Trolinger', '${batchNote.replace(/'/g, "\\'")}', '${fileDataUrl}')">
+              <img src="${fileDataUrl}" alt="${photoTitle}">
+              <span class="badge-category badge-vault">Nature Vault</span>
+            </div>
+            <div class="photo-body">
+              <div>
+                <h3 class="photo-title">${photoTitle}</h3>
+                <p class="photo-caption">${batchNote}</p>
+              </div>
+              <div>
+                <div class="photo-meta">
+                  <span>Captured by Brother Brian Keith Trolinger</span>
+                  <span>Official Background Vault</span>
+                </div>
+                <div class="photo-actions">
+                  <button class="btn-view-photo" onclick="openLightbox('${photoTitle.replace(/'/g, "\\'")}', 'Brother Brian Keith Trolinger', '${batchNote.replace(/'/g, "\\'")}', '${fileDataUrl}')">🔍 View Full Image</button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          grid.prepend(newCard);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      closePastorVaultModal();
+      event.target.reset();
+      document.getElementById('pastorBatchCount').textContent = "";
+      alert(`Success, Brother Brian! ${pastorSelectedFiles.length} photo(s) have been deposited into your Master Nature Vault.`);
+      pastorSelectedFiles = [];
+    }
+
+    // Close Modals on Outside Click
+    window.onclick = function(event) {
+      const memberModal = document.getElementById('memberUploadModal');
+      const pastorModal = document.getElementById('pastorVaultModal');
+      const lightboxModal = document.getElementById('lightboxModal');
+
+      if (event.target === memberModal) closeMemberUploadModal();
+      if (event.target === pastorModal) closePastorVaultModal();
+      if (event.target === lightboxModal) closeLightbox();
+    };
+  </script>
+</body>
+</html>

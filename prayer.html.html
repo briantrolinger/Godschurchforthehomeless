@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Prayer Room — God's Church for the Homeless</title>
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f7e089;
+      --gold-glow: rgba(212, 175, 55, 0.35);
+      --glass-card: rgba(18, 22, 30, 0.72);
+      --glass-border: rgba(212, 175, 55, 0.38);
+      --text-main: #f5f5f7;
+      --text-muted: #b0b8c4;
+      --accent-red: #d9534f;
+      --accent-green: #2ecc71;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #1a2332 0%, #080b11 100%);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text-main);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Top Navigation Header (Desktop / Tablet / Mobile) */
+    header.sanctuary-header {
+      width: 100%;
+      max-width: 1400px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+      margin-bottom: 22px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .nav-left select {
+      background: rgba(10, 12, 16, 0.9);
+      color: var(--gold-light);
+      border: 1px solid var(--glass-border);
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .nav-center h1 {
+      font-size: 1.45rem;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    }
+
+    .nav-right .btn-return {
+      background: rgba(217, 83, 79, 0.22);
+      border: 1px solid rgba(217, 83, 79, 0.55);
+      color: #ff9b9b;
+      padding: 10px 18px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-right .btn-return:hover {
+      background: rgba(217, 83, 79, 0.4);
+      color: #ffffff;
+      border-color: #ff6b6b;
+    }
+
+    /* Main Responsive Wrapper */
+    main.content-wrap {
+      width: 100%;
+      max-width: 1400px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Sacred Entrance Proclamation */
+    .proclamation-banner {
+      background: var(--glass-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--gold);
+      border-radius: 14px;
+      padding: 26px 32px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 25px var(--gold-glow);
+    }
+
+    .proclamation-banner h2 {
+      color: var(--gold-light);
+      font-size: 1.75rem;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .proclamation-text {
+      font-size: 1.2rem;
+      line-height: 1.65;
+      color: #ffffff;
+      margin-bottom: 16px;
+      max-width: 1050px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: 500;
+    }
+
+    .proclamation-scripture {
+      font-style: italic;
+      color: var(--gold-light);
+      font-size: 1rem;
+      line-height: 1.55;
+      border-top: 1px solid rgba(212, 175, 55, 0.35);
+      padding-top: 14px;
+      max-width: 950px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Multi-Column Desktop Grid (Adapts to Tablet & Phone) */
+    .prayer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .prayer-grid {
+        grid-template-columns: 1fr;
+      }
+      header.sanctuary-header {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .card {
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    textarea.input-field, input.input-field {
+      width: 100%;
+      background: rgba(10, 12, 16, 0.88);
+      border: 1px solid var(--glass-border);
+      color: #ffffff;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    textarea.input-field {
+      resize: vertical;
+      min-height: 95px;
+    }
+
+    textarea.input-field:focus, input.input-field:focus {
+      border-color: var(--gold);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .form-row input[type="text"] {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    button.btn-gold {
+      background: linear-gradient(135deg, var(--gold) 0%, #b89020 100%);
+      color: #0b0e14;
+      font-weight: 700;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+      width: 100%;
+    }
+
+    button.btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+    }
+
+    /* Internal Scroll Vault (Fixed-Height Scroll Window) */
+    .scroll-vault {
+      max-height: 580px;
+      overflow-y: auto;
+      padding-right: 10px;
+      margin-top: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Custom Scrollbar */
+    .scroll-vault::-webkit-scrollbar {
+      width: 7px;
+    }
+    .scroll-vault::-webkit-scrollbar-track {
+      background: rgba(10, 12, 16, 0.5);
+      border-radius: 4px;
+    }
+    .scroll-vault::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 4px;
+    }
+
+    .prayer-post {
+      background: rgba(12, 15, 22, 0.82);
+      border-left: 3px solid var(--gold);
+      border-radius: 8px;
+      padding: 16px 18px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-right: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .prayer-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .prayer-body {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: #f0f0f0;
+      white-space: pre-wrap;
+    }
+
+    /* Right Column: Confidential Crisis & Answered Shelf */
+    .crisis-card {
+      border: 1px solid rgba(217, 83, 79, 0.65);
+      box-shadow: 0 8px 32px rgba(217, 83, 79, 0.18);
+    }
+
+    .crisis-badge {
+      background: rgba(217, 83, 79, 0.25);
+      color: #ff9999;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .crisis-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .btn-crisis {
+      background: linear-gradient(135deg, #c9302c 0%, #8b1e1b 100%);
+      color: #ffffff;
+      font-weight: 700;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .btn-crisis:hover {
+      background: linear-gradient(135deg, #d9534f 0%, #a9221f 100%);
+    }
+
+    /* Answered Praises Shelf (20 Entries - 1 Month Live / 1 Year Archive) */
+    .praise-section {
+      background: rgba(14, 28, 20, 0.7);
+      border: 1px solid rgba(46, 204, 113, 0.45);
+    }
+
+    .praise-title {
+      color: #69f0ae;
+    }
+
+    .praise-post {
+      border-left: 3px solid var(--accent-green);
+    }
+
+    .praise-header {
+      color: #69f0ae;
+    }
+
+    /* Notification Alert Toast */
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #111620;
+      border: 1px solid var(--gold);
+      padding: 16px 22px;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.85);
+      color: #ffffff;
+      z-index: 100;
+      max-width: 380px;
+      line-height: 1.45;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="sanctuary-header">
+    <div class="nav-left">
+      <select onchange="if(this.value) window.location.href=this.value;">
+        <option value="">Go to: The Prayer Room</option>
+        <option value="lobby.html">Lobby Area</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Digital Library</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin</option>
+        <option value="volunteer.html">Door 7: Volunteer Station</option>
+        <option value="mission.html">Door 8: Bylaws & Mission</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+      </select>
+    </div>
+    <div class="nav-center">
+      <h1>God's Church for the Homeless — The Prayer Room</h1>
+    </div>
+    <div class="nav-right">
+      <a href="lobby.html" class="btn-return">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <main class="content-wrap">
+
+    <!-- The Sacred Entrance Proclamation (Visible to All) -->
+    <section class="proclamation-banner">
+      <h2>Welcome to the Prayer Room</h2>
+      <p class="proclamation-text">
+        "In this room, you are encouraged not to just write your prayer requests, but for you to also look at other prayer requests from other members like yourself and pray for them also. Let this be a room for prayer to the living God for the good times and the bad."
+      </p>
+      <p class="proclamation-scripture">
+        "Be careful for nothing; but in every thing by prayer and supplication with thanksgiving let your requests be made known unto God. And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus." — Philippians 4:6–7
+      </p>
+    </section>
+
+    <!-- Multi-Column Responsive Grid -->
+    <div class="prayer-grid">
+
+      <!-- LEFT: Public Wall of Prayer with 7-Day Cycle & Scroll Vault -->
+      <section class="card">
+        <h3 class="card-title">🙏 The Public Wall of Prayer (Flock Intercession)</h3>
+        <p class="card-meta">
+          <strong>Daily Turnover:</strong> Requests remain active on this live wall for <strong>1 week (7 days)</strong> before cycling out to keep our prayers fresh and focused on today's battles. (If you are in this room, you are being prayed for).
+        </p>
+        
+        <form id="publicPrayerForm" onsubmit="handlePublicPrayer(event)">
+          <div class="form-group">
+            <textarea id="prayerContent" class="input-field" placeholder="Share your prayer request, street battle, or plea to the living God..." required></textarea>
+          </div>
+          <div class="form-row">
+            <input type="text" id="prayerAuthor" class="input-field" placeholder="Name / State (e.g., Marcus R. — Ohio)">
+            <label class="checkbox-label">
+              <input type="checkbox" id="anonCheck" onchange="toggleAnon(this)"> Post Anonymously
+            </label>
+          </div>
+          <button type="submit" class="btn-gold">Place on the Prayer Wall</button>
+        </form>
+
+        <!-- Internal Scroll Vault (Fixed-Height Scroll Bar) -->
+        <div class="scroll-vault" id="wallFeed">
+          
+          <div class="prayer-post">
+            <div class="prayer-header">
+              <strong>Marcus R. — Ohio</strong>
+              <span>Active Request • Day 1 of 7</span>
+            </div>
+            <div class="prayer-body">Please pray for me brothers. Temperatures are dropping below freezing tonight on the avenue. Pray God keeps me and my camp safe, and pray for strength to stay away from the liquor bottle. Lord Jesus carry me.</div>
+          </div>
+
+          <div class="prayer-post">
+            <div class="prayer-header">
+              <strong>Sister Sarah — Florida</strong>
+              <span>Active Request • Day 3 of 7</span>
+            </div>
+            <div class="prayer-body">Praying for full healing in my lungs and for an opening at the shelter transition program on Tuesday. God is faithful in the cold and in the storm.</div>
+          </div>
+
+          <div class="prayer-post">
+            <div class="prayer-header">
+              <strong>Anonymous Brother</strong>
+              <span>Active Request • Day 5 of 7</span>
+            </div>
+            <div class="prayer-body">Asking prayer for my son who I haven't seen in 6 years since I ended up on the concrete. Pray Jesus touches his heart and lets him know his dad loves him and is fighting for him.</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- RIGHT: Confidential Crisis Box & 20-Entry Answered Prayer Shelf -->
+      <aside style="display:flex; flex-direction:column; gap:24px;">
+
+        <!-- Confidential Crisis to Brother Brian -->
+        <section class="card crisis-card">
+          <span class="crisis-badge">Direct & Confidential</span>
+          <h3 class="card-title" style="color:#ff9b9b;">🛡️ Crisis Prayer (To Brother Brian Only)</h3>
+          <p class="crisis-desc">
+            This message <strong>never</strong> goes on the public wall. An automated bot cannot carry your burden—Brother Brian personally reads, carries, and prays over every single crisis request with his own heart.
+          </p>
+          <form id="crisisForm" onsubmit="handleCrisisPrayer(event)">
+            <div class="form-group">
+              <input type="text" id="crisisName" class="input-field" placeholder="Your Name or Initial" required>
+            </div>
+            <div class="form-group">
+              <textarea id="crisisContent" class="input-field" placeholder="Share your deep battle, trauma, or urgent crisis in complete confidence with Brother Brian..." required style="min-height:105px;"></textarea>
+            </div>
+            <button type="submit" class="btn-crisis">Send Privately to Brother Brian</button>
+          </form>
+        </section>
+
+        <!-- Praise & Answered Prayer Shelf (Capacity: 20 | 1 Month Live | 1 Year Archive) -->
+        <section class="card praise-section">
+          <h3 class="card-title praise-title">✨ Answered Prayers & Praises</h3>
+          <p class="card-meta" style="color:#a8e6cf;">
+            <strong>The Glory Shelf:</strong> Displays the top 20 answered prayers. Praises shine here for <strong>1 month (30 days)</strong> before moving into the permanent <strong>1-Year Church Archive</strong>.
+          </p>
+
+          <form id="praiseForm" onsubmit="handlePraiseReport(event)" style="margin-bottom:16px;">
+            <div class="form-group">
+              <input type="text" id="praiseAuthor" class="input-field" placeholder="Your Name / State" required>
+            </div>
+            <div class="form-group">
+              <textarea id="praiseContent" class="input-field" placeholder="Testify to what God did! (Shelter provided, sobriety milestone, healing...)" required style="min-height:75px;"></textarea>
+            </div>
+            <button type="submit" class="btn-gold" style="background:linear-gradient(135deg, #2ecc71 0%, #1e824c 100%); color:#ffffff;">Share God's Glory</button>
+          </form>
+
+          <!-- Answered Prayer Feed (Max 20 Shown) -->
+          <div class="scroll-vault" id="praiseFeed" style="max-height:280px;">
+            
+            <div class="prayer-post praise-post">
+              <div class="prayer-header praise-header">
+                <strong>David W. — Texas</strong>
+                <span>Answered • 2 Weeks on Shelf (Archives in 2 wks)</span>
+              </div>
+              <div class="prayer-body">I was sleeping in the cold last week, and God provided a transitional room and hot soup through the brethren yesterday. Thank you Jesus!</div>
+            </div>
+
+            <div class="prayer-post praise-post">
+              <div class="prayer-header praise-header">
+                <strong>Brother Thomas — California</strong>
+                <span>Answered • 1 Week on Shelf</span>
+              </div>
+              <div class="prayer-body">Praise the living God! Reached 90 days sober from fentanyl today. The chains are broken by the blood of Christ.</div>
+            </div>
+
+          </div>
+        </section>
+
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // Toggle Anonymous Checkbox
+    function toggleAnon(checkbox) {
+      const authorInput = document.getElementById('prayerAuthor');
+      if (checkbox.checked) {
+        authorInput.value = '';
+        authorInput.disabled = true;
+        authorInput.placeholder = 'Posting as Anonymous Brother / Sister';
+      } else {
+        authorInput.disabled = false;
+        authorInput.placeholder = 'Name / State (e.g., Marcus R. — Ohio)';
+      }
+    }
+
+    // Handle Public Prayer Submission (7-Day Active Cycle)
+    function handlePublicPrayer(e) {
+      e.preventDefault();
+      const content = document.getElementById('prayerContent').value.trim();
+      const isAnon = document.getElementById('anonCheck').checked;
+      let author = document.getElementById('prayerAuthor').value.trim();
+
+      if (!content) return;
+
+      if (isAnon || !author) {
+        author = "Anonymous Believer";
+      }
+
+      const feed = document.getElementById('wallFeed');
+      const postDiv = document.createElement('div');
+      postDiv.className = 'prayer-post';
+      postDiv.innerHTML = `
+        <div class="prayer-header">
+          <strong>${escapeHtml(author)}</strong>
+          <span>Active Request • Day 1 of 7</span>
+        </div>
+        <div class="prayer-body">${escapeHtml(content)}</div>
+      `;
+
+      feed.insertBefore(postDiv, feed.firstChild);
+
+      document.getElementById('publicPrayerForm').reset();
+      document.getElementById('prayerAuthor').disabled = false;
+      document.getElementById('prayerAuthor').placeholder = 'Name / State (e.g., Marcus R. — Ohio)';
+
+      showToast("Your prayer is placed on the wall before God and the church. You are covered.");
+    }
+
+    // Handle Confidential Crisis to Brother Brian
+    function handleCrisisPrayer(e) {
+      e.preventDefault();
+      const name = document.getElementById('crisisName').value.trim();
+      const content = document.getElementById('crisisContent').value.trim();
+
+      if (!name || !content) return;
+
+      document.getElementById('crisisForm').reset();
+      showToast("Urgent alert dispatched to Brother Brian's Backstage Screen. Brother Brian is carrying you in prayer.");
+    }
+
+    // Handle Answered Praise Report (30-day live shelf)
+    function handlePraiseReport(e) {
+      e.preventDefault();
+      const author = document.getElementById('praiseAuthor').value.trim();
+      const content = document.getElementById('praiseContent').value.trim();
+
+      if (!author || !content) return;
+
+      const praiseFeed = document.getElementById('praiseFeed');
+      const postDiv = document.createElement('div');
+      postDiv.className = 'prayer-post praise-post';
+      postDiv.innerHTML = `
+        <div class="prayer-header praise-header">
+          <strong>${escapeHtml(author)}</strong>
+          <span>Answered • Just Placed on Shelf (Active 30 Days)</span>
+        </div>
+        <div class="prayer-body">${escapeHtml(content)}</div>
+      `;
+
+      praiseFeed.insertBefore(postDiv, praiseFeed.firstChild);
+
+      // Keep max 20 active praises displayed
+      if (praiseFeed.children.length > 20) {
+        praiseFeed.removeChild(praiseFeed.lastChild);
+      }
+
+      document.getElementById('praiseForm').reset();
+      showToast("Praise report posted to the Glory Shelf! Honoring the living God.");
+    }
+
+    // Toast Alert
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 5500);
+    }
+
+    // Helper: Escape HTML
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.innerText = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

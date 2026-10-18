@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God's Church for the Homeless — Community Bulletin Board (Door 6)</title>
+  <style>
+    /* ==========================================================================
+       RESET & ROOT VARIABLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-dark: #0a0d12;
+      --card-bg: rgba(20, 24, 33, 0.92);
+      --card-border: rgba(212, 175, 55, 0.22);
+      --gold: #d4af37;
+      --gold-hover: #f1c40f;
+      --gold-dim: rgba(212, 175, 55, 0.12);
+      --text-main: #f0f3f6;
+      --text-muted: #9aa5b1;
+      --status-active: #27ae60;
+      --status-active-bg: rgba(39, 174, 96, 0.12);
+      --status-alert: #e67e22;
+      --status-alert-bg: rgba(230, 126, 34, 0.12);
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 5%, #161b26 0%, var(--bg-dark) 90%);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* ==========================================================================
+       UNIVERSAL TOP HEADER (LOCKED SPECIFICATION)
+       ========================================================================== */
+    .church-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 13, 18, 0.96);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn-assistant {
+      background: var(--gold-dim);
+      color: var(--gold);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-assistant:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .nav-dropdown {
+      background: #141821;
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .nav-dropdown:focus {
+      border-color: var(--gold);
+    }
+
+    .header-center {
+      flex: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .header-title {
+      color: #ffffff;
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      flex-shrink: 0;
+    }
+
+    .btn-return {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-return:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: #fff;
+    }
+
+    /* ==========================================================================
+       CONTAINER & HEADER TITLE (NO CONDESCENDING SUBTEXT)
+       ========================================================================== */
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 36px 20px 80px;
+      width: 100%;
+      flex: 1;
+    }
+
+    .board-hero {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .board-badge {
+      display: inline-block;
+      background: var(--gold-dim);
+      color: var(--gold);
+      border: 1px solid var(--card-border);
+      padding: 4px 14px;
+      border-radius: 50px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .board-heading {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+    }
+
+    /* ==========================================================================
+       NOTICES CONTAINER
+       ========================================================================== */
+    .notices-container {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .notice-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 26px;
+      border-left: 5px solid var(--gold);
+      border-top: 1px solid var(--card-border);
+      border-right: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      position: relative;
+    }
+
+    .notice-card.milestone {
+      border-left-color: var(--status-active);
+      background: linear-gradient(180deg, var(--status-active-bg) 0%, var(--card-bg) 35%);
+    }
+
+    .notice-card.urgent {
+      border-left-color: var(--status-alert);
+      background: linear-gradient(180deg, var(--status-alert-bg) 0%, var(--card-bg) 35%);
+    }
+
+    .notice-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .notice-tag {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 9px;
+      border-radius: 4px;
+      background: var(--gold-dim);
+      color: var(--gold);
+      border: 1px solid var(--card-border);
+    }
+
+    .notice-card.milestone .notice-tag {
+      background: var(--status-active-bg);
+      color: #2ecc71;
+      border-color: rgba(46, 204, 113, 0.3);
+    }
+
+    .notice-card.urgent .notice-tag {
+      background: var(--status-alert-bg);
+      color: #f39c12;
+      border-color: rgba(243, 156, 18, 0.3);
+    }
+
+    .notice-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+
+    .notice-content {
+      color: #e2e8f0;
+      font-size: 1rem;
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .notice-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 14px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .posted-by {
+      color: var(--gold);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* SOVEREIGN NOTEBOOK BUTTON */
+    .btn-save-notebook {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-main);
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-save-notebook:hover {
+      background: var(--gold-dim);
+      color: var(--gold);
+      border-color: var(--card-border);
+    }
+
+    /* ==========================================================================
+       SOVEREIGN NOTEBOOK PERMISSION MODAL
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #141821;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      max-width: 440px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-title {
+      color: var(--gold);
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-text {
+      color: var(--text-main);
+      font-size: 0.92rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .modal-preview {
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 3px solid var(--gold);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 20px;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .btn-modal-cancel {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-modal-confirm {
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      color: #0c0f14;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-modal-confirm:hover {
+      background: var(--gold-hover);
+    }
+
+    /* Toast Confirmation */
+    .toast-notice {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1a202c;
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      z-index: 2100;
+      display: none;
+    }
+
+    .toast-notice.show {
+      display: block;
+      animation: fadeInOut 3s forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translateY(10px); }
+      15% { opacity: 1; transform: translateY(0); }
+      80% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(10px); }
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN
+       ========================================================================== */
+    @media (max-width: 768px) {
+      .church-header {
+        flex-wrap: wrap;
+        padding: 10px 14px;
+      }
+      .header-center {
+        order: -1;
+        width: 100%;
+        margin-bottom: 6px;
+      }
+      .header-title {
+        font-size: 1.05rem;
+      }
+      .board-heading {
+        font-size: 1.7rem;
+      }
+      .notice-card {
+        padding: 18px;
+      }
+      .notice-title {
+        font-size: 1.18rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       UNIVERSAL TOP HEADER (LOCKED SPECIFICATION)
+       ======================================================================== -->
+  <header class="church-header">
+    <div class="header-left">
+      <a href="fellowship.html" class="btn-assistant" title="Speak with the Assistant Pastor">
+        💬 Assistant Pastor
+      </a>
+      <select class="nav-dropdown" onchange="if(this.value) window.location.href=this.value;">
+        <option value="" disabled>Go to Church Door...</option>
+        <option value="lobby.html">Main Lobby Hub</option>
+        <option value="fellowship.html">Fellowship Hall</option>
+        <option value="sanctuary.html">Sanctuary & Sermons</option>
+        <option value="library.html">Digital Library</option>
+        <option value="study-hall.html">Study Hall</option>
+        <option value="testimony.html">Testimony Room</option>
+        <option value="prayer.html">Prayer Room</option>
+        <option value="bulletin.html" selected>Community Bulletin Board</option>
+        <option value="volunteer.html">Volunteer Station</option>
+        <option value="bylaws.html">Mission, Beliefs & Bylaws</option>
+        <option value="donations.html">Donations & Offerings</option>
+        <option value="goals.html">Goals & Progress</option>
+        <option value="rv-ministry.html">Street RV Ministry</option>
+        <option value="gallery.html">Photo Gallery</option>
+        <option value="music-room.html">Music Room</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <span class="header-title">GOD'S CHURCH FOR THE HOMELESS</span>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="btn-return" title="Return to Sanctuary Lobby">
+        ✕ Return to Lobby
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN BULLETIN BOARD CONTAINER
+       ======================================================================== -->
+  <main class="main-container">
+    <div class="board-hero">
+      <span class="board-badge">Door 6</span>
+      <h1 class="board-heading">Community Bulletin Board</h1>
+    </div>
+
+    <!-- Active Announcements Wall -->
+    <div class="notices-container">
+
+      <!-- NOTICE 1: WELCOME & CHURCH UNDER ACTIVE CONSTRUCTION -->
+      <article class="notice-card" data-category="general">
+        <div class="notice-meta">
+          <span class="notice-tag">Church Notice</span>
+        </div>
+        <h2 class="notice-title">Thank You for Checking the Bulletin Board</h2>
+        <div class="notice-content">
+          <p>Thank you for stopping by and checking the official Bulletin Board. God's Church for the Homeless is brand new and actively being built from the sidewalk up.</p>
+          <br>
+          <p>Please bear with us as we lay every stone in place. Some functions on this website will begin to work much better and expand as we gather more members, grow our fellowship, and expand our street reach. Check back often for live updates.</p>
+        </div>
+        <div class="notice-footer">
+          <span class="posted-by">Posted by: Brother Brian Keith Trolinger</span>
+          <button class="btn-save-notebook" onclick="promptNotebookSave('Welcome to God\'s Church for the Homeless', 'Church is brand new and actively being built. Functions expanding as members gather.')">
+            📌 Save Notice to My Notebook
+          </button>
+        </div>
+      </article>
+
+      <!-- NOTICE 2: SEEKING A FISCAL SPONSOR -->
+      <article class="notice-card milestone" data-category="milestone">
+        <div class="notice-meta">
+          <span class="notice-tag">Ministry Covering</span>
+        </div>
+        <h2 class="notice-title">Seeking a Fiscal Sponsor / Mother Church</h2>
+        <div class="notice-content">
+          <p>The church is currently actively seeking a solid, faithful <strong>Fiscal Sponsor and Mother Church covering</strong> to anchor our legal non-profit operations and 501(c)(3) oversight as we roll out our street operations.</p>
+          <br>
+          <p>If you represent an established church, denomination, or 501(c)(3) organization with a heart for the poor, or if God puts it on your heart to connect us with a covering, please reach out directly through Brother Brian or review our foundational charter in Door 8 (Mission, Beliefs & Bylaws).</p>
+        </div>
+        <div class="notice-footer">
+          <span class="posted-by">Posted by: Brother Brian Keith Trolinger</span>
+          <button class="btn-save-notebook" onclick="promptNotebookSave('Seeking a Fiscal Sponsor', 'Currently seeking a Mother Church covering / Fiscal Sponsor for 501(c)(3) oversight.')">
+            📌 Save Notice to My Notebook
+          </button>
+        </div>
+      </article>
+
+      <!-- NOTICE 3: PASTORAL EMERGENCY & HEALTH UPDATE PROTOCOL -->
+      <article class="notice-card urgent" data-category="urgent">
+        <div class="notice-meta">
+          <span class="notice-tag">Pastoral Notice</span>
+        </div>
+        <h2 class="notice-title">Servant Leader Health & Emergency Communication Protocol</h2>
+        <div class="notice-content">
+          <p>In this church, Brother Brian will never keep the flock in the dark. If Brother Brian is sick, in the hospital, or facing severe trials, an urgent alert will be posted here immediately so the body can pray with open eyes.</p>
+          <br>
+          <p>As soon as Brother Brian is healed, released from medical care, or the trial is resolved, that notice is removed so old news never lingers on this board. What is posted here will always reflect the current, living truth.</p>
+        </div>
+        <div class="notice-footer">
+          <span class="posted-by">Posted by: Brother Brian Keith Trolinger</span>
+          <button class="btn-save-notebook" onclick="promptNotebookSave('Pastoral Health Protocol', 'Transparent alerts for Brother Brian; obsolete alerts are promptly cleared.')">
+            📌 Save Notice to My Notebook
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       SOVEREIGN NOTEBOOK PERMISSION MODAL (NEVER FORCES CONTENT)
+       ======================================================================== -->
+  <div class="modal-overlay" id="notebookModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <span>📖</span> Sovereign Notebook Request
+      </div>
+      <p class="modal-text">
+        Would you like to save this church notice into your personal notebook? It will only be added with your explicit permission.
+      </p>
+      <div class="modal-preview" id="modalPreviewText">
+        <!-- JavaScript populates snippet preview -->
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" onclick="closeNotebookModal()">Cancel</button>
+        <button class="btn-modal-confirm" onclick="confirmNotebookSave()">Yes, Save to My Notebook</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Confirmation -->
+  <div class="toast-notice" id="toastNotice">
+    ✓ Notice politely saved to your personal notebook.
+  </div>
+
+  <!-- ========================================================================
+       CLIENT SCRIPTING (SOVEREIGN NOTEBOOK PROTOCOL)
+       ======================================================================== -->
+  <script>
+    let pendingNoteTitle = '';
+    let pendingNoteBody = '';
+
+    function promptNotebookSave(title, body) {
+      pendingNoteTitle = title;
+      pendingNoteBody = body;
+
+      const preview = document.getElementById('modalPreviewText');
+      preview.innerHTML = `<strong>${title}</strong><br><span style="color:#9aa5b1; font-size:0.8rem;">${body}</span>`;
+
+      document.getElementById('notebookModal').classList.add('active');
+    }
+
+    function closeNotebookModal() {
+      document.getElementById('notebookModal').classList.remove('active');
+      pendingNoteTitle = '';
+      pendingNoteBody = '';
+    }
+
+    function confirmNotebookSave() {
+      if (!pendingNoteTitle) return;
+
+      try {
+        let notebook = JSON.parse(localStorage.getItem('church_member_notebook') || '[]');
+        
+        notebook.push({
+          id: 'note_' + Date.now(),
+          title: pendingNoteTitle,
+          content: pendingNoteBody,
+          source: 'Door 6 Bulletin Board',
+          savedDate: new Date().toLocaleDateString()
+        });
+
+        localStorage.setItem('church_member_notebook', JSON.stringify(notebook));
+
+        closeNotebookModal();
+
+        const toast = document.getElementById('toastNotice');
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3000);
+
+      } catch (err) {
+        console.error('Notebook storage error:', err);
+        closeNotebookModal();
+      }
+    }
+  </script>
+</body>
+</html>

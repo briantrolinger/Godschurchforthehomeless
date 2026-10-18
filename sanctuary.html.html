@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sanctuary & Sermons — God's Church for the Homeless</title>
+  <style>
+    :root {
+      --gold: #f59e0b;
+      --gold-hover: #d97706;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --bg-dark: #0a0c10;
+      --glass-panel: rgba(13, 17, 23, 0.88);
+      --glass-card: rgba(22, 27, 34, 0.85);
+      --glass-border: rgba(245, 158, 11, 0.35);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --green-active: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at center, rgba(15, 23, 42, 0.8), rgba(10, 12, 16, 0.96)), 
+                        url('church-logo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    header {
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--glass-border);
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-left select {
+      background: rgba(0, 0, 0, 0.85);
+      color: var(--gold);
+      border: 1px solid var(--glass-border);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .nav-center h1 {
+      font-size: 1.8rem;
+      color: #fff;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 900;
+      text-align: center;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+    }
+
+    .nav-right .btn-exit {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .nav-right .btn-exit:hover {
+      background: rgba(239, 68, 68, 0.4);
+      color: #fff;
+      border-color: #ef4444;
+    }
+
+    /* MAIN CONTAINER */
+    .sanctuary-container {
+      max-width: 1400px;
+      width: 95%;
+      margin: 25px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      flex: 1;
+    }
+
+    /* PRE-SERVICE WORSHIP WING */
+    .pre-worship-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 22px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    .worship-info h2 {
+      font-size: 1.3rem;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .worship-info p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .worship-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-worship-play {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-worship-play:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .btn-grace {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px var(--gold-glow);
+    }
+
+    .btn-grace:hover {
+      background: var(--gold-hover);
+      transform: translateY(-2px);
+    }
+
+    /* PULPIT SECTION */
+    .pulpit-stage {
+      background: var(--glass-panel);
+      backdrop-filter: blur(18px);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .sermon-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+      padding-bottom: 14px;
+    }
+
+    .sermon-title-box h2 {
+      font-size: 1.7rem;
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .sermon-title-box span {
+      color: var(--gold);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .btn-toggle-notepad {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-toggle-notepad:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* VIDEO PLAYER SCREEN */
+    .video-viewport {
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      position: relative;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      max-height: 650px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .video-viewport video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .player-placeholder {
+      text-align: center;
+      padding: 30px;
+      color: #fff;
+    }
+
+    .player-placeholder .cross-icon {
+      font-size: 3.5rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .player-placeholder h3 {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+    }
+
+    .player-placeholder p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ACCESSIBILITY & AUDIO TOOLBAR */
+    .audio-toolbar {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .tool-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-tool {
+      background: rgba(22, 27, 34, 0.9);
+      border: 1px solid var(--glass-border);
+      color: #f3f4f6;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-tool:hover, .btn-tool.active {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+
+    .eq-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .eq-slider-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .eq-slider-box input[type="range"] {
+      width: 70px;
+      accent-color: var(--gold);
+    }
+
+    /* AUTO-PREPARED SERMON STUDY PAD (NOTEPAD) */
+    .sermon-study-pad {
+      display: none;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 8px;
+    }
+
+    .pad-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .meta-item strong {
+      color: var(--gold);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    .meta-item span {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .pad-textarea {
+      width: 100%;
+      height: 140px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 8px;
+      color: #fff;
+      padding: 14px;
+      font-size: 0.98rem;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+    }
+
+    .pad-textarea:focus {
+      border-color: var(--gold);
+    }
+
+    .pad-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .btn-save-notes {
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    /* SERMON CATALOG SECTION & ARCHIVE DROPDOWN */
+    .catalog-section {
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .catalog-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+      padding-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 900;
+    }
+
+    /* 200+ SERMONS ARCHIVE DROP-DOWN */
+    .sermon-archive-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sermon-archive-box label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .sermon-select-dropdown {
+      background: rgba(0, 0, 0, 0.85);
+      color: var(--gold);
+      border: 2px solid var(--gold);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      outline: none;
+      min-width: 320px;
+      max-width: 100%;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .catalog-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+
+    .catalog-card:hover {
+      border-color: var(--gold);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2);
+    }
+
+    .card-category {
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .card-title {
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #fff;
+      margin-top: 4px;
+    }
+
+    .card-scripture {
+      font-size: 0.92rem;
+      color: #cbd5e1;
+      margin-top: 6px;
+    }
+
+    .btn-load-sermon {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--gold);
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .btn-load-sermon:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* WORSHIP MUSIC WING */
+    .worship-wing-box {
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 26px;
+    }
+
+    .hymn-search {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--glass-border);
+      padding: 12px 18px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      margin-bottom: 20px;
+    }
+
+    .hymn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .hymn-card {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hymn-title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .hymn-type {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .btn-hymn-play {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-hymn-play:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    @media (max-width: 850px) {
+      .nav-center h1 {
+        font-size: 1.25rem;
+      }
+      .audio-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .sermon-select-dropdown {
+        width: 100%;
+        min-width: unset;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header>
+    <div class="nav-left">
+      <select onchange="if(this.value) window.location.href=this.value">
+        <option value="">Go to: Sanctuary & Sermons (Here)</option>
+        <option value="lobby.html">Lobby Area</option>
+        <option value="fellowship.html">Fellowship Hall</option>
+        <option value="library.html">Digital Library & Study Hall</option>
+        <option value="testimony.html">Testimony Room</option>
+        <option value="prayer.html">The Prayer Room</option>
+        <option value="bulletin.html">Community Bulletin</option>
+        <option value="volunteer.html">Volunteer Station</option>
+        <option value="bylaws.html">Mission & Bylaws</option>
+        <option value="donations.html">Donations & Offerings</option>
+        <option value="goals.html">Goals & Live Progress</option>
+        <option value="street-rv.html">Street RV Ministry</option>
+        <option value="gallery.html">Photo Gallery</option>
+      </select>
+    </div>
+
+    <div class="nav-center">
+      <h1>God's Church for the Homeless — Sanctuary & Sermons</h1>
+    </div>
+
+    <div class="nav-right">
+      <a href="lobby.html" class="btn-exit">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- MAIN SANCTUARY CONTAINER -->
+  <main class="sanctuary-container">
+
+    <!-- 1. PRE-SERVICE WORSHIP WING -->
+    <section class="pre-worship-card">
+      <div class="worship-info">
+        <h2>Pre-Service Worship & Praise</h2>
+        <p>Gentle praise music rotates weekly from the Music Room vault to settle trauma and prepare the spirit.</p>
+      </div>
+
+      <div class="worship-controls">
+        <button class="btn-worship-play" id="btnPlayWorship" onclick="toggleWorshipMusic()">▶ Play This Week's Worship</button>
+        <button class="btn-grace" onclick="scrollToPulpit()">[ Skip Worship ➔ Jump Straight to Sermon ]</button>
+      </div>
+    </section>
+
+    <!-- 2. THE PULPIT (FULL-SIZE VIDEO PLAYER & STUDY PAD) -->
+    <section class="pulpit-stage" id="pulpitStage">
+      
+      <div class="sermon-header">
+        <div class="sermon-title-box">
+          <h2 id="activeSermonTitle">The Priority of the Seed</h2>
+          <span id="activeSermonPassage">Preached by Brother Brian Keith Trolinger • Scripture: Luke 8:4-15</span>
+        </div>
+
+        <button class="btn-toggle-notepad" onclick="toggleStudyPad()">📝 Open Sermon Study Pad</button>
+      </div>
+
+      <!-- VIDEO VIEWPORT (Plays full recording start to natural end) -->
+      <div class="video-viewport">
+        <div class="player-placeholder" id="placeholderView">
+          <div class="cross-icon">✝</div>
+          <h3>Pulpit Console Ready</h3>
+          <p>The message plays completely from the opening Scripture to Brother Brian's final prayer.<br>Playback stops naturally when the recorded file finishes.</p>
+        </div>
+      </div>
+
+      <!-- ACCESSIBILITY & AUDIO EQUALIZER TOOLBAR -->
+      <div class="audio-toolbar">
+        <div class="tool-group">
+          <span class="tool-label">Accessibility:</span>
+          <button class="btn-tool" id="btnVoiceBoost" onclick="toggleVoiceBoost()">🎙️ Voice Clarity Boost: OFF</button>
+          <button class="btn-tool" id="btnCC" onclick="toggleCaptions()">[CC] Captions: ON</button>
+        </div>
+
+        <div class="tool-group">
+          <span class="tool-label">Equalizer:</span>
+          <div class="eq-controls">
+            <div class="eq-slider-box"><span>Bass</span><input type="range" min="-10" max="10" value="0"></div>
+            <div class="eq-slider-box"><span>Mid</span><input type="range" min="-10" max="10" value="3"></div>
+            <div class="eq-slider-box"><span>Treble</span><input type="range" min="-10" max="10" value="2"></div>
+          </div>
+        </div>
+
+        <div class="tool-group">
+          <span class="tool-label">Speed:</span>
+          <button class="btn-tool" onclick="setSpeed(0.75)">0.75x</button>
+          <button class="btn-tool active" id="spd1" onclick="setSpeed(1)">1.0x</button>
+          <button class="btn-tool" onclick="setSpeed(1.25)">1.25x</button>
+        </div>
+      </div>
+
+      <!-- AUTO-PREPARED SERMON STUDY PAD -->
+      <div class="sermon-study-pad" id="studyPad">
+        <div class="pad-meta">
+          <div class="meta-item">
+            <strong>Sermon Topic:</strong>
+            <span id="padTopic">The Priority of the Seed</span>
+          </div>
+          <div class="meta-item">
+            <strong>Scripture Texts:</strong>
+            <span id="padScripture">Luke 8:4-15; Galatians 6:7-9</span>
+          </div>
+          <div class="meta-item">
+            <strong>Preach Date:</strong>
+            <span id="padDate">Current Church Service</span>
+          </div>
+        </div>
+
+        <textarea class="pad-textarea" id="noteText" placeholder="Write personal study notes or reflections here as you listen..."></textarea>
+
+        <div class="pad-footer">
+          <span style="font-size:0.85rem; color:var(--text-muted);">Saves directly to your permanent notebook inside the Study Hall.</span>
+          <button class="btn-save-notes" onclick="saveSermonNotes()">Save Note</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 3. BROTHER BRIAN'S SERMON CATALOG & ARCHIVE DROPDOWN -->
+    <section class="catalog-section">
+      <div class="catalog-header-bar">
+        <div class="section-title">Brother Brian's Sermon Archive</div>
+
+        <!-- THE 200+ SERMON DROP-DOWN -->
+        <div class="sermon-archive-box">
+          <label for="archiveSelect">Jump to Sermon:</label>
+          <select id="archiveSelect" class="sermon-select-dropdown" onchange="selectSermonFromDropdown(this)">
+            <option value="">-- Select from All Sermons (Past & Present) --</option>
+            <option value="The Priority of the Seed|Luke 8:4-15; Galatians 6:7-9">1. The Priority of the Seed (Luke 8:4-15)</option>
+            <option value="Nobody is Nothing in Jesus Christ|1 Corinthians 1:26-29; Psalm 34:18">2. Nobody is Nothing in Jesus Christ (1 Cor 1:26-29)</option>
+            <option value="Grace from the Concrete to the Cross|Romans 8:31-39; 2 Corinthians 12:9">3. Grace from the Concrete to the Cross (Romans 8:31-39)</option>
+            <option value="The Battle of the Mind & Street PTSD|2 Timothy 1:7; Philippians 4:6-7">4. The Battle of the Mind & Street PTSD (2 Tim 1:7)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- FEATURED RECENT SERMON CARDS -->
+      <div class="catalog-grid">
+
+        <div class="catalog-card">
+          <div>
+            <div class="card-category">Street Truth & Repentance</div>
+            <div class="card-title">The Priority of the Seed</div>
+            <div class="card-scripture">Scripture: Luke 8:4-15 • Galatians 6:7-9</div>
+          </div>
+          <button class="btn-load-sermon" onclick="loadSermon('The Priority of the Seed', 'Luke 8:4-15; Galatians 6:7-9')">
+            Watch / Load in Pulpit →
+          </button>
+        </div>
+
+        <div class="catalog-card">
+          <div>
+            <div class="card-category">God's Heart for the Broken</div>
+            <div class="card-title">Nobody is Nothing in Jesus Christ</div>
+            <div class="card-scripture">Scripture: 1 Corinthians 1:26-29 • Psalm 34:18</div>
+          </div>
+          <button class="btn-load-sermon" onclick="loadSermon('Nobody is Nothing in Jesus Christ', '1 Corinthians 1:26-29; Psalm 34:18')">
+            Watch / Load in Pulpit →
+          </button>
+        </div>
+
+        <div class="catalog-card">
+          <div>
+            <div class="card-category">Survival & Deliverance</div>
+            <div class="card-title">Grace from the Concrete to the Cross</div>
+            <div class="card-scripture">Scripture: Romans 8:31-39 • 2 Corinthians 12:9</div>
+          </div>
+          <button class="btn-load-sermon" onclick="loadSermon('Grace from the Concrete to the Cross', 'Romans 8:31-39; 2 Corinthians 12:9')">
+            Watch / Load in Pulpit →
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. WORSHIP MUSIC WING (ROTATING WEEKLY FROM MUSIC ROOM) -->
+    <section class="worship-wing-box">
+      <div class="section-title">Worship Music Wing (Weekly Set from Music Room)</div>
+      
+      <input type="text" class="hymn-search" placeholder="Search hymns, praise songs, or artists..." onkeyup="filterHymns(this.value)">
+
+      <div class="hymn-grid" id="hymnGrid">
+
+        <div class="hymn-card">
+          <div>
+            <div class="hymn-title">Amazing Grace</div>
+            <div class="hymn-type">Classic Hymn • John Newton</div>
+          </div>
+          <button class="btn-hymn-play" onclick="alert('Now playing: Amazing Grace')">Play</button>
+        </div>
+
+        <div class="hymn-card">
+          <div>
+            <div class="hymn-title">The Old Rugged Cross</div>
+            <div class="hymn-type">Classic Hymn • George Bennard</div>
+          </div>
+          <button class="btn-hymn-play" onclick="alert('Now playing: The Old Rugged Cross')">Play</button>
+        </div>
+
+        <div class="hymn-card">
+          <div>
+            <div class="hymn-title">Goodness of God</div>
+            <div class="hymn-type">Modern Praise</div>
+          </div>
+          <button class="btn-hymn-play" onclick="alert('Now playing: Goodness of God')">Play</button>
+        </div>
+
+        <div class="hymn-card">
+          <div>
+            <div class="hymn-title">Chain Breaker</div>
+            <div class="hymn-type">Modern Praise • Zach Williams</div>
+          </div>
+          <button class="btn-hymn-play" onclick="alert('Now playing: Chain Breaker')">Play</button>
+        </div>
+
+        <div class="hymn-card">
+          <div>
+            <div class="hymn-title">It Is Well With My Soul</div>
+            <div class="hymn-type">Classic Hymn • Horatio Spafford</div>
+          </div>
+          <button class="btn-hymn-play" onclick="alert('Now playing: It Is Well With My Soul')">Play</button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // GRACE BUTTON: JUMP DIRECTLY TO PULPIT
+    function scrollToPulpit() {
+      document.getElementById('pulpitStage').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // TOGGLE STUDY PAD (MEMBER NOTEBOOK)
+    function toggleStudyPad() {
+      const pad = document.getElementById('studyPad');
+      pad.style.display = (pad.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // LOAD SERMON INTO PULPIT & SYNC STUDY PAD
+    function loadSermon(title, scripture) {
+      document.getElementById('activeSermonTitle').innerText = title;
+      document.getElementById('activeSermonPassage').innerText = "Preached by Brother Brian Keith Trolinger • Scripture: " + scripture;
+      
+      // Auto-populate the Study Pad
+      document.getElementById('padTopic').innerText = title;
+      document.getElementById('padScripture').innerText = scripture;
+      document.getElementById('padDate').innerText = new Date().toLocaleDateString();
+
+      // Scroll to pulpit
+      scrollToPulpit();
+    }
+
+    // SELECT SERMON FROM THE 200+ DROPDOWN
+    function selectSermonFromDropdown(selectEl) {
+      const val = selectEl.value;
+      if (!val) return;
+      const parts = val.split('|');
+      const title = parts[0];
+      const scripture = parts[1];
+      loadSermon(title, scripture);
+    }
+
+    // SAVE SERMON NOTES
+    function saveSermonNotes() {
+      const notes = document.getElementById('noteText').value.trim();
+      const topic = document.getElementById('padTopic').innerText;
+      if (!notes) {
+        alert("Please write a note before saving.");
+        return;
+      }
+
+      const notePackage = {
+        topic: topic,
+        scripture: document.getElementById('padScripture').innerText,
+        date: new Date().toLocaleDateString(),
+        text: notes
+      };
+
+      let existing = JSON.parse(localStorage.getItem('church_member_study_notes') || '[]');
+      existing.push(notePackage);
+      localStorage.setItem('church_member_study_notes', JSON.stringify(existing));
+
+      alert("Note saved! This note is permanently recorded in your Study Hall Notebook.");
+    }
+
+    // VOICE CLARITY BOOST (ACCESSIBILITY TOOL)
+    let voiceBoostActive = false;
+    function toggleVoiceBoost() {
+      voiceBoostActive = !voiceBoostActive;
+      const btn = document.getElementById('btnVoiceBoost');
+      if (voiceBoostActive) {
+        btn.classList.add('active');
+        btn.innerText = "🎙️ Voice Clarity Boost: ON";
+      } else {
+        btn.classList.remove('active');
+        btn.innerText = "🎙️ Voice Clarity Boost: OFF";
+      }
+    }
+
+    // TOGGLE CAPTIONS
+    let ccActive = true;
+    function toggleCaptions() {
+      ccActive = !ccActive;
+      const btn = document.getElementById('btnCC');
+      btn.innerText = ccActive ? "[CC] Captions: ON" : "[CC] Captions: OFF";
+      btn.classList.toggle('active', ccActive);
+    }
+
+    // PLAYBACK SPEED
+    function setSpeed(spd) {
+      document.querySelectorAll('.audio-toolbar .btn-tool').forEach(b => {
+        if (b.innerText.includes('x')) b.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    // PRE-SERVICE WORSHIP PLAY
+    let worshipPlaying = false;
+    function toggleWorshipMusic() {
+      worshipPlaying = !worshipPlaying;
+      const btn = document.getElementById('btnPlayWorship');
+      btn.innerText = worshipPlaying ? "⏸ Pause Worship Music" : "▶ Play This Week's Worship";
+    }
+
+    // FILTER HYMNS
+    function filterHymns(query) {
+      const q = query.toLowerCase();
+      document.querySelectorAll('.hymn-card').forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+  </script>
+
+</body>
+</html>

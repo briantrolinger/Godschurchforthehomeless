@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lobby Area — God's Church for the Homeless</title>
+  <style>
+    :root {
+      --gold: #f59e0b;
+      --gold-hover: #d97706;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --bg-dark: #0a0c10;
+      --glass-panel: rgba(13, 17, 23, 0.85);
+      --glass-card: rgba(22, 27, 34, 0.82);
+      --glass-border: rgba(245, 158, 11, 0.35);
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-dark);
+      background-image: radial-gradient(circle at center, rgba(15, 23, 42, 0.75), rgba(10, 12, 16, 0.95)), 
+                        url('church-logo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    header {
+      background: var(--glass-panel);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--glass-border);
+      padding: 18px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-left select {
+      background: rgba(0, 0, 0, 0.85);
+      color: var(--gold);
+      border: 1px solid var(--glass-border);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .nav-center h1 {
+      font-size: 1.85rem;
+      color: #fff;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 900;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.85);
+      text-align: center;
+    }
+
+    .nav-right .btn-exit {
+      background: rgba(239, 68, 68, 0.25);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.6);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .nav-right .btn-exit:hover {
+      background: rgba(239, 68, 68, 0.5);
+      color: #fff;
+      border-color: #ef4444;
+    }
+
+    /* MAIN CONTAINER */
+    .lobby-container {
+      max-width: 1400px;
+      width: 95%;
+      margin: 25px auto;
+      padding-bottom: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    /* MID-SIZE LATEST SERMON SPOTLIGHT (PORTAL TO SANCTUARY) */
+    .sermon-spotlight-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      border: 2px solid var(--gold);
+      border-radius: 14px;
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .sermon-spotlight-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px var(--gold-glow);
+      border-color: #fff;
+    }
+
+    .sermon-info {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .sermon-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: #000;
+      font-size: 0.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .sermon-info h2 {
+      font-size: 1.45rem;
+      color: #fff;
+      margin-bottom: 6px;
+      font-weight: 800;
+    }
+
+    .sermon-info p {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .sermon-portal-action {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn-mute-toggle {
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--glass-border);
+      color: var(--gold);
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-mute-toggle:hover {
+      background: rgba(245, 158, 11, 0.2);
+    }
+
+    .btn-teleport-sanctuary {
+      background: var(--gold);
+      color: #000;
+      padding: 12px 22px;
+      border-radius: 8px;
+      font-weight: 900;
+      font-size: 1rem;
+      border: none;
+      pointer-events: none; /* Let parent click handle teleport */
+    }
+
+    /* GATEWAY SECTION HEADER */
+    .section-title {
+      font-size: 1.25rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(245, 158, 11, 0.3);
+    }
+
+    /* 12 GATEWAY ROOMS GRID */
+    .gateway-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 22px;
+    }
+
+    .door-card {
+      background: var(--glass-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 22px;
+      text-decoration: none;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: all 0.2s ease;
+      min-height: 110px;
+    }
+
+    .door-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.22);
+    }
+
+    .door-thumbnail {
+      width: 58px;
+      height: 58px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.9rem;
+      flex-shrink: 0;
+    }
+
+    .door-thumbnail img {
+      width: 44px;
+      height: 44px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .door-text {
+      flex: 1;
+    }
+
+    .door-number {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .door-title {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    /* ========================================================================
+       FLOATING CARDS (VISITOR & MEMBER INTAKE)
+       ======================================================================== */
+    .floating-card-wrapper {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .floating-card {
+      background: rgba(13, 17, 23, 0.95);
+      backdrop-filter: blur(20px);
+      border: 2px solid var(--gold);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+      position: relative;
+      display: none;
+      animation: floatIn 0.3s ease-out;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-close-btn {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .card-close-btn:hover {
+      color: #ef4444;
+    }
+
+    .floating-card h4 {
+      font-size: 1.15rem;
+      color: #fff;
+      margin-bottom: 6px;
+      font-weight: 800;
+      padding-right: 20px;
+    }
+
+    .floating-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 14px;
+    }
+
+    .floating-card .form-group {
+      margin-bottom: 10px;
+    }
+
+    .floating-card input, .floating-card select {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .floating-card input:focus, .floating-card select:focus {
+      border-color: var(--gold);
+    }
+
+    .btn-card-submit {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 11px;
+      border-radius: 6px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-card-submit:hover {
+      background: var(--gold-hover);
+    }
+
+    @media (max-width: 800px) {
+      .nav-center h1 {
+        font-size: 1.25rem;
+      }
+      .sermon-spotlight-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .floating-card-wrapper {
+        left: 5%;
+        right: 5%;
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header>
+    <div class="nav-left">
+      <select onchange="if(this.value) window.location.href=this.value">
+        <option value="">Go to: Lobby Area (Here)</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Digital Library & Study Hall</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin</option>
+        <option value="volunteer.html">Door 7: Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Mission & Bylaws</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Live Progress</option>
+        <option value="street-rv.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+      </select>
+    </div>
+
+    <div class="nav-center">
+      <h1>God's Church for the Homeless</h1>
+    </div>
+
+    <div class="nav-right">
+      <button class="btn-exit" onclick="window.location.href='login.html'">✕ Return / Exit</button>
+    </div>
+  </header>
+
+  <!-- LOBBY MAIN BODY -->
+  <main class="lobby-container">
+
+    <!-- MID-SIZE LATEST SERMON SPOTLIGHT (PORTAL TO SANCTUARY) -->
+    <section class="sermon-spotlight-card" onclick="goToSanctuary()">
+      <div class="sermon-info">
+        <span class="sermon-badge">Latest Sermon Preached Live</span>
+        <h2>The Seed in Broken Soil: Why Your Pain is Your Purpose</h2>
+        <p>Brother Brian Keith Trolinger brings the uncut Word of God directly from the sidewalk. Tap anywhere to enter the Sanctuary with full EQ and audio controls.</p>
+      </div>
+
+      <div class="sermon-portal-action">
+        <button class="btn-mute-toggle" onclick="toggleMute(event)">🔊 Mute Sound</button>
+        <button class="btn-teleport-sanctuary">Enter Sanctuary →</button>
+      </div>
+    </section>
+
+    <!-- 12 GATEWAY ROOMS GRID -->
+    <div class="section-title">Sanctuary Gateway (12 Sacred Doors)</div>
+
+    <div class="gateway-grid">
+
+      <!-- DOOR 1 -->
+      <a href="fellowship.html" class="door-card">
+        <div class="door-thumbnail">🤝</div>
+        <div class="door-text">
+          <div class="door-number">Door 1</div>
+          <div class="door-title">Fellowship Hall</div>
+        </div>
+      </a>
+
+      <!-- DOOR 2 -->
+      <a href="sanctuary.html" class="door-card">
+        <div class="door-thumbnail">📖</div>
+        <div class="door-text">
+          <div class="door-number">Door 2</div>
+          <div class="door-title">Sanctuary & Sermons</div>
+        </div>
+      </a>
+
+      <!-- DOOR 3 -->
+      <a href="library.html" class="door-card">
+        <div class="door-thumbnail">📚</div>
+        <div class="door-text">
+          <div class="door-number">Door 3</div>
+          <div class="door-title">Members' Digital Library</div>
+        </div>
+      </a>
+
+      <!-- DOOR 4 -->
+      <a href="testimony.html" class="door-card">
+        <div class="door-thumbnail">🎙️</div>
+        <div class="door-text">
+          <div class="door-number">Door 4</div>
+          <div class="door-title">Testimony Room</div>
+        </div>
+      </a>
+
+      <!-- DOOR 5 -->
+      <a href="prayer.html" class="door-card">
+        <div class="door-thumbnail">🙏</div>
+        <div class="door-text">
+          <div class="door-number">Door 5</div>
+          <div class="door-title">The Prayer Room</div>
+        </div>
+      </a>
+
+      <!-- DOOR 6 -->
+      <a href="bulletin.html" class="door-card">
+        <div class="door-thumbnail">📌</div>
+        <div class="door-text">
+          <div class="door-number">Door 6</div>
+          <div class="door-title">Community Bulletin</div>
+        </div>
+      </a>
+
+      <!-- DOOR 7 -->
+      <a href="volunteer.html" class="door-card">
+        <div class="door-thumbnail">🤲</div>
+        <div class="door-text">
+          <div class="door-number">Door 7</div>
+          <div class="door-title">The Volunteer Station</div>
+        </div>
+      </a>
+
+      <!-- DOOR 8 -->
+      <a href="bylaws.html" class="door-card">
+        <div class="door-thumbnail">📜</div>
+        <div class="door-text">
+          <div class="door-number">Door 8</div>
+          <div class="door-title">Mission Statement & Bylaws</div>
+        </div>
+      </a>
+
+      <!-- DOOR 9 -->
+      <a href="donations.html" class="door-card">
+        <div class="door-thumbnail">🥖</div>
+        <div class="door-text">
+          <div class="door-number">Door 9</div>
+          <div class="door-title">Donations & Offerings</div>
+        </div>
+      </a>
+
+      <!-- DOOR 10 -->
+      <a href="goals.html" class="door-card">
+        <div class="door-thumbnail">🎯</div>
+        <div class="door-text">
+          <div class="door-number">Door 10</div>
+          <div class="door-title">Goals & Live Progress</div>
+        </div>
+      </a>
+
+      <!-- DOOR 11: MINI LOGO -->
+      <a href="street-rv.html" class="door-card">
+        <div class="door-thumbnail">
+          <img src="church-logo.jpg" alt="Logo" onerror="this.outerHTML='✝️'">
+        </div>
+        <div class="door-text">
+          <div class="door-number">Door 11</div>
+          <div class="door-title">Street RV Ministry</div>
+        </div>
+      </a>
+
+      <!-- DOOR 12: PHOTO GALLERY -->
+      <a href="gallery.html" class="door-card">
+        <div class="door-thumbnail">📷</div>
+        <div class="door-text">
+          <div class="door-number">Door 12</div>
+          <div class="door-title">Photo Gallery</div>
+        </div>
+      </a>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================================
+       FLOATING CARDS (VISITOR & MEMBER TIMERS)
+       ======================================================================== -->
+  <div class="floating-card-wrapper">
+
+    <!-- 1. VISITOR CARD (2-MINUTE REAPPEARANCE) -->
+    <div class="floating-card" id="cardVisitor">
+      <button class="card-close-btn" onclick="dismissVisitorCard()">✕</button>
+      <h4>First-Time Visitor Welcome</h4>
+      <p>Welcome to God's Church. Let us know who is gathering with us today.</p>
+      
+      <div class="form-group">
+        <input type="text" id="visName" placeholder="Your Name or Nickname">
+      </div>
+      <div class="form-group">
+        <input type="text" id="visState" placeholder="State (e.g. Texas, Ohio)">
+      </div>
+      <div class="form-group">
+        <select id="visAge">
+          <option value="">Select Age Group</option>
+          <option value="18-29">18 - 29</option>
+          <option value="30-49">30 - 49</option>
+          <option value="50-64">50 - 64</option>
+          <option value="65+">65 and older</option>
+        </select>
+      </div>
+      <button class="btn-card-submit" onclick="submitVisitorCard()">Confirm & Continue</button>
+    </div>
+
+    <!-- 2. MEMBER CARD (5-MINUTE REAPPEARANCE) -->
+    <div class="floating-card" id="cardMember">
+      <button class="card-close-btn" onclick="dismissMemberCard()">✕</button>
+      <h4>Unlock Free Member Gifts</h4>
+      <p>Become an official member for 100% free to instantly unlock your <strong>Free Bible Download</strong> and <strong>Personal Study Notepad</strong>.</p>
+      
+      <div class="form-group">
+        <input type="text" id="memName" placeholder="Full Name / Display Name">
+      </div>
+      <div class="form-group">
+        <input type="text" id="memState" placeholder="Your State">
+      </div>
+      <div class="form-group">
+        <select id="memYears">
+          <option value="">How Many Years Serving God?</option>
+          <option value="Seeking">New Believer / Seeking</option>
+          <option value="1-5">1 - 5 Years</option>
+          <option value="5-10">5 - 10 Years</option>
+          <option value="10+">10+ Years (Mature Believer)</option>
+        </select>
+      </div>
+      <button class="btn-card-submit" onclick="submitMemberCard()">Unlock Member Tools (100% Free)</button>
+    </div>
+
+  </div>
+
+  <script>
+    // TELEPORT TO SANCTUARY
+    function goToSanctuary() {
+      window.location.href = 'sanctuary.html';
+    }
+
+    // MUTE TOGGLE
+    let isMuted = false;
+    function toggleMute(event) {
+      event.stopPropagation(); // Prevents clicking the whole card
+      isMuted = !isMuted;
+      event.target.innerText = isMuted ? '🔇 Unmute' : '🔊 Mute Sound';
+    }
+
+    // ========================================================================
+    // FLOATING CARD LOGIC & TIMERS
+    // ========================================================================
+    const VISITOR_KEY = 'church_visitor_submitted';
+    const MEMBER_KEY = 'church_member_submitted';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check Visitor Card
+      if (!localStorage.getItem(VISITOR_KEY)) {
+        setTimeout(showVisitorCard, 2000); // Initial 2-sec gentle arrival
+      }
+
+      // Check Member Card
+      if (!localStorage.getItem(MEMBER_KEY)) {
+        setTimeout(showMemberCard, 5000); // Staggered initial arrival
+      }
+    });
+
+    // VISITOR CARD FUNCTIONS
+    function showVisitorCard() {
+      if (!localStorage.getItem(VISITOR_KEY)) {
+        document.getElementById('cardVisitor').style.display = 'block';
+      }
+    }
+
+    function dismissVisitorCard() {
+      document.getElementById('cardVisitor').style.display = 'none';
+      // Reappear in 2 minutes (120,000 ms)
+      setTimeout(showVisitorCard, 120000);
+    }
+
+    function submitVisitorCard() {
+      const name = document.getElementById('visName').value.trim();
+      if (!name) {
+        alert("Please provide your name or nickname.");
+        return;
+      }
+      localStorage.setItem(VISITOR_KEY, 'true');
+      document.getElementById('cardVisitor').style.display = 'none';
+    }
+
+    // MEMBER CARD FUNCTIONS
+    function showMemberCard() {
+      if (!localStorage.getItem(MEMBER_KEY)) {
+        document.getElementById('cardMember').style.display = 'block';
+      }
+    }
+
+    function dismissMemberCard() {
+      document.getElementById('cardMember').style.display = 'none';
+      // Reappear in 5 minutes (300,000 ms)
+      setTimeout(showMemberCard, 300000);
+    }
+
+    function submitMemberCard() {
+      const name = document.getElementById('memName').value.trim();
+      if (!name) {
+        alert("Please enter your display name.");
+        return;
+      }
+      localStorage.setItem(MEMBER_KEY, 'true');
+      document.getElementById('cardMember').style.display = 'none';
+      alert("Welcome to full membership! Your Holy Bible and Study Notepad are permanently unlocked.");
+    }
+  </script>
+
+</body>
+</html>

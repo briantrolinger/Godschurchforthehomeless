@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God's Church for the Homeless — Church Covenant</title>
+  <style>
+    /* RESET & CORE STYLING */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 50% 25%, #1e2631 0%, #0d1117 100%);
+      color: #ffffff;
+      padding: 20px 14px;
+    }
+
+    /* CONTAINER */
+    .covenant-container {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* CARD */
+    .covenant-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      padding: 34px 28px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADERS */
+    .church-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #d4a017; /* Amber Gold */
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .covenant-heading {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .scroll-instruction {
+      font-size: 0.86rem;
+      color: #cbd5e0;
+      text-align: center;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    /* SCROLLABLE COVENANT WINDOW */
+    .scroll-window {
+      background: rgba(8, 12, 18, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 12px;
+      padding: 22px 20px;
+      height: 380px;
+      overflow-y: scroll;
+      line-height: 1.65;
+      color: #e2e8f0;
+      font-size: 0.93rem;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    /* SCROLLBAR CUSTOMIZATION */
+    .scroll-window::-webkit-scrollbar {
+      width: 8px;
+    }
+    .scroll-window::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+    .scroll-window::-webkit-scrollbar-thumb {
+      background: #d4a017;
+      border-radius: 4px;
+    }
+
+    /* TEXT SECTIONS */
+    .covenant-section {
+      margin-bottom: 22px;
+    }
+
+    .section-title {
+      color: #d4a017;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .covenant-section p {
+      margin-bottom: 10px;
+    }
+
+    .covenant-section ul {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    .covenant-section li {
+      margin-bottom: 6px;
+    }
+
+    /* UNLOCK NOTICE */
+    .scroll-status {
+      font-size: 0.8rem;
+      text-align: center;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+      padding: 6px;
+      border-radius: 6px;
+      background: rgba(212, 160, 23, 0.12);
+      border: 1px solid rgba(212, 160, 23, 0.3);
+    }
+
+    /* CHECKBOX TRAY */
+    .checkbox-tray {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-tray input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: #d4a017;
+      cursor: pointer;
+    }
+
+    .checkbox-label {
+      font-size: 0.88rem;
+      color: #ffffff;
+      line-height: 1.4;
+      font-weight: 600;
+    }
+
+    /* ENTER SANCTUARY BUTTON */
+    .btn-enter {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #d4a017 0%, #b8860b 100%);
+      color: #0b0e14;
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(212, 160, 23, 0.35);
+      text-transform: uppercase;
+    }
+
+    .btn-enter:hover:not(:disabled) {
+      background: linear-gradient(135deg, #e6b12a 0%, #c9940f 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(212, 160, 23, 0.5);
+    }
+
+    .btn-enter:disabled {
+      background: #4a5568;
+      color: #a0aec0;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="covenant-container">
+    
+    <div class="covenant-card">
+      
+      <p class="church-title">God's Church for the Homeless</p>
+      <h1 class="covenant-heading">Foundational Covenant, Bylaws &amp; Sanctuary Rules</h1>
+      <p class="scroll-instruction">Please scroll completely through this covenant to unlock entry to the sanctuary.</p>
+
+      <!-- SCROLLABLE TEXT WINDOW -->
+      <div class="scroll-window" id="covenantBox" onscroll="handleScroll()">
+
+        <!-- SECTION 1 -->
+        <div class="covenant-section">
+          <div class="section-title">1. The Infant Stage &amp; Calling</div>
+          <p>Welcome to God’s Church for the Homeless. Complete honesty upfront: this church is brand new. Right now, this ministry is in its infant stage, funded and powered by what little Brother Brian and his wife can do with their own hands. But while this site is brand new, the message and calling are mature, battle-tested, and grounded in the Word of God.</p>
+          <p>As new members arrive and God moves on American streets, the fellowship, tools, and outreach will continually grow. We are actively seeking a Mother Church or Fiscal Sponsor to provide spiritual covering, accountability, and partnership as independent 501(c)(3) paperwork processes.</p>
+        </div>
+
+        <!-- SECTION 2 -->
+        <div class="covenant-section">
+          <div class="section-title">2. 100% Totally Free Sanctuary</div>
+          <p>This ministry is funded by the truth of lived experience and God’s grace. This church and all of its tools are, and will always remain, <strong>100% completely free</strong>. There are no membership fees, no hidden charges, and no paywalls. The Gospel of Jesus Christ and the resources of this sanctuary are freely given to all.</p>
+        </div>
+
+        <!-- SECTION 3 -->
+        <div class="covenant-section">
+          <div class="section-title">3. Member Safety, Limited Access &amp; Unlocked Gifts</div>
+          <p>For the spiritual, emotional, and physical safety of every soul who gathers here, first-time visitors who do not complete the floating Member Card inside the Lobby will have <strong>limited access</strong> (you may look around, but interactive community areas remain locked).</p>
+          <p>Taking one moment to fill out the Member Card is completely free and immediately unlocks:</p>
+          <ul>
+            <li><strong>The Holy Bible Download:</strong> Instant access to multiple translations of Scripture.</li>
+            <li><strong>The Personal Study Notepad:</strong> Your sovereign digital notebook inside the site to record personal notes during sermons, save scripture studies, and track your walk with God.</li>
+            <li><strong>Full Room Access:</strong> The Sanctuary, Fellowship Hall, Members' Digital Library, and the Testimony Room.</li>
+          </ul>
+        </div>
+
+        <!-- SECTION 4 -->
+        <div class="covenant-section">
+          <div class="section-title">4. Mission &amp; Core Beliefs</div>
+          <p>We exist to save lives, save souls, and help heal the broken by bringing the love of Jesus directly to the lost and unhoused on American streets. Whether you are rich or poor, if you do not know Jesus Christ, you are homeless.</p>
+          <ul>
+            <li><strong>The Priority of the Seed:</strong> We faithfully plant the seed of Jesus Christ in broken soil, trusting God for the increase without judging anyone’s timeline for recovery.</li>
+            <li><strong>Open Eyes &amp; Compassionate Hearts:</strong> True ministry requires eyes opened by God to see the invisible and genuinely care for those society walks past.</li>
+            <li><strong>Redemption of Pain:</strong> Jesus rescues us from the darkest pits—abuse, hunger, trauma, and homelessness—and transforms those experiences into the very tools He uses to reach others. Our pain becomes our purpose.</li>
+          </ul>
+        </div>
+
+        <!-- SECTION 5 -->
+        <div class="covenant-section">
+          <div class="section-title">5. Unique Pastoral Bylaws</div>
+          <p><strong>The Lived Experience Requirement:</strong> To be appointed or ordained as a pastor in this ministry, an individual must have personal, lived experience surviving deep hardship or homelessness. Academic theology cannot replace a survival testimony. You must understand the sidewalk to minister to the sidewalk.</p>
+          <p><strong>Protected by Grace (No Disqualification by Divorce):</strong> Recognizing that God’s grace covers human brokenness, no leader shall ever be fired, removed, or disqualified on the basis of a past or present divorce. Leadership is defined strictly by a person's current walk with Jesus Christ.</p>
+        </div>
+
+        <!-- SECTION 6 -->
+        <div class="covenant-section">
+          <div class="section-title">6. The Unfiltered Word of God</div>
+          <p>Brother Brian preaches the Bible without political correctness. Big Tech algorithms throttle, censor, and stifle biblical truth—which is the exact reason this sovereign website exists. If hearing raw biblical truth offends you, this may not be the church for you. But if you want God’s Word unstifled and uncompromised, welcome home.</p>
+        </div>
+
+        <!-- SECTION 7 -->
+        <div class="covenant-section">
+          <div class="section-title">7. Sanctuary Safety &amp; Zero-Tolerance Rules</div>
+          <ul>
+            <li><strong>1. Legal Non-Responsibility Notice:</strong> God’s Church for the Homeless, Brother Brian Keith Trolinger, and ministry leadership cannot and will not be held legally liable for private interactions, offline meetings, personal exchanges, or disputes between members. This is an online spiritual sanctuary; members participate at their own discretion.</li>
+            <li><strong>2. Absolute Zero Tolerance for Sex Predators:</strong> Uncompromising zero tolerance for sex predators, pedophiles, grooming, sexual solicitation, or exploitation of any kind. Violators will face an immediate, permanent lifetime ban and immediate referral to federal and local law enforcement.</li>
+            <li><strong>3. Boundaries on Discussing Past Sexual Trauma:</strong> When sharing testimonies or reminiscing about past abuse or assault, strict boundaries must be kept. Personal stories must never be used to groom, trigger, or exploit others. All glory and focus remain solely on Jesus Christ for deliverance.</li>
+            <li><strong>4. Absolute Privacy &amp; Security Triggers:</strong> Normal member conversations and chats are sacred, strictly private, and <strong>never recorded</strong>. Automated security monitoring is strictly configured to trigger and notify authorities only if an active sex predator or child exploitation threat is detected.</li>
+            <li><strong>5. No Exchanging Contact Info (The DocuSign Waiver Exception):</strong> Sharing personal phone numbers, physical addresses, or personal contact information in public or private chat is strictly prohibited. The <em>only</em> exception is if both individuals have officially signed and verified the church’s DocuSign Mutual Safety &amp; Release of Responsibility Waiver, explicitly releasing God's Church for the Homeless from all liability.</li>
+            <li><strong>6. Christian Respect:</strong> Honest Bible questions and respectful differences of opinion are welcomed. Cussing, fighting, threats, racism, and bullying are strictly forbidden.</li>
+          </ul>
+        </div>
+
+        <!-- SECTION 8 -->
+        <div class="covenant-section">
+          <div class="section-title">8. The Human Shepherd (Not a Bot)</div>
+          <p>The automated assistant on this site cannot pray for you. Brother Brian personally reads, prays over, and handles every single crisis prayer request that comes through this church.</p>
+          <p>If you want to know the real man behind this ministry—a survivor born addicted to heroin, whose ribs were broken by age 13, and who survived 15 years on the concrete pavements—step inside the Testimony Room to read his full survival story.</p>
+        </div>
+
+      </div>
+
+      <!-- STATUS NOTICE -->
+      <div id="scrollStatus" class="scroll-status">
+        ⬇️ Please scroll to the bottom of the window above to unlock agreement.
+      </div>
+
+      <!-- CHECKBOX TRAY -->
+      <label class="checkbox-tray" for="covenantCheckbox">
+        <input type="checkbox" id="covenantCheckbox" disabled onchange="handleCheckboxChange()">
+        <span class="checkbox-label">
+          I have read, understood, and agree to these church foundations, safety rules, bylaws, and sanctuary covenant.
+        </span>
+      </label>
+
+      <!-- ENTER BUTTON -->
+      <button type="button" id="btnEnter" class="btn-enter" disabled onclick="enterLobby()">
+        Enter the Sanctuary Lobby
+      </button>
+
+    </div>
+
+  </div>
+
+  <script>
+    const covenantBox = document.getElementById('covenantBox');
+    const scrollStatus = document.getElementById('scrollStatus');
+    const covenantCheckbox = document.getElementById('covenantCheckbox');
+    const btnEnter = document.getElementById('btnEnter');
+
+    let hasScrolledToBottom = false;
+
+    /* DETECT WHEN USER HAS SCROLLED FULLY TO THE BOTTOM */
+    function handleScroll() {
+      if (hasScrolledToBottom) return;
+
+      const tolerance = 15; // px from bottom
+      const totalScrollable = covenantBox.scrollHeight - covenantBox.clientHeight;
+
+      if (covenantBox.scrollTop >= totalScrollable - tolerance) {
+        hasScrolledToBottom = true;
+        covenantCheckbox.disabled = false;
+        scrollStatus.textContent = "✓ Covenant read completely. Check the box below to enter.";
+        scrollStatus.style.background = "rgba(72, 187, 120, 0.15)";
+        scrollStatus.style.borderColor = "#48bb78";
+        scrollStatus.style.color = "#c6f6d5";
+      }
+    }
+
+    /* UNLOCK BUTTON ONLY ONCE CHECKED */
+    function handleCheckboxChange() {
+      btnEnter.disabled = !covenantCheckbox.checked;
+    }
+
+    /* RECORD ACKNOWLEDGMENT & MOVE INTO LOBBY */
+    function enterLobby() {
+      localStorage.setItem('church_covenant_accepted', 'true');
+      window.location.href = "lobby.html";
+    }
+  </script>
+
+</body>
+</html>

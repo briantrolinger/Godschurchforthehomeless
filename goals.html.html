@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Door 10: Goals & Live Progress Center | God's Church for the Homeless</title>
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(212, 175, 55, 0.3);
+      --gold: #d4af37;
+      --gold-hover: #f3cf65;
+      --text-main: #f0f3f8;
+      --text-muted: #9aa5b8;
+      --accent-blue: #2a3d5e;
+      --font-serif: 'Georgia', serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(212, 175, 55, 0.08), transparent 40%),
+        radial-gradient(circle at 10% 90%, rgba(42, 61, 94, 0.3), transparent 50%),
+        linear-gradient(180deg, #07090e 0%, #0d121c 100%);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================================================
+       UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES)
+       ========================================================================== */
+    .church-header {
+      background: rgba(7, 9, 14, 0.95);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-assistant {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-assistant:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    .nav-dropdown {
+      background: #111622;
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .nav-dropdown:focus {
+      border-color: var(--gold);
+    }
+
+    .header-center {
+      text-align: center;
+    }
+
+    .church-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-exit {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-exit:hover {
+      background: rgba(255, 80, 80, 0.2);
+      border-color: #ff5050;
+      color: #ff8080;
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== */
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* PAGE HERO & SCRIPTURAL ANCHOR */
+    .hero-banner {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .room-badge {
+      display: inline-block;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+
+    .page-heading {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .scripture-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--gold-hover);
+      font-size: 1.05rem;
+      max-width: 800px;
+      margin: 0 auto 8px;
+      line-height: 1.6;
+    }
+
+    .scripture-ref {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* CARD STYLING */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 10px;
+    }
+
+    .card-body p {
+      line-height: 1.7;
+      color: #d8e0ec;
+      margin-bottom: 14px;
+      font-size: 0.98rem;
+    }
+
+    .card-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* GROUND-UP TRUTH CALLOUT */
+    .callout-box {
+      background: rgba(42, 61, 94, 0.25);
+      border-left: 4px solid var(--gold);
+      padding: 18px 20px;
+      margin: 18px 0;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .callout-box h4 {
+      color: #fff;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      font-family: var(--font-serif);
+    }
+
+    .callout-box p {
+      color: #cad3e0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* CURRENT FOUNDATIONAL STEPS */
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .milestone-item {
+      background: rgba(11, 15, 23, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .milestone-item.active {
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .milestone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .milestone-step {
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .milestone-status {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .status-in-progress {
+      background: rgba(212, 175, 55, 0.2);
+      color: var(--gold-hover);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+    }
+
+    .status-upcoming {
+      background: rgba(255, 255, 255, 0.06);
+      color: #8b97a8;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .milestone-item h5 {
+      color: #fff;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      font-family: var(--font-serif);
+    }
+
+    .milestone-item p {
+      font-size: 0.88rem;
+      color: #a8b3c4;
+      line-height: 1.5;
+    }
+
+    /* VIDEO PRESENTATION FRAME */
+    .video-stage {
+      background: #000;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      position: relative;
+      margin-top: 16px;
+    }
+
+    .video-placeholder-icon {
+      font-size: 3rem;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .video-placeholder-title {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .video-placeholder-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .video-status-tag {
+      margin-top: 14px;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 4px 12px;
+      border-radius: 4px;
+    }
+
+    /* RV GOAL LIST CONTAINER (BROTHER BRIAN'S EDITORIAL DESK) */
+    .rv-goal-box {
+      margin-top: 16px;
+    }
+
+    .rv-goal-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .rv-goal-node {
+      background: rgba(11, 15, 23, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .rv-node-icon {
+      color: var(--gold);
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .rv-node-content h6 {
+      color: #ffffff;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      font-family: var(--font-serif);
+    }
+
+    .rv-node-content p {
+      color: #9eb0c6;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* NOTEBOOK PROMPT BUTTON */
+    .action-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    .btn-notebook {
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-notebook:hover {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-hover);
+    }
+
+    /* ==========================================================================
+       MODAL: SOVEREIGN NOTEBOOK POLITE PROMPT
+       ========================================================================== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background: #111622;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      max-width: 480px;
+      width: 100%;
+      padding: 24px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+
+    .modal-box h4 {
+      font-family: var(--font-serif);
+      color: var(--gold);
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+    }
+
+    .modal-box p {
+      color: #cad3e0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .btn-confirm {
+      background: var(--gold);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* ASSISTANT PASTOR DRAWER */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 360px;
+      height: 100%;
+      background: #0d121c;
+      border-left: 1px solid var(--gold);
+      z-index: 2500;
+      padding: 24px;
+      box-shadow: -8px 0 24px rgba(0, 0, 0, 0.7);
+      flex-direction: column;
+    }
+
+    .drawer-overlay.open {
+      display: flex;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .drawer-title {
+      color: var(--gold);
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+    }
+
+    .btn-close-drawer {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      color: #cad3e0;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .church-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 16px;
+      }
+
+      .header-left, .header-right {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .page-heading {
+        font-size: 1.7rem;
+      }
+
+      .section-card {
+        padding: 20px;
+      }
+
+      .drawer-overlay {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES)
+       ========================================================================== -->
+  <header class="church-header">
+    <div class="header-left">
+      <button class="btn-assistant" id="btnOpenAssistant">
+        💬 Assistant Pastor
+      </button>
+      <select class="nav-dropdown" id="masterNav" onchange="navigateToPage(this.value)">
+        <option value="" disabled selected>Go to Door...</option>
+        <option value="lobby.html">Gate 4: Main Sanctuary Lobby</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Digital Library</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin Board</option>
+        <option value="volunteer.html">Door 7: The Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Mission, Beliefs & Bylaws</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html" selected>Door 10: Goals & Live Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+        <option value="music-room.html">Extra: Music Room</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <div class="church-title">God's Church for the Homeless</div>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="btn-exit">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       PAGE CONTENT
+       ========================================================================== -->
+  <main class="container">
+
+    <!-- HERO / TITLE -->
+    <div class="hero-banner">
+      <span class="room-badge">Door 10</span>
+      <h1 class="page-heading">Goals & Live Progress Center</h1>
+      <p class="scripture-quote">
+        "Write the vision, and make it plain upon tables, that he may run that readeth it."
+      </p>
+      <div class="scripture-ref">— Habakkuk 2:2</div>
+    </div>
+
+    <!-- SECTION 1: THE GROUND-UP CALLING & BROTHER BRIAN'S WORD -->
+    <article class="section-card">
+      <h2 class="card-title">
+        <span>🕊️</span> The Ground-Up Calling & The Last Sheep
+      </h2>
+      <div class="card-body">
+        <p>
+          <strong>God’s Church for the Homeless is brand new.</strong> We are literally starting this church from the sidewalk up, building stone by stone. This ministry is not founded on corporate real estate or comfortable traditions; it is founded solely on answering the direct, urgent calling from God to go out into the highways, under the bridges, and along the cold curbs to bring the <em>last lost sheep</em> home to Him.
+        </p>
+
+        <div class="callout-box">
+          <h4>A Truthful Word From Servant Leader Brother Brian Keith Trolinger</h4>
+          <p>
+            "I want to be 100% honest and transparent with everyone who steps foot into this church. In my personal records and bio, I carry my biblical certificates. But I am not called a pastor, and I do not claim titles that are not mine—that is why I go simply by <strong>Brother Brian</strong>. 
+            <br><br>
+            I am currently working diligently to complete my official legal ordainment so that our church and every single one of our members are <strong>100% legally recognized and protected under the law</strong>. But let me be entirely clear: a man does not need a man-made diploma or a college degree to preach the uncompromised Word of the Living God. It is only the civil government that requires these legal credentials to recognize specific pastoral rights. We fulfill this requirement so Caesar has no hold over the ministry, while our eyes remain fixed on Christ alone."
+          </p>
+        </div>
+
+        <p>
+          Every step forward will be taken with full integrity, open eyes, and unwavering obedience to the Lord Jesus Christ.
+        </p>
+      </div>
+    </article>
+
+    <!-- SECTION 2: CURRENT FOUNDATIONAL ROADMAP -->
+    <article class="section-card">
+      <h2 class="card-title">
+        <span>🧭</span> Current Foundational Milestones
+      </h2>
+      <div class="card-body">
+        <p>
+          Where does the church stand today? Below is our current operational roadmap. We do not publish private bank records or internal budgets here—such things belong in confidential legal audits, not on public walls where enemies can twist them. Instead, we show you the real spiritual and physical steps currently underway:
+        </p>
+
+        <div class="milestone-grid">
+          <!-- Milestone 1 -->
+          <div class="milestone-item active">
+            <div class="milestone-header">
+              <span class="milestone-step">Step 1</span>
+              <span class="milestone-status status-in-progress">Active / Underway</span>
+            </div>
+            <h5>Digital Sanctuary Completion</h5>
+            <p>Finishing the 12 standalone digital doors so our scattered brothers and sisters have an unfiltered place to hear preaching, pray, and fellowship 24/7.</p>
+          </div>
+
+          <!-- Milestone 2 -->
+          <div class="milestone-item active">
+            <div class="milestone-header">
+              <span class="milestone-step">Step 2</span>
+              <span class="milestone-status status-in-progress">Active / Seeking</span>
+            </div>
+            <h5>Fiscal Sponsorship & Non-Profit Status</h5>
+            <p>Securing our solid Fiscal Sponsor / Mother Church covering, or raising the funds required to file and complete our direct 501(c)(3) paperwork ourselves.</p>
+          </div>
+
+          <!-- Milestone 3 -->
+          <div class="milestone-item">
+            <div class="milestone-header">
+              <span class="milestone-step">Step 3</span>
+              <span class="milestone-status status-upcoming">Next Phase</span>
+            </div>
+            <h5>Brother Brian's Legal Ordainment</h5>
+            <p>Finalizing official credentials to ensure complete state recognition for hospital visitation, ordinances, and legal member advocacy.</p>
+          </div>
+
+          <!-- Milestone 4 -->
+          <div class="milestone-item">
+            <div class="milestone-header">
+              <span class="milestone-step">Step 4</span>
+              <span class="milestone-status status-upcoming">Next Phase</span>
+            </div>
+            <h5>The First Street RV Acquisition</h5>
+            <p>Acquiring and outfitting the flagship Street RV Ministry unit to carry hot meals, survival gear, and sidewalk revival services to encampments.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 3: VIDEO PRESENTATION OF THE PROCESS -->
+    <article class="section-card">
+      <h2 class="card-title">
+        <span>🎥</span> Vision Presentation: The Full Process
+      </h2>
+      <div class="card-body">
+        <p>
+          Brother Brian has prepared a video presentation detailing the vision, calling, and step-by-step process of launching and deploying God's Church for the Homeless.
+        </p>
+
+        <!-- Dedicated Video Stage (Managed from Backstage Studio) -->
+        <div class="video-stage" id="visionVideoStage">
+          <div class="video-placeholder-icon">▶️</div>
+          <h3 class="video-placeholder-title">Brother Brian’s Process & Vision Presentation</h3>
+          <p class="video-placeholder-subtitle">
+            This player is actively wired to Brother Brian's Backstage Command Studio. The full video presentation will stream directly inside this frame once finalized and published.
+          </p>
+          <span class="video-status-tag">Studio Video Channel Ready</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- SECTION 4: RV MINISTRY GOAL LIST (EDITORIAL CONTAINER) -->
+    <article class="section-card">
+      <h2 class="card-title">
+        <span>🚐</span> The Street RV Ministry Objectives
+      </h2>
+      <div class="card-body">
+        <p>
+          The heart of this church's physical deployment is taking the sanctuary directly to where the broken live. Below are the foundational objectives established specifically for the RV Outreach:
+        </p>
+
+        <div class="rv-goal-box" id="rvGoalContainer">
+          <ul class="rv-goal-list">
+            <li class="rv-goal-node">
+              <span class="rv-node-icon">⭐</span>
+              <div class="rv-node-content">
+                <h6>30-Day Encampment Revivals</h6>
+                <p>Deploying the flagship RV directly alongside forgotten homeless encampments for a minimum of 30 days at a time to preach, counsel, and break bread together.</p>
+              </div>
+            </li>
+            <li class="rv-goal-node">
+              <span class="rv-node-icon">⭐</span>
+              <div class="rv-node-content">
+                <h6>Advance Permitting & Legal Placement</h6>
+                <p>Sending advance liaisons into each municipality ahead of arrival to secure authorized lot rentals and city permits, keeping the ministry 100% compliant with local law.</p>
+              </div>
+            </li>
+            <li class="rv-goal-node">
+              <span class="rv-node-icon">⭐</span>
+              <div class="rv-node-content">
+                <h6>Physical Survival & Essential Distribution</h6>
+                <p>Providing direct on-site relief including winter sleeping bags, thermal wear, boots, and clean socks to protect lives during extreme seasons.</p>
+              </div>
+            </li>
+            <li class="rv-goal-node">
+              <span class="rv-node-icon">⭐</span>
+              <div class="rv-node-content">
+                <h6>Dignity Vouchers & Store Transportation</h6>
+                <p>Issuing essential store vouchers to street brothers and sisters, accompanied by dedicated rides to local stores so they can shop with dignity.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="action-bar">
+          <button class="btn-notebook" onclick="promptNotebookSave()">
+            <span>📌</span> Pin Church Vision to My Notebook
+          </button>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODAL: SOVEREIGN NOTEBOOK PROTOCOL (NEVER FORCE CONTENT UNINVITED)
+       ========================================================================== -->
+  <div class="modal-overlay" id="notebookModal">
+    <div class="modal-box">
+      <h4>Save to Personal Notebook?</h4>
+      <p>
+        Would you like to politely copy the Church Vision and Prayer Points into your personal sovereign notebook for ongoing prayer?
+      </p>
+      <div class="modal-buttons">
+        <button class="btn-confirm" onclick="confirmNotebookSave()">Yes, Save</button>
+        <button class="btn-cancel" onclick="closeNotebookModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ASSISTANT PASTOR SIDE DRAWER
+       ========================================================================== -->
+  <aside class="drawer-overlay" id="assistantDrawer">
+    <div class="drawer-header">
+      <div class="drawer-title">💬 Assistant Pastor Desk</div>
+      <button class="btn-close-drawer" id="btnCloseAssistant">&times;</button>
+    </div>
+    <div class="drawer-body">
+      <p><strong>Grace and peace to you in Jesus' name.</strong></p>
+      <br>
+      <p>
+        You are standing in <strong>Door 10: Goals & Live Progress Center</strong>.
+      </p>
+      <br>
+      <p>
+        Here, Brother Brian outlines the authentic ground-up roadmap of God’s Church for the Homeless. We are currently in our infant launch stage, seeking a fiscal sponsor and preparing the way for our first 30-day street encampment RV revivals.
+      </p>
+      <br>
+      <p>
+        Remember: we don't display private bank numbers or government auditing files here to prevent careless misuse. If you have questions about our mission or want to volunteer when positions open, you can visit Door 7 or Door 8 anytime.
+      </p>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       LOGIC & NAVIGATION SCRIPT
+       ========================================================================== -->
+  <script>
+    // Navigation handler
+    function navigateToPage(url) {
+      if (url) {
+        window.location.href = url;
+      }
+    }
+
+    // Assistant Pastor Drawer Logic
+    const btnOpenAssistant = document.getElementById('btnOpenAssistant');
+    const btnCloseAssistant = document.getElementById('btnCloseAssistant');
+    const assistantDrawer = document.getElementById('assistantDrawer');
+
+    btnOpenAssistant.addEventListener('click', () => {
+      assistantDrawer.classList.add('open');
+    });
+
+    btnCloseAssistant.addEventListener('click', () => {
+      assistantDrawer.classList.remove('open');
+    });
+
+    // Sovereign Notebook Polite Protocol
+    const notebookModal = document.getElementById('notebookModal');
+
+    function promptNotebookSave() {
+      notebookModal.classList.add('open');
+    }
+
+    function closeNotebookModal() {
+      notebookModal.classList.remove('open');
+    }
+
+    function confirmNotebookSave() {
+      // Sovereign Notebook storage implementation
+      const noteEntry = {
+        title: "God's Church for the Homeless - Vision & Goals",
+        date: new Date().toLocaleDateString(),
+        content: "Vision: Bringing the last lost sheep home. Goals: 1) Website completion, 2) Fiscal Sponsorship / 501(c)(3) filing, 3) Ordainment for legal protections, 4) Street RV 30-day encampment revivals."
+      };
+
+      try {
+        let existingNotes = JSON.parse(localStorage.getItem('church_user_notes') || '[]');
+        existingNotes.push(noteEntry);
+        localStorage.setItem('church_user_notes', JSON.stringify(existingNotes));
+        alert("The Vision & Prayer Points have been politely added to your personal notebook.");
+      } catch (e) {
+        alert("Note saved to session memory.");
+      }
+
+      closeNotebookModal();
+    }
+  </script>
+</body>
+</html>

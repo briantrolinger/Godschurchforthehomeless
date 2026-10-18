@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servant Leader Bio & Credentials — God's Church for the Homeless</title>
+  <style>
+    :root {
+      --bg-primary: #080b11;
+      --bg-secondary: #0f1523;
+      --bg-card: rgba(18, 26, 43, 0.75);
+      --border-card: rgba(245, 158, 11, 0.22);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --accent-gold: #f59e0b;
+      --accent-gold-glow: rgba(245, 158, 11, 0.4);
+      --accent-emerald: #10b981;
+      --accent-cyan: #06b6d4;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
+        linear-gradient(to bottom, #080b11, #0a0f18);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ==========================================================================
+       PART 2: UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES)
+       ========================================================================== */
+    .universal-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(8, 11, 17, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-card);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-assistant {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-assistant:hover {
+      background: var(--accent-gold);
+      color: #000;
+      box-shadow: 0 0 12px var(--accent-gold-glow);
+    }
+
+    .nav-dropdown-select {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .nav-dropdown-select:hover,
+    .nav-dropdown-select:focus {
+      border-color: var(--accent-gold);
+      color: var(--text-main);
+    }
+
+    .header-center {
+      text-align: center;
+      flex-grow: 1;
+    }
+
+    .church-title-master {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .btn-exit-lobby {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-exit-lobby:hover {
+      background: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+    }
+
+    /* Main Container */
+    .main-wrapper {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+      flex-grow: 1;
+    }
+
+    /* Hero Banner */
+    .shepherd-hero {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 12px;
+      padding: 2.25rem 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .shepherd-hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-gold);
+    }
+
+    .role-badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-gold);
+      border: 1px solid var(--accent-gold);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 800px;
+      margin-bottom: 1.25rem;
+    }
+
+    .scripture-anchor-box {
+      background: rgba(15, 21, 35, 0.85);
+      border-left: 3px solid var(--accent-gold);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      margin-top: 1rem;
+    }
+
+    .scripture-citation {
+      display: block;
+      font-style: normal;
+      font-weight: 700;
+      color: var(--accent-gold);
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-title-icon {
+      color: var(--accent-gold);
+    }
+
+    /* Empty Reserved Bio Container */
+    .bio-reserved-chamber {
+      background: var(--bg-card);
+      border: 2px dashed rgba(245, 158, 11, 0.4);
+      border-radius: 12px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .reserved-icon-crest {
+      font-size: 2.5rem;
+      color: var(--accent-gold);
+      margin-bottom: 1rem;
+    }
+
+    .reserved-headline {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+
+    .reserved-explanation {
+      max-width: 680px;
+      margin: 0 auto 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .reserved-stamp-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--accent-emerald);
+      color: #6ee7b7;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Brian In-Studio Controls (Shows only when Brother Brian is authenticated) */
+    .brian-creator-panel {
+      display: none; /* Auto-revealed if session is Brother Brian */
+      background: #0b111c;
+      border: 1px solid var(--accent-gold);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 1.75rem;
+      text-align: left;
+    }
+
+    .brian-creator-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+
+    .mode-tab-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-mode-tab {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-mode-tab.active {
+      background: var(--accent-gold);
+      color: #000000;
+      border-color: var(--accent-gold);
+    }
+
+    .mode-content-block {
+      display: none;
+    }
+
+    .mode-content-block.active {
+      display: block;
+    }
+
+    .device-link-notice {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: #a5f3fc;
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-device-action {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 0.65rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-right: 0.75rem;
+    }
+
+    .btn-device-action:hover {
+      background: var(--accent-gold);
+      color: #000000;
+    }
+
+    /* Servant Leader Philosophy Card */
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .philosophy-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .philosophy-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+
+    .philosophy-card h3 {
+      font-size: 1.15rem;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .philosophy-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Certificates & Credentials Grid */
+    .credentials-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .certificate-frame {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .certificate-frame:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-gold);
+    }
+
+    .certificate-crest {
+      font-size: 2.25rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .certificate-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+    }
+
+    .certificate-issuer {
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .certificate-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .btn-view-credential {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-view-credential:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* Legal Ordination Showcase (Reserved Golden Frame) */
+    .ordination-box {
+      background: rgba(245, 158, 11, 0.04);
+      border: 2px solid var(--accent-gold);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    @media (min-width: 800px) {
+      .ordination-box {
+        grid-template-columns: 240px 1fr;
+      }
+    }
+
+    .ordination-seal-container {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(15, 21, 35, 0.8);
+      border: 1px solid var(--border-card);
+      border-radius: 8px;
+    }
+
+    .ordination-seal-icon {
+      font-size: 3rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .ordination-status-pill {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-gold);
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .ordination-text-body h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .ordination-text-body p {
+      color: var(--text-muted);
+      font-size: 0.93rem;
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Sovereign Notebook Banner */
+    .notebook-prompt-strip {
+      background: rgba(15, 21, 35, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .notebook-prompt-text {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .btn-notebook-pin {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-notebook-pin:hover {
+      background: var(--accent-gold);
+      color: #000;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #0f1523;
+      border: 1px solid var(--accent-gold);
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+      padding: 1.75rem;
+      position: relative;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       PART 2: UNIVERSAL TOP HEADER (LOCKED ACROSS ALL CHURCH PAGES)
+       ========================================================================== -->
+  <header class="universal-header">
+    <div class="header-left">
+      <button class="btn-assistant" onclick="openAssistantModal()">
+        💬 Assistant Pastor
+      </button>
+
+      <select class="nav-dropdown-select" onchange="if(this.value) window.location.href=this.value;">
+        <option value="" selected disabled>Go to: Lobby | Fellowship...</option>
+        <option value="lobby.html">Gate 4: Sanctuary Lobby</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Digital Library</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin Board</option>
+        <option value="volunteer.html">Door 7: The Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Mission, Beliefs & Bylaws</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Live Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+        <option value="music-room.html">Extra: Music Room Vault</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <div class="church-title-master">GOD'S CHURCH FOR THE HOMELESS</div>
+    </div>
+
+    <div class="header-right">
+      <button class="btn-exit-lobby" onclick="handleChurchExit()">
+        ✕ Return to Lobby
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN CONTENT WRAPPER
+       ========================================================================== -->
+  <main class="main-wrapper">
+
+    <!-- Hero Banner -->
+    <section class="shepherd-hero">
+      <div class="role-badge">Official Servant Leader Profile</div>
+      <h1 class="hero-title">Brother Brian Keith Trolinger</h1>
+      <p class="hero-subtitle">
+        Called from the sidewalk to serve the broken, seek out the last lost sheep, and minister without religious airs or human titles.
+      </p>
+
+      <div class="scripture-anchor-box">
+        “Neither be ye called masters: for one is your Master, even Christ. But he that is greatest among you shall be your servant.”
+        <span class="scripture-citation">— Matthew 23:10–11 (KJV)</span>
+      </div>
+    </section>
+
+    <!-- SECTION 1: THE EMPTY RESERVED BIO CHAMBER (Strict Zero-Ghostwriting Rule) -->
+    <section>
+      <h2 class="section-title">
+        <span class="section-title-icon">📖</span> Living Bio, Survival Testimony & Calling
+      </h2>
+
+      <!-- The Public Reserved Spot (Empty & Waiting for Brother Brian's own hands) -->
+      <div class="bio-reserved-chamber" id="reservedChamberDisplay">
+        <div class="reserved-icon-crest">🕊️</div>
+        <h3 class="reserved-headline">Sacred Bio & Testimony Spot Reserved</h3>
+        <p class="reserved-explanation">
+          Per Church Bylaw and Foundational Covenant, Brother Brian Keith Trolinger’s personal story is never ghostwritten by man or machine. This chamber remains completely reserved and pristine for Brother Brian to share his own survival journey, testimony, and calling using his own hands, his own voice, or his own camera.
+        </p>
+        <div class="reserved-stamp-badge">
+          🛡️ Authentic Personal Bio Spot — Unaltered & Unbroken
+        </div>
+
+        <!-- Brian's In-Studio Direct Controls (Unlocks automatically when Brother Brian logs in) -->
+        <div class="brian-creator-panel" id="brianCreatorPanel">
+          <div class="brian-creator-header">
+            <h4 style="color: var(--accent-gold); font-size: 1rem;">👑 Brother Brian: Active Bio Creation Desk</h4>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Direct Device Connection Active</span>
+          </div>
+
+          <div class="mode-tab-bar">
+            <button class="btn-mode-tab active" onclick="switchBioMode('video')">📹 Video Bio</button>
+            <button class="btn-mode-tab" onclick="switchBioMode('audio')">🎙️ Audio Voice Bio</button>
+            <button class="btn-mode-tab" onclick="switchBioMode('written')">✍️ Written Parchment</button>
+          </div>
+
+          <!-- Video Mode -->
+          <div class="mode-content-block active" id="bioModeVideo">
+            <div class="device-link-notice">
+              🔗 <strong>Direct Device Link:</strong> Ready to connect straight to your PC webcam or phone camera. Zero YouTube or external accounts required.
+            </div>
+            <button class="btn-device-action" onclick="alert('Camera linked directly to device. Recording bay ready.')">
+              🎥 Record Live with Phone/PC Camera
+            </button>
+            <button class="btn-device-action" onclick="alert('Select video file directly from your PC hard drive or phone gallery.')">
+              📁 Choose Video File from Device
+            </button>
+          </div>
+
+          <!-- Audio Mode -->
+          <div class="mode-content-block" id="bioModeAudio">
+            <div class="device-link-notice">
+              🎙️ <strong>Direct Microphone Link:</strong> Speaks straight through your phone or computer mic. Unrestricted playback length.
+            </div>
+            <button class="btn-device-action" onclick="alert('Microphone live. Speak freely to the flock.')">
+              🔴 Record Pastoral Voice Message
+            </button>
+            <button class="btn-device-action" onclick="alert('Select audio file from device.')">
+              📁 Upload Recorded Voice File
+            </button>
+          </div>
+
+          <!-- Written Mode -->
+          <div class="mode-content-block" id="bioModeWritten">
+            <textarea 
+              style="width: 100%; height: 180px; background: #080b11; border: 1px solid var(--border-subtle); color: #fff; padding: 0.75rem; border-radius: 6px; font-family: inherit; font-size: 0.95rem; resize: vertical;"
+              placeholder="Type your bio, calling, and survival testimony in your own words..."></textarea>
+            <div style="margin-top: 0.75rem;">
+              <button class="btn-device-action" onclick="alert('Bio saved directly into church vault.')">
+                💾 Save Written Bio to Room
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE TITLE OF "BROTHER BRIAN" (Servant Leadership vs Hierarchy) -->
+    <section>
+      <h2 class="section-title">
+        <span class="section-title-icon">🤝</span> The Servant's Title: Why "Brother Brian"
+      </h2>
+
+      <div class="philosophy-grid">
+        <div class="philosophy-card">
+          <h3><span>🌾</span> No Aristocratic Titles</h3>
+          <p>
+            In the institutional religious system, men covet titles like Reverend, Doctor, Bishop, and Most Holy. Brother Brian Keith Trolinger refuses these titles. Following the direct words of Jesus Christ in Matthew 23:8—<em>"all ye are brethren"</em>—he walks on the asphalt simply as <strong>Brother Brian</strong>.
+          </p>
+        </div>
+
+        <div class="philosophy-card">
+          <h3><span>🚪</span> Walking as an Equal on the Sidewalk</h3>
+          <p>
+            A street shepherd cannot minister from an elevated ivory tower. Brother Brian was forged on the streets and understands the reality of cold concrete and human suffering. He carries himself as an equal brother standing alongside the forgotten, never placing himself above the sheep.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: PERSONAL BIBLICAL CERTIFICATES OF STUDY -->
+    <section>
+      <h2 class="section-title">
+        <span class="section-title-icon">📜</span> Biblical Study Certificates & Foundations
+      </h2>
+
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.25rem;">
+        Brother Brian studies the Holy Scriptures relentlessly to rightly divide the Word of Truth. The following certificates represent verified personal biblical study and doctrinal foundations:
+      </p>
+
+      <div class="credentials-showcase-grid">
+        <!-- Certificate 1 -->
+        <div class="certificate-frame">
+          <div class="certificate-crest">📜</div>
+          <div class="certificate-title">Biblical Studies & Doctrine</div>
+          <div class="certificate-issuer">Verified Biblical Foundation</div>
+          <p class="certificate-desc">
+            Foundational scriptural mastery, systematic biblical theology, and deep meat doctrines grounded in the Word of God.
+          </p>
+          <button class="btn-view-credential" onclick="viewCertificateModal('Biblical Studies & Doctrine Certificate')">
+            🔍 Inspect Certificate
+          </button>
+        </div>
+
+        <!-- Certificate 2 -->
+        <div class="certificate-frame">
+          <div class="certificate-crest">🕊️</div>
+          <div class="certificate-title">Pastoral Care & Ministry</div>
+          <div class="certificate-issuer">Christian Servant Leadership</div>
+          <p class="certificate-desc">
+            Biblical ethics, sidewalk pastoral counseling, crisis intervention, and compassion ministry among the poor and afflicted.
+          </p>
+          <button class="btn-view-credential" onclick="viewCertificateModal('Pastoral Care & Ministry Certificate')">
+            🔍 Inspect Certificate
+          </button>
+        </div>
+
+        <!-- Certificate 3 -->
+        <div class="certificate-frame">
+          <div class="certificate-crest">📖</div>
+          <div class="certificate-title">Holy Scripture & Hermeneutics</div>
+          <div class="certificate-issuer">Biblical Literature & Ancient Texts</div>
+          <p class="certificate-desc">
+            Historical Near Eastern context, original Greek/Hebrew linguistic foundations, and ancient scriptural codices.
+          </p>
+          <button class="btn-view-credential" onclick="viewCertificateModal('Holy Scripture & Hermeneutics Certificate')">
+            🔍 Inspect Certificate
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: LEGAL ORDINATION SHOWCASE (Reserved Frame) -->
+    <section>
+      <h2 class="section-title">
+        <span class="section-title-icon">⚖️</span> Legal Ordination & State Recognition
+      </h2>
+
+      <div class="ordination-box">
+        <div class="ordination-seal-container">
+          <div class="ordination-seal-icon">🏛️</div>
+          <div class="ordination-status-pill">In Progress / Finalizing</div>
+        </div>
+
+        <div class="ordination-text-body">
+          <h3>Fulfilling Caesar’s Law for the Protection of the Sheep</h3>
+          <p>
+            A man does not require a piece of paper from human government or theological seminaries to preach the Gospel of Jesus Christ. God's calling comes from Heaven, not Caesar.
+          </p>
+          <p>
+            However, Brother Brian is actively finalizing his official legal ordination solely to satisfy government requirements. Full ordination ensures the church and its members enjoy <strong>100% legal rights under the law</strong>—including ministerial visitation rights in intensive care hospitals, county jails, and detention centers, as well as state-recognized baptism, communion, and matrimonial ordinances.
+          </p>
+          <p style="color: var(--accent-gold); font-size: 0.85rem; font-weight: 600;">
+            * The official Certificate of Ordination will be permanently enshrined in this frame the moment the legal credentials are conferred.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOVEREIGN NOTEBOOK PROTOCOL STRIP -->
+    <div class="notebook-prompt-strip">
+      <div class="notebook-prompt-text">
+        📖 Would you like to save Brother Brian's study references and scriptures to your personal notebook?
+      </div>
+      <button class="btn-notebook-pin" onclick="promptSaveToNotebook()">
+        📌 Pin Reference to My Notebook
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODALS & DIALOGS
+       ========================================================================== -->
+
+  <!-- Certificate Viewer Modal -->
+  <div class="modal-overlay" id="certModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeCertModal()">✕</button>
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <span style="font-size: 2.5rem; color: var(--accent-gold);">📜</span>
+        <h3 id="certModalTitle" style="color: #ffffff; font-size: 1.2rem; margin-top: 0.5rem;">Certificate of Record</h3>
+        <p style="color: var(--accent-cyan); font-size: 0.85rem;">Official Ministerial Record — Brother Brian Keith Trolinger</p>
+      </div>
+      <div style="background: #080b11; border: 1px dashed var(--border-card); padding: 1.5rem; border-radius: 8px; text-align: center; margin-bottom: 1.25rem;">
+        <p style="color: #cbd5e1; font-size: 0.95rem; font-style: italic;">
+          “Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth.”
+        </p>
+        <span style="display: block; font-size: 0.8rem; color: var(--accent-gold); margin-top: 0.5rem;">— 2 Timothy 2:15</span>
+        <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem;">
+          Verified and cataloged in the church administrative records.
+        </div>
+      </div>
+      <div style="text-align: center;">
+        <button class="btn-device-action" onclick="closeCertModal()" style="margin: 0;">
+          Close Certificate View
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Assistant Pastor Modal (Standard) -->
+  <div class="modal-overlay" id="assistantModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeAssistantModal()">✕</button>
+      <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <span style="font-size: 1.5rem;">💬</span>
+        <h3 style="color: #ffffff; font-size: 1.15rem;">Assistant Pastor</h3>
+      </div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+        Greetings in the Lord. I am here to help you navigate scriptures, Greek and Hebrew roots, or find resources across our church rooms.
+      </p>
+      <div style="background: rgba(245, 158, 11, 0.08); border-left: 3px solid var(--accent-gold); padding: 0.75rem; font-size: 0.85rem; color: #e2e8f0; margin-bottom: 1rem;">
+        * Covenant Notice: Only living human hearts pray. For intercessory prayer, please step into Door 5 (The Prayer Room).
+      </div>
+      <textarea 
+        style="width: 100%; height: 90px; background: #080b11; border: 1px solid var(--border-subtle); color: #fff; padding: 0.6rem; border-radius: 6px; font-family: inherit; font-size: 0.9rem; margin-bottom: 1rem;" 
+        placeholder="Ask a question about scripture, Greek/Hebrew context, or the church..."></textarea>
+      <div style="text-align: right;">
+        <button class="btn-device-action" onclick="alert('The Assistant Pastor is analyzing scripture references...'); closeAssistantModal();">
+          Inquire Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SYSTEM JAVASCRIPT
+       ========================================================================== -->
+  <script>
+    // Session Identification & Studio Return Routing
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check if logged in user is Brother Brian Keith Trolinger
+      const role = sessionStorage.getItem("church_user_role");
+      const isBrian = role === "brother_brian" || role === "pastor";
+
+      if (isBrian) {
+        // Unlock Brother Brian's in-room recording bay
+        const panel = document.getElementById("brianCreatorPanel");
+        if (panel) panel.style.display = "block";
+      }
+    });
+
+    // Universal Exit Routing
+    function handleChurchExit() {
+      const role = sessionStorage.getItem("church_user_role");
+      if (role === "brother_brian" || role === "pastor") {
+        // Recognizes Brother Brian and teleports him straight to his private Command Studio
+        window.location.href = "studio.html";
+      } else {
+        // Regular members return to Lobby
+        window.location.href = "lobby.html";
+      }
+    }
+
+    // Sovereign Notebook Protocol Prompt
+    function promptSaveToNotebook() {
+      const confirmed = confirm("Sovereign Notebook Protocol:\n\nWould you like to save Brother Brian's scriptural study notes (Matthew 23:10-11 & 2 Timothy 2:15) to your personal private notebook?");
+      if (confirmed) {
+        try {
+          const existing = localStorage.getItem("member_notebook_content") || "";
+          const noteEntry = "\n\n--- SERVANT LEADER SCRIPTURE ANCHOR ---\nMatthew 23:10-11: Neither be ye called masters: for one is your Master, even Christ. But he that is greatest among you shall be your servant.\n2 Timothy 2:15: Study to shew thyself approved unto God.\nSaved on: " + new Date().toLocaleDateString();
+          localStorage.setItem("member_notebook_content", existing + noteEntry);
+          alert("Saved successfully to your personal notebook.");
+        } catch (e) {
+          alert("Your notes are private to this device.");
+        }
+      }
+    }
+
+    // Bio Mode Switcher (In-Studio)
+    function switchBioMode(mode) {
+      document.querySelectorAll(".btn-mode-tab").forEach(btn => btn.classList.remove("active"));
+      document.querySelectorAll(".mode-content-block").forEach(block => block.classList.remove("active"));
+
+      if (mode === 'video') {
+        event.target.classList.add("active");
+        document.getElementById("bioModeVideo").classList.add("active");
+      } else if (mode === 'audio') {
+        event.target.classList.add("active");
+        document.getElementById("bioModeAudio").classList.add("active");
+      } else if (mode === 'written') {
+        event.target.classList.add("active");
+        document.getElementById("bioModeWritten").classList.add("active");
+      }
+    }
+
+    // Modal Helpers
+    function viewCertificateModal(certTitle) {
+      document.getElementById("certModalTitle").textContent = certTitle;
+      document.getElementById("certModal").classList.add("active");
+    }
+
+    function closeCertModal() {
+      document.getElementById("certModal").classList.remove("active");
+    }
+
+    function openAssistantModal() {
+      document.getElementById("assistantModal").classList.add("active");
+    }
+
+    function closeAssistantModal() {
+      document.getElementById("assistantModal").classList.remove("active");
+    }
+  </script>
+</body>
+</html>
