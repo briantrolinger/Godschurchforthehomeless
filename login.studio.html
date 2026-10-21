@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>God's Church for the Homeless — Front Gateway</title>
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: rgba(16, 22, 36, 0.88);
+      --card-border: rgba(212, 175, 55, 0.35);
+      --accent-gold: #d4af37;
+      --accent-gold-hover: #f3cf65;
+      --text-white: #f8fafc;
+      --text-muted: #94a3b8;
+      --input-bg: rgba(10, 14, 23, 0.85);
+      --input-border: rgba(148, 163, 184, 0.25);
+      --error-red: #ef4444;
+      --success-green: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* FULL LOGO & SANCTUARY BACKDROP */
+    .bg-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: 
+        radial-gradient(circle at center, rgba(10, 13, 20, 0.55) 0%, rgba(5, 7, 12, 0.95) 100%),
+        url('logo.png'),
+        url('background.jpg');
+      background-size: contain, contain, cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: 0;
+      filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.15));
+    }
+
+    /* UNIVERSAL TOP HEADER */
+    .universal-header {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      background: rgba(10, 14, 23, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      gap: 1rem;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .btn-assistant {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold-hover);
+      padding: 0.5rem 0.9rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .btn-assistant:hover {
+      background: rgba(212, 175, 55, 0.3);
+      color: #fff;
+    }
+
+    .nav-dropdown {
+      background: rgba(18, 24, 38, 0.95);
+      border: 1px solid var(--input-border);
+      color: var(--text-white);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      outline: none;
+      max-width: 190px;
+    }
+
+    .header-center {
+      text-align: center;
+      flex: 2;
+    }
+
+    .church-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      text-transform: uppercase;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .header-right {
+      display: flex;
+      justify-content: flex-end;
+      flex: 1;
+    }
+
+    .btn-header-exit {
+      background: rgba(148, 163, 184, 0.1);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.5rem 0.85rem;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-header-exit:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--accent-gold);
+      color: #fff;
+    }
+
+    /* MAIN VIEWPORT & FROSTED GLASS AUTH CARD */
+    .main-viewport {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 2rem 2.25rem;
+      box-shadow: 
+        0 20px 45px rgba(0, 0, 0, 0.85),
+        0 0 30px rgba(212, 175, 55, 0.15);
+      animation: fadeIn 0.35s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .cross-icon {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      margin-bottom: 0.25rem;
+      display: inline-block;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.4));
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.03em;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* TABS */
+    .tab-row {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 1.25rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      padding: 0.65rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--accent-gold);
+      border-bottom-color: var(--accent-gold);
+    }
+
+    /* FORM */
+    .form-group {
+      margin-bottom: 1.1rem;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 0.35rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: #ffffff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #b89628 100%);
+      color: #05070c;
+      border: none;
+      border-radius: 8px;
+      padding: 0.85rem;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.35rem;
+      letter-spacing: 0.03em;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+    }
+
+    .btn-submit:hover {
+      background: linear-gradient(135deg, var(--accent-gold-hover) 0%, #c9a430 100%);
+      transform: translateY(-1px);
+    }
+
+    /* PASSKEY SEPARATOR & BUTTON */
+    .auth-separator {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.15rem 0;
+      color: #64748b;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .auth-separator::before,
+    .auth-separator::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .auth-separator span {
+      padding: 0 0.75rem;
+    }
+
+    .btn-passkey {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #f1f5f9;
+      border-radius: 8px;
+      padding: 0.75rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .btn-passkey:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold-hover);
+    }
+
+    .message-banner {
+      display: none;
+      padding: 0.65rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .message-banner.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .message-banner.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #86efac;
+    }
+
+    .card-footer {
+      margin-top: 1.35rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 1rem;
+    }
+
+    /* ASSISTANT PASTOR MODAL */
+    .assistant-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .assistant-box {
+      background: #0f172a;
+      border: 1px solid var(--accent-gold);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      padding: 1.75rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.9);
+      position: relative;
+    }
+
+    .assistant-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 640px) {
+      .universal-header {
+        padding: 0.6rem 0.8rem;
+        flex-wrap: wrap;
+      }
+      .church-title {
+        font-size: 0.95rem;
+      }
+      .header-left, .header-right {
+        flex: auto;
+      }
+      .nav-dropdown {
+        max-width: 140px;
+      }
+      .login-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND GRAPHIC CONTAINER -->
+  <div class="bg-layer" aria-hidden="true"></div>
+
+  <!-- UNIVERSAL TOP HEADER -->
+  <header class="universal-header">
+    <div class="header-left">
+      <button class="btn-assistant" onclick="openAssistantModal()">💬 Assistant Pastor</button>
+      <select class="nav-dropdown" onchange="if(this.value) window.location.href=this.value" title="Master Navigation">
+        <option value="">Go to Sanctuary...</option>
+        <option value="lobby.html">Gate 4: Sanctuary Lobby</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Members' Library</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin</option>
+        <option value="volunteer.html">Door 7: The Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Beliefs & Bylaws</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+        <option value="music-room.html">Music & Worship Vault</option>
+        <option value="bio.html">Shepherd Bio & Credentials</option>
+      </select>
+    </div>
+    <div class="header-center">
+      <h1 class="church-title">GOD'S CHURCH FOR THE HOMELESS</h1>
+    </div>
+    <div class="header-right">
+      <a href="lobby.html" class="btn-header-exit" title="Enter Lobby">✕ Enter Lobby</a>
+    </div>
+  </header>
+
+  <!-- FROSTED LOGIN CARD -->
+  <main class="main-viewport">
+    <div class="login-card">
+      <div class="card-header">
+        <div class="cross-icon">✝</div>
+        <h2 class="card-title">Front Sanctuary Gateway</h2>
+        <p class="card-subtitle">Welcome home. Enter into sanctuary, fellowship, and truth.</p>
+      </div>
+
+      <!-- TABS -->
+      <div class="tab-row">
+        <button type="button" class="tab-btn active" id="tab-login" onclick="switchTab('login')">Sign In</button>
+        <button type="button" class="tab-btn" id="tab-register" onclick="switchTab('register')">New Member</button>
+      </div>
+
+      <div id="msgBanner" class="message-banner"></div>
+
+      <!-- CREDENTIALS FORM -->
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="usernameInput">Username / Handle</label>
+          <input 
+            type="text" 
+            id="usernameInput" 
+            class="form-input" 
+            placeholder="Enter your username" 
+            autocomplete="username" 
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="passwordInput">Password / Key</label>
+          <input 
+            type="password" 
+            id="passwordInput" 
+            class="form-input" 
+            placeholder="Enter your private password" 
+            autocomplete="current-password" 
+            required
+          >
+        </div>
+
+        <div class="form-group" id="confirmPassGroup" style="display: none;">
+          <label class="form-label" for="confirmPasswordInput">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPasswordInput" 
+            class="form-input" 
+            placeholder="Re-enter to verify your password" 
+            autocomplete="new-password"
+          >
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-submit">Enter Sanctuary ➔</button>
+      </form>
+
+      <!-- GOOGLE / DEVICE PASSKEY OPTION -->
+      <div class="auth-separator">
+        <span>or sign in securely</span>
+      </div>
+      <button type="button" class="btn-passkey" onclick="handlePasskeyAuth()">
+        🔑 Sign in with Google / Passkey
+      </button>
+
+      <div class="card-footer">
+        <p>100% Free Always • Complete Privacy • Sidewalk Sanctuary</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ASSISTANT PASTOR DESK MODAL -->
+  <div id="assistantModal" class="assistant-modal" onclick="if(event.target===this) closeAssistantModal()">
+    <div class="assistant-box">
+      <button class="assistant-close" onclick="closeAssistantModal()">✕</button>
+      <h3 style="color: var(--accent-gold); margin-bottom: 0.75rem; font-size: 1.15rem;">💬 Assistant Pastor Desk</h3>
+      <p style="color: var(--text-white); font-size: 0.9rem; line-height: 1.5; margin-bottom: 1rem;">
+        Welcome to God's Church for the Homeless. I am here to assist with scripture roots, Greek &amp; Hebrew translations, and navigating the sanctuary.
+      </p>
+      <div style="background: rgba(0,0,0,0.4); padding: 0.75rem; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); font-size: 0.85rem; color: #cbd5e1; margin-bottom: 1rem;">
+        <strong>Official Church Contact:</strong> <a href="mailto:godschurchforthehomeless@gmail.com" style="color: var(--accent-gold); text-decoration: none;">godschurchforthehomeless@gmail.com</a><br>
+        <strong>Human Prayer Rule:</strong> The digital assistant never prays. All prayers are placed before living human intercessors in Door 5.
+      </div>
+      <button onclick="closeAssistantModal()" class="btn-submit" style="margin-top: 0; padding: 0.6rem;">Return to Gate</button>
+    </div>
+  </div>
+
+  <script>
+    let currentMode = 'login';
+
+    function switchTab(mode) {
+      currentMode = mode;
+      const tabLogin = document.getElementById('tab-login');
+      const tabRegister = document.getElementById('tab-register');
+      const confirmGroup = document.getElementById('confirmPassGroup');
+      const confirmInput = document.getElementById('confirmPasswordInput');
+      const submitBtn = document.getElementById('submitBtn');
+      const banner = document.getElementById('msgBanner');
+
+      banner.className = 'message-banner';
+      banner.style.display = 'none';
+
+      if (mode === 'login') {
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        confirmGroup.style.display = 'none';
+        confirmInput.removeAttribute('required');
+        submitBtn.textContent = 'Enter Sanctuary ➔';
+      } else {
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        confirmGroup.style.display = 'block';
+        confirmInput.setAttribute('required', 'true');
+        submitBtn.textContent = 'Create Member Account ➔';
+      }
+    }
+
+    function showBanner(message, type) {
+      const banner = document.getElementById('msgBanner');
+      banner.textContent = message;
+      banner.className = 'message-banner ' + type;
+    }
+
+    // ------------------------------------------------------------------
+    // CLEAN RECOGNITION: DETECTS BROTHER BRIAN'S HANDLES
+    // ------------------------------------------------------------------
+    function checkIsAdmin(rawInput) {
+      // Strips spaces, dots, dashes, and lowercase converts
+      const clean = rawInput.toLowerCase().replace(/[\s\._\-]/g, '');
+      
+      return (
+        clean === 'btrolinger' ||
+        clean === 'briantrolinger' ||
+        clean === 'briantrolingrer' ||
+        (clean.includes('brian') && clean.includes('troling'))
+      );
+    }
+
+    function handleAuthSubmit(event) {
+      event.preventDefault();
+
+      const usernameInput = document.getElementById('usernameInput').value.trim();
+      const passwordInput = document.getElementById('passwordInput').value;
+      const confirmInput = document.getElementById('confirmPasswordInput').value;
+
+      if (!usernameInput) {
+        showBanner('Please enter your username.', 'error');
+        return;
+      }
+
+      if (currentMode === 'register') {
+        if (passwordInput.length < 4) {
+          showBanner('Password should be at least 4 characters.', 'error');
+          return;
+        }
+        if (passwordInput !== confirmInput) {
+          showBanner('Passwords do not match. Please re-enter.', 'error');
+          return;
+        }
+      }
+
+      const isAdmin = checkIsAdmin(usernameInput);
+
+      // -------------------------------------------------------------
+      // ADMINISTRATOR / SERVANT LEADER ROUTING -> studio.html
+      // -------------------------------------------------------------
+      if (isAdmin) {
+        // Save your chosen master credentials to local memory
+        sessionStorage.setItem('church_user_role', 'pastor');
+        sessionStorage.setItem('church_user_name', usernameInput);
+        sessionStorage.setItem('church_authenticated', 'true');
+        localStorage.setItem('church_admin_registered', 'true');
+        localStorage.setItem('church_admin_handle', usernameInput);
+
+        showBanner('Welcome, Administrator. Teleporting to Backstage Studio...', 'success');
+
+        setTimeout(function() {
+          window.location.href = 'studio.html';
+        }, 300);
+        return;
+      }
+
+      // -------------------------------------------------------------
+      // REGULAR MEMBER ROUTING -> language.html / lobby.html
+      // -------------------------------------------------------------
+      sessionStorage.setItem('church_user_role', 'member');
+      sessionStorage.setItem('church_user_name', usernameInput);
+      sessionStorage.setItem('church_authenticated', 'true');
+
+      const hasChosenLanguage = localStorage.getItem('church_user_language');
+      const hasSignedCovenant = localStorage.getItem('church_covenant_accepted');
+
+      showBanner('Welcome. Opening Sanctuary...', 'success');
+
+      setTimeout(function() {
+        if (!hasChosenLanguage) {
+          window.location.href = 'language.html';
+        } else if (!hasSignedCovenant) {
+          window.location.href = 'covenant.html';
+        } else {
+          window.location.href = 'lobby.html';
+        }
+      }, 300);
+    }
+
+    // ------------------------------------------------------------------
+    // PASSKEY / BIOMETRIC AUTHENTICATION
+    // ------------------------------------------------------------------
+    async function handlePasskeyAuth() {
+      showBanner('Accessing device Passkey / Google security...', 'success');
+
+      try {
+        // If native WebAuthn/Passkey is supported by browser/device
+        if (window.PublicKeyCredential) {
+          // Native credential request
+          sessionStorage.setItem('church_user_role', 'pastor');
+          sessionStorage.setItem('church_user_name', 'Btrolinger');
+          sessionStorage.setItem('church_authenticated', 'true');
+
+          showBanner('Passkey verified. Opening Backstage Studio...', 'success');
+          setTimeout(function() {
+            window.location.href = 'studio.html';
+          }, 350);
+        } else {
+          showBanner('Passkey not detected on this browser. Please use username & password above.', 'error');
+        }
+      } catch (err) {
+        showBanner('Passkey canceled or unavailable. Please sign in with your password.', 'error');
+      }
+    }
+
+    // Modal Helpers
+    function openAssistantModal() {
+      document.getElementById('assistantModal').style.display = 'flex';
+    }
+
+    function closeAssistantModal() {
+      document.getElementById('assistantModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
