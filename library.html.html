@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Members' Digital Library | God's Church for the Homeless</title>
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --card-bg: rgba(16, 21, 30, 0.94);
+      --card-border: rgba(212, 175, 55, 0.28);
+      --card-hover: rgba(212, 175, 55, 0.6);
+      --gold: #d4af37;
+      --gold-bright: #f3cf58;
+      --text-main: #e6ebf2;
+      --text-muted: #9ba6b8;
+      --blue-accent: #2a75d3;
+      --purple-accent: #8e44ad;
+      --green-ok: #28a745;
+      --red-alert: #d93838;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(42, 117, 211, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #05070a 0%, #0c1018 100%);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 90px; /* Room for sticky checkout bar */
+    }
+
+    /* UNIVERSAL TOP HEADER */
+    .top-header {
+      background: rgba(8, 11, 16, 0.96);
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-assistant {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-dropdown {
+      background: rgba(16, 21, 30, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .header-center {
+      text-align: center;
+      flex: 1;
+    }
+
+    .header-center h1 {
+      font-size: 1.15rem;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-exit {
+      background: rgba(217, 56, 56, 0.15);
+      border: 1px solid rgba(217, 56, 56, 0.4);
+      color: #ff8585;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* LIBRARY HERO & FILTER BAR */
+    .library-hero {
+      padding: 24px 24px 12px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .library-hero h2 {
+      font-size: 1.8rem;
+      color: var(--gold-bright);
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    .library-hero p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 16px;
+      line-height: 1.5;
+    }
+
+    .search-filter-bar {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(16, 21, 30, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 6px;
+      color: var(--text-main);
+      padding: 10px 14px;
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--gold-bright);
+    }
+
+    .wing-filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .wing-filter-btn.active, .wing-filter-btn:hover {
+      background: rgba(212, 175, 55, 0.18);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    /* MAIN LIBRARY WINGS & GRID */
+    .library-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .wing-section {
+      background: rgba(12, 16, 24, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .wing-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+
+    .wing-header h3 {
+      font-size: 1.25rem;
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wing-header span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .book-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+
+    .book-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--card-hover);
+    }
+
+    .book-card.checked-out {
+      border-color: #28a745;
+      background: rgba(40, 167, 69, 0.08);
+    }
+
+    .book-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .book-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.12);
+      padding: 3px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .checkout-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkout-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--gold);
+    }
+
+    .book-title {
+      font-size: 1.05rem;
+      color: #ffffff;
+      font-weight: 700;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .book-author {
+      font-size: 0.82rem;
+      color: #7ab3ff;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .book-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 12px;
+      flex: 1;
+    }
+
+    .book-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-preview {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-preview:hover {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    /* STICKY BOTTOM CHECKOUT COMMAND BAR */
+    .sticky-checkout-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 14, 22, 0.97);
+      border-top: 2px solid var(--gold);
+      backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 2000;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.8);
+      gap: 16px;
+    }
+
+    .checkout-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .checkout-counter {
+      font-size: 1.05rem;
+      color: var(--gold-bright);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .checkout-titles-list {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .checkout-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-clear-checkout {
+      background: rgba(217, 56, 56, 0.15);
+      border: 1px solid rgba(217, 56, 56, 0.4);
+      color: #ff9999;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-enter-study-hall {
+      background: linear-gradient(135deg, #d4af37, #9b7e1e);
+      color: #07090e;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 0.98rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+      transition: transform 0.15s;
+    }
+
+    .btn-enter-study-hall:hover {
+      transform: scale(1.02);
+      background: linear-gradient(135deg, #f3cf58, #b89528);
+    }
+
+    /* IN-PAGE PREVIEW MODAL (NO POPUPS) */
+    .preview-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .preview-modal.active {
+      display: flex;
+    }
+
+    .preview-card {
+      background: #0d121c;
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 780px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+    }
+
+    .preview-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 7, 12, 0.8);
+    }
+
+    .preview-header h4 {
+      color: var(--gold-bright);
+      font-size: 1.1rem;
+    }
+
+    .preview-body {
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text-main);
+    }
+
+    .preview-footer {
+      padding: 12px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(5, 7, 12, 0.8);
+    }
+
+    /* TOAST BANNER */
+    .library-toast {
+      position: fixed;
+      top: 70px;
+      right: 24px;
+      background: #10243e;
+      border: 1px solid var(--gold);
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 4000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL TOP HEADER -->
+  <header class="top-header">
+    <div class="header-left">
+      <button class="btn-assistant" onclick="alert('Assistant Pastor Bot is ready in Study Hall to analyze Greek/Hebrew roots.')">
+        💬 Assistant Pastor
+      </button>
+      <select class="nav-dropdown" onchange="if(this.value) window.location.href=this.value">
+        <option value="">Go to: Library (Door 3)...</option>
+        <option value="lobby.html">Gate 4: Sanctuary Lobby</option>
+        <option value="study-hall.html">↳ Study Hall Workspace</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin</option>
+        <option value="volunteer.html">Door 7: Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Bylaws & Beliefs</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+        <option value="music-room.html">Music Room & Worship Vault</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <h1>God's Church for the Homeless</h1>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="btn-exit" id="universalExitBtn">✕ Return to Lobby</a>
+    </div>
+  </header>
+
+  <!-- HERO & FILTER BAR -->
+  <section class="library-hero">
+    <h2>📖 Members' Digital Library & Open Codex Archive</h2>
+    <p>
+      Select up to <strong>5 materials</strong> (Bibles, Ancient Codices, Commentaries, Seminary Lectures, or Historical Doctrines). 
+      Your checked-out books will open across your multi-panel digital desk inside the <strong>Study Hall</strong> with your Member's Bible and Sovereign Notebook waiting beside you.
+    </p>
+
+    <div class="search-filter-bar">
+      <input type="text" id="librarySearchInput" class="search-input" placeholder="🔍 Search Bibles, Enoch, Jasher, Heiser, Church Fathers, or Doctrines..." oninput="filterLibrary()">
+    </div>
+
+    <div class="search-filter-bar">
+      <button class="wing-filter-btn active" onclick="filterWing('all')">All Wings</button>
+      <button class="wing-filter-btn" onclick="filterWing('bibles')">Bibles & Canons</button>
+      <button class="wing-filter-btn" onclick="filterWing('codices')">Ancient Codices & Scrolls</button>
+      <button class="wing-filter-btn" onclick="filterWing('commentaries')">Church Fathers & Commentaries</button>
+      <button class="wing-filter-btn" onclick="filterWing('doctrines')">Deep Meat & Bible Law</button>
+      <button class="wing-filter-btn" onclick="filterWing('lectures')">Video Lectures & Apologetics</button>
+      <button class="wing-filter-btn" onclick="filterWing('studies')">Step-by-Step Bible Studies</button>
+      <button class="wing-filter-btn" onclick="filterWing('world')">World Faiths & Defense</button>
+    </div>
+  </section>
+
+  <!-- MAIN LIBRARY WINGS -->
+  <main class="library-container">
+
+    <!-- WING 1: SCRIPTURES & MULTI-LANGUAGE BIBLES -->
+    <section class="wing-section" data-wing="bibles">
+      <div class="wing-header">
+        <h3>📜 Wing 1: Sacred Scriptures & Global Canons</h3>
+        <span>Default English &bull; 81-Book Ethiopian &bull; Original Tongues</span>
+      </div>
+      <div class="books-grid">
+
+        <div class="book-card" data-id="kjv1611">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">English Primary</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('kjv1611', 'King James Bible (1611 with Apocrypha)', 'Bible', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">King James Bible (1611 Unabridged)</div>
+            <div class="book-author">With Original 1611 Apocrypha</div>
+            <div class="book-desc">The authorized historic English translation complete with original marginal cross-references and the full Apocrypha.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('King James Bible (1611)', 'Full text integrated into Study Hall desk. Features Genesis through Revelation, including Wisdom, Sirach, Tobit, and Maccabees.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="geneva1599">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Reformation</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('geneva1599', 'Geneva Bible (1599 with Study Notes)', 'Bible', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Geneva Bible (1599)</div>
+            <div class="book-author">Reformation Exiles (Calvin & Knox Notes)</div>
+            <div class="book-desc">The Bible carried on the Mayflower. Features the original Protestant marginal notes and anti-tyranny historical commentary.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Geneva Bible (1599)', 'The foundational English study Bible with extensive theological margin notes.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="ethiopian81">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Ancient Canon</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('ethiopian81', 'Ethiopian Orthodox Tewahedo Canon (81 Books)', 'Canon', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Ethiopian Orthodox Canon (81 Books)</div>
+            <div class="book-author">Ge\'ez Ancient African Tradition</div>
+            <div class="book-desc">Complete ancient African biblical canon containing 1 Enoch, Jubilees, 1-3 Meqabyan, and Baruch intact.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Ethiopian Orthodox Canon (81 Books)', 'The oldest and most complete continuous Christian biblical canon preserved in Ethiopia.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="ylt">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Literal Grammar</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('ylt', 'Young\'s Literal Translation (YLT)', 'Bible', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Young\'s Literal Translation (YLT)</div>
+            <div class="book-author">Robert Young (Analytical Concordance)</div>
+            <div class="book-desc">Strictly literal word-for-word rendering preserving original Hebrew and Greek tenses, idioms, and verb structures.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Young\'s Literal Translation', 'Direct grammatical translation revealing underlying Hebrew and Greek syntax.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="septuagint">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Ancient Greek</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('septuagint', 'Greek Septuagint (LXX with English Translation)', 'Greek OT', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Greek Septuagint (LXX)</div>
+            <div class="book-author">Brenton Translation with Greek Text</div>
+            <div class="book-desc">The Greek Old Testament quoted directly by Jesus and the Apostles in the New Testament. Essential for prophecy study.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Greek Septuagint (LXX)', 'The historic 3rd Century BC Jewish translation of the Hebrew scriptures into Greek.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="interlinear">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Word Roots</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('interlinear', 'Hebrew-Greek Interlinear (Strong\'s Concordance)', 'Study', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Hebrew-Greek Interlinear Bible</div>
+            <div class="book-author">Masoretic / Textus Receptus Roots</div>
+            <div class="book-desc">Side-by-side original language roots with Strong's Concordance numbers for deep etymological sermon study.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Hebrew-Greek Interlinear', 'Direct word-by-word original language roots with dictionary definitions.')">Preview Content</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WING 2: ANCIENT CODICES & DEAD SEA SCROLLS -->
+    <section class="wing-section" data-wing="codices">
+      <div class="wing-header">
+        <h3>📜 Wing 2: Ancient Codices & The Dead Sea Scrolls</h3>
+        <span>The Oldest Preserved Bible Manuscripts on Earth</span>
+      </div>
+      <div class="books-grid">
+
+        <div class="book-card" data-id="sinaiticus">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">4th Century</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('sinaiticus', 'Codex Sinaiticus (Full English Translation & Scans)', 'Codex', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Codex Sinaiticus (Complete)</div>
+            <div class="book-author">Mt. Sinai St. Catherine\'s Monastery</div>
+            <div class="book-desc">The oldest substantially complete Greek Bible manuscript in existence (350 AD), containing the Shepherd of Hermas and Barnabas.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Codex Sinaiticus', 'Includes full photographic scans and line-by-line English transcription of the 4th-century uncial manuscript.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="dss">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Qumran Caves</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('dss', 'The Dead Sea Scrolls (Complete English Translation)', 'Scrolls', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Dead Sea Scrolls (Complete)</div>
+            <div class="book-author">Geza Vermes & Michael Wise Translations</div>
+            <div class="book-desc">Includes the Great Isaiah Scroll (1QIsa), The Community Rule (1QS), The War Scroll, Temple Scroll, and biblical fragments.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Dead Sea Scrolls', 'The historic 3rd Century BC to 1st Century AD library discovered in the 11 caves of Qumran.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="enoch">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Enochic Corpus</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('enoch', 'The Books of Enoch (1, 2, and 3 Complete)', 'Ancient Text', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Complete Books of Enoch</div>
+            <div class="book-author">1 Enoch (Ethiopic) &bull; 2 Enoch &bull; 3 Enoch</div>
+            <div class="book-desc">The foundational text on the Watchers, Genesis 6 fallen angels, heavenly astronomy, and the coming Son of Man judgment quoted in Jude.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Books of Enoch', 'Unabridged translation of 1 Enoch (R.H. Charles), Slavonic Secrets of Enoch (2 Enoch), and Hebrew Enoch (3 Enoch).')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="jasher">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Lost History</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('jasher', 'The Book of Jasher (Joshua 10 & 2 Samuel 1)', 'Historical Text', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Book of Jasher (Upright)</div>
+            <div class="book-author">Referenced in Joshua 10:13 & 2 Samuel 1:18</div>
+            <div class="book-desc">Detailed chronicle of human history from the creation through the Judges, providing deep cultural context on ancient patriarchs.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Book of Jasher', 'Full text translation from the 1613 Hebrew Venetian edition.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="jubilees">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Lesser Genesis</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('jubilees', 'The Book of Jubilees (Little Genesis)', 'Ancient Text', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Book of Jubilees</div>
+            <div class="book-author">The Angelic Revelation to Moses</div>
+            <div class="book-desc">Chronicles biblical history divided into 49-year Jubilee cycles. Found abundantly among the Dead Sea Scrolls at Qumran.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Book of Jubilees', 'R.H. Charles historical translation of the ancient Ge\'ez and Dead Sea Scroll fragments.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="apocrypha">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Deuterocanon</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('apocrypha', 'The Complete Apocrypha & Pseudepigrapha', 'Historical Canon', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Complete Apocrypha & Pseudepigrapha</div>
+            <div class="book-author">14 Canonical Books + Early Jewish Writings</div>
+            <div class="book-desc">Wisdom of Solomon, Ecclesiasticus (Sirach), Tobit, Judith, 1 & 2 Maccabees, Esdras, Prayer of Manasseh, and Baruch.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Complete Apocrypha', 'The complete inter-testamental historical library bridge between Malachi and Matthew.')">Preview Content</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WING 3: HISTORICAL COMMENTARIES & CHURCH FATHERS -->
+    <section class="wing-section" data-wing="commentaries">
+      <div class="wing-header">
+        <h3>🏛️ Wing 3: Church Historians & Unabridged Commentaries</h3>
+        <span>Early Church Fathers &bull; Verse-by-Verse Preaching Exposition</span>
+      </div>
+      <div class="books-grid">
+
+        <div class="book-card" data-id="josephus">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">1st Century History</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('josephus', 'Complete Works of Flavius Josephus', 'History', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Flavius Josephus (Complete)</div>
+            <div class="book-author">Antiquities of the Jews & Jewish Wars</div>
+            <div class="book-desc">The premier 1st-century historical record of Second Temple Judaism, the destruction of Jerusalem, Herod, and early references to Jesus.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Flavius Josephus (Complete)', 'Unabridged translation by William Whiston including Against Apion and Life of Josephus.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="fathers">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Early Church</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('fathers', 'Ante-Nicene & Nicene Fathers (Philip Schaff 38 Vols)', 'Patristics', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Early Church Fathers (38 Vols)</div>
+            <div class="book-author">Schaff Collection: Clement, Polycarp, Irenaeus, Augustine</div>
+            <div class="book-desc">The complete theological writings of the church from 90 AD through 800 AD. Defenses against Roman paganism and earliest heresies.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Early Church Fathers', 'Comprehensive 38-volume open patristic library via Christian Classics Ethereal Library.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="henry">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Exposition</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('henry', 'Matthew Henry\'s Complete Commentary (6 Vols)', 'Commentary', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Matthew Henry's Commentary</div>
+            <div class="book-author">Complete 6-Volume Verse-by-Verse Exposition</div>
+            <div class="book-desc">The gold standard of devotional and pastoral commentary, drawing practical Christian walk lessons from every verse in scripture.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Matthew Henry\'s Commentary', 'Full verse-by-verse commentary from Genesis 1:1 through Revelation 22:21.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="gill">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Rabbinic Insights</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('gill', 'John Gill\'s Exposition of the Entire Bible', 'Commentary', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">John Gill's Bible Exposition</div>
+            <div class="book-author">Dr. John Gill (Hebrew & Rabbinic Scholar)</div>
+            <div class="book-desc">Deep theological commentary pulling extensively from the Targums, Talmud, and ancient Jewish sources to illuminate the Gospel.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('John Gill\'s Bible Exposition', 'Renowned for profound Hebrew grammatical analysis and ancient Jewish contextual insights.')">Preview Content</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WING 4: DEEP MEAT, BIBLE LAW & SPECIALTY DOCTRINES -->
+    <section class="wing-section" data-wing="doctrines">
+      <div class="wing-header">
+        <h3>🥩 Wing 4: Deep Meat Doctrines & Biblical Law</h3>
+        <span>Divine Council &bull; Pre-Adamic Creation &bull; Covenant Seminary</span>
+      </div>
+      <div class="books-grid">
+
+        <div class="book-card" data-id="twopowers">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Divine Council</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('twopowers', 'Two Powers in Heaven & The Divine Council Framework', 'Theology', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Two Powers in Heaven & Divine Council</div>
+            <div class="book-author">Alan Segal & Second Temple Monotheism Studies</div>
+            <div class="book-desc">Ancient Jewish recognition of the visible Yahweh (Angel of the Lord) and invisible Yahweh in heaven, revealing the roots of Christ's deity.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Two Powers in Heaven', 'Explores Psalm 82, Daniel 7, Deuteronomy 32, and Second Temple Jewish theological literature.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="pember">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Ancient Creation</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('pember', 'Earth\'s Earliest Ages: The World Before Adam', 'Creation Doctrine', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Earth's Earliest Ages (G.H. Pember)</div>
+            <div class="book-author">G.H. Pember (1876 Unabridged Edition)</div>
+            <div class="book-desc">The definitive historical theological treatise on the creation gap between Genesis 1:1 and 1:2, Lucifer\'s original fall, and demonic origins.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Earth\'s Earliest Ages', 'Examines the Hebrew grammar of Tohu wa-Bohu, ancient geology, and spiritual warfare.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="serpentseed">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Doctrinal Study</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('serpentseed', 'The Serpent Seed Controversy: Biblical & Historical Review', 'Doctrine', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Serpent Seed Doctrine Examination</div>
+            <div class="book-author">Historical Theological Comparative Study</div>
+            <div class="book-desc">Direct scriptural cross-examination of Genesis 3:15, 1 John 3:12, and Matthew 13 against early Christian records and historical debates.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Serpent Seed Examination', 'Unbiased historical documentation and textual analysis of the controversy across church history.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="covlaw">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Seminary Course</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('covlaw', 'Biblical Law & Covenant Theology Course', 'Seminary', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Biblical Law & Covenant Seminary Course</div>
+            <div class="book-author">Covenant Theological Seminary Open Curriculum</div>
+            <div class="book-desc">Comprehensive open seminary course on the Law of Moses, ancient Near Eastern covenants, the Moral Law, and grace in Christ.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Biblical Law Course', 'Full syllabus, lecture transcriptions, and study guides from Covenant Seminary open archives.')">Preview Content</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WING 5: VIDEO LECTURES & EXPEDITION APOLOGETICS -->
+    <section class="wing-section" data-wing="lectures">
+      <div class="wing-header">
+        <h3>🎥 Wing 5: Scholar Video Lectures & Expedition Archaeology</h3>
+        <span>Dr. Michael Heiser &bull; Dr. Wes Huff &bull; Arnold Murray &bull; Expedition Bible</span>
+      </div>
+      <div class="books-grid">
+
+        <div class="book-card" data-id="heiser-vault">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Video Lectures</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('heiser-vault', 'Dr. Michael S. Heiser: Unseen Realm Video Vault', 'Video Course', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Dr. Michael S. Heiser Video Vault</div>
+            <div class="book-author">The Unseen Realm & Naked Bible Deep Dives</div>
+            <div class="book-desc">Exhaustive scholarly lectures recovering the ancient supernatural worldview of the biblical writers, Psalm 82, and the Divine Council.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Dr. Michael S. Heiser Video Vault', 'Curated lecture series with synchronized notes ready to play inside Study Hall desk.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="weshuff">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Manuscript Defense</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('weshuff', 'Dr. Wes Huff: How We Got the Bible Video Series', 'Video Course', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Dr. Wes Huff: Manuscript Reliability</div>
+            <div class="book-author">New Testament Textual Criticism & Gospels Defense</div>
+            <div class="book-desc">World-class lectures demonstrating the historical authenticity of the four Gospels and the preservation of ancient papyri.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Dr. Wes Huff Series', 'In-depth visual presentations examining early New Testament papyri and answering skeptical claims.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="murray">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Chapter-by-Chapter</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('murray', 'Pastor Arnold Murray: Shepherd\'s Chapel Bible Studies', 'Video Library', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Pastor Arnold Murray Studies</div>
+            <div class="book-author">Shepherd\'s Chapel Chapter-by-Chapter Teaching</div>
+            <div class="book-desc">Verse-by-verse scriptural breakdowns utilizing the Companion Bible, Strong\'s Concordance, and Hebrew idioms.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Arnold Murray Studies', 'Extensive chapter-by-chapter archival lessons with focus on Hebrew and Greek word meanings.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="expedition">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Archaeology Field</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('expedition', 'Expedition Bible Archaeology Video Series (Joel Kramer)', 'Video Course', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Expedition Bible (Archaeological Proofs)</div>
+            <div class="book-author">Joel Kramer &bull; Middle East Excavation Evidence</div>
+            <div class="book-desc">Ground-level archaeological digs proving Sodom, Jericho, Ai, Jerusalem, and biblical kings through physical stone and ash layers.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Expedition Bible Series', 'High-definition video expeditions documenting real archaeological discoveries confirming the Bible.')">Preview Content</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WING 6: STEP-BY-STEP BIBLE STUDIES (MILK TO DEEP MEAT) -->
+    <section class="wing-section" data-wing="studies">
+      <div class="wing-header">
+        <h3>🌱 Wing 6: Step-by-Step Bible Studies (Curated Paths)</h3>
+        <span>From "Never Heard of Jesus" to Doctorate Seminary Training</span>
+      </div>
+      <div class="books-grid">
+
+        <div class="book-card" data-id="study-level1">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Level 1: Milk</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('study-level1', 'Level 1: I Never Heard of Jesus (Basic Street Gospel)', 'Curriculum', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Level 1: I Have Never Heard of Jesus</div>
+            <div class="book-author">Sidewalk Sanctuary Foundations</div>
+            <div class="book-desc">Pure, simple Gospel message written for the streets: who Jesus is, why He died for you, forgiveness, and finding unconditional hope.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Level 1: Never Heard of Jesus', 'Gentle, zero-jargon study guiding the broken soul through the life, love, and salvation of Christ.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="study-level2">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Level 2: Steps</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('study-level2', 'Level 2: New Believer Walk (Prayer & Scripture Habit)', 'Curriculum', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Level 2: New Believer Sidewalk Steps</div>
+            <div class="book-author">Discipleship Essentials for New Christians</div>
+            <div class="book-desc">How to pray, how to read your Bible daily, breaking addiction through Christ, and finding community in fellowship.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Level 2: New Believer Steps', 'Practical 30-day discipleship journey tailored for overcoming trauma and walking with God.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="study-level3">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Level 3: Solid Food</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('study-level3', 'Level 3: Intermediate Disciple (Biblical Covenants)', 'Curriculum', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Level 3: Intermediate Discipleship</div>
+            <div class="book-author">Covenant Theology & Spiritual Armor</div>
+            <div class="book-desc">Understanding the 7 Biblical Covenants, spiritual warfare, Galatians 6:2 street ministry, and defending against false doctrines.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Level 3: Intermediate Disciple', 'Comprehensive study on redemptive history, the blood covenant, and Christian maturity.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="study-level4">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Level 4: Meat</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('study-level4', 'Level 4: Advanced Seminary & Hermeneutics Masters', 'Curriculum', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Level 4: Advanced Seminary & Hermeneutics</div>
+            <div class="book-author">Master-Level Exegesis & Theological Frameworks</div>
+            <div class="book-desc">Greek/Hebrew syntax, ancient Near Eastern cultural context, biblical eschatology, and systematic theology.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Level 4: Advanced Seminary', 'Doctoral-level seminary study modules complete with bibliography and textual apparatus.')">Preview Content</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WING 7: WORLD RELIGIONS & APOLOGETICS (DEFENDING THE FAITH) -->
+    <section class="wing-section" data-wing="world">
+      <div class="wing-header">
+        <h3>🛡️ Wing 7: World Religions & Apologetics (Knowing & Defending)</h3>
+        <span>Comparative Texts &bull; "Knowing our enemies so we can defend the Gospel"</span>
+      </div>
+      <div class="books-grid">
+
+        <div class="book-card" data-id="talmud">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Jewish Rabbinic</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('talmud', 'The Babylonian Talmud in English (Rodkinson Complete)', 'Comparative Text', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Babylonian Talmud in English</div>
+            <div class="book-author">Michael L. Rodkinson Unabridged Translation</div>
+            <div class="book-desc">The complete English translation of the Mishnah and Gemara for historical study of Pharisaic traditions and post-temple Judaism.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Babylonian Talmud in English', 'Full multi-volume English translation of the ancient rabbinic discussions and legal codes.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="quran-defense">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Islamic Texts & Critique</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('quran-defense', 'The Qur\'an with Christian Apologetics Cross-Examination', 'Comparative Text', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Qur'an with Apologetics Analysis</div>
+            <div class="book-author">English Translation with Biblical Refutation Notes</div>
+            <div class="book-desc">Complete English translation of the Qur'an and major Sahih Hadith selections cross-examined against Biblical truth and Christ's crucifixion.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Qur\'an with Apologetics Analysis', 'Full English text alongside classical Christian defenses of the Trinity, Son of God, and the Cross.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="eastern-faiths">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Eastern Thought</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkout-checkbox" onchange="toggleCheckout('eastern-faiths', 'Eastern Religious Texts & Christian Monotheism Defense', 'Apologetics', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">Eastern Religions & Biblical Monotheism</div>
+            <div class="book-author">Bhagavad Gita & Dhammapada with Christian Critique</div>
+            <div class="book-desc">Comparative analysis of Hindu and Buddhist pantheism vs. the personal Creator God of Abraham, Isaac, and Jacob.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('Eastern Religions & Biblical Monotheism', 'Primary English texts accompanied by classical Christian defenses of creation, sin, and redemption.')">Preview Content</button>
+          </div>
+        </div>
+
+        <div class="book-card" data-id="resurrection-defense">
+          <div>
+            <div class="book-card-top">
+              <span class="book-tag">Master Apologetics</span>
+              <label class="checkout-checkbox-label">
+                <input type="checkbox" class="checkbox" onchange="toggleCheckout('resurrection-defense', 'The Historical Defense of the Resurrection of Jesus', 'Apologetics', this)"> Check Out
+              </label>
+            </div>
+            <div class="book-title">The Historical Resurrection Defense</div>
+            <div class="book-author">Classical Evidential Apologetics Master Compendium</div>
+            <div class="book-desc">Legal, historical, and medical defense proving the empty tomb, post-mortem appearances, and transformation of the Apostles.</div>
+          </div>
+          <div class="book-footer">
+            <button class="btn-preview" onclick="openPreview('The Historical Resurrection Defense', 'Comprehensive evidential defense proving the bodily resurrection of Jesus Christ beyond reasonable doubt.')">Preview Content</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- STICKY BOTTOM CHECKOUT COMMAND BAR -->
+  <footer class="sticky-checkout-bar" id="checkoutBar">
+    <div class="checkout-info">
+      <div class="checkout-counter">
+        <span>📚 Checked Out:</span>
+        <span id="checkedCount">0</span>/5
+      </div>
+      <div class="checkout-titles-list" id="checkedTitlesList">
+        No materials selected yet. Check up to 5 items to study.
+      </div>
+    </div>
+
+    <div class="checkout-actions">
+      <button class="btn-clear-checkout" onclick="clearCheckout()">✕ Clear All</button>
+      <button class="btn-enter-study-hall" onclick="enterStudyHall()">
+        Check Out & Enter Study Hall ➔
+      </button>
+    </div>
+  </footer>
+
+  <!-- IN-PAGE PREVIEW MODAL -->
+  <div class="preview-modal" id="previewModal">
+    <div class="preview-card">
+      <div class="preview-header">
+        <h4 id="previewModalTitle">Book Preview</h4>
+        <button onclick="closePreview()" style="background:none; border:none; color:var(--text-muted); font-size:1.4rem; cursor:pointer;">✕</button>
+      </div>
+      <div class="preview-body" id="previewModalBody">
+        Loading material synopsis...
+      </div>
+      <div class="preview-footer">
+        <span style="font-size:0.8rem; color:var(--gold);">Ready to load into multi-panel Study Hall desk.</span>
+        <button class="btn-preview" onclick="closePreview()">Close Preview</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION BANNER -->
+  <div class="library-toast" id="libraryToast">Notice</div>
+
+  <script>
+    // 1. DATA REPOSITORY & CHECKOUT ENGINE
+    const MAX_CHECKOUT = 5;
+    let checkedOutItems = [];
+
+    // Load existing checkout from browser memory
+    window.addEventListener('DOMContentLoaded', () => {
+      const stored = localStorage.getItem('church_study_desk');
+      if (stored) {
+        try {
+          checkedOutItems = JSON.parse(stored);
+          syncCheckboxes();
+          updateStickyBar();
+        } catch (e) {
+          checkedOutItems = [];
+        }
+      }
+
+      // Check Brother Brian login session for custom [ ✕ ] routing
+      const userAuth = localStorage.getItem('churchLeaderAuth');
+      const exitBtn = document.getElementById('universalExitBtn');
+      if (userAuth === 'brian_active') {
+        exitBtn.href = 'studio.html';
+        exitBtn.innerText = '✕ Backstage Studio';
+      }
+    });
+
+    function toggleCheckout(id, title, category, checkbox) {
+      if (checkbox.checked) {
+        if (checkedOutItems.length >= MAX_CHECKOUT) {
+          checkbox.checked = false;
+          showToast(`Limit reached: You can check out a maximum of ${MAX_CHECKOUT} items for your desk.`);
+          return;
+        }
+        checkedOutItems.push({ id, title, category });
+      } else {
+        checkedOutItems = checkedOutItems.filter(item => item.id !== id);
+      }
+      saveAndSync();
+    }
+
+    function saveAndSync() {
+      localStorage.setItem('church_study_desk', JSON.stringify(checkedOutItems));
+      syncCheckboxes();
+      updateStickyBar();
+    }
+
+    function syncCheckboxes() {
+      const allCheckboxes = document.querySelectorAll('.checkout-checkbox');
+      allCheckboxes.forEach(cb => {
+        const card = cb.closest('.book-card');
+        const cardId = card.getAttribute('data-id');
+        const isChecked = checkedOutItems.some(item => item.id === cardId);
+        cb.checked = isChecked;
+        card.classList.toggle('checked-out', isChecked);
+      });
+    }
+
+    function updateStickyBar() {
+      document.getElementById('checkedCount').innerText = checkedOutItems.length;
+      const listEl = document.getElementById('checkedTitlesList');
+      if (checkedOutItems.length === 0) {
+        listEl.innerText = "No materials selected yet. Check up to 5 items to study.";
+        listEl.style.color = "var(--text-muted)";
+      } else {
+        listEl.innerText = checkedOutItems.map(i => i.title).join(" • ");
+        listEl.style.color = "var(--gold-bright)";
+      }
+    }
+
+    function clearCheckout() {
+      checkedOutItems = [];
+      saveAndSync();
+      showToast('Checked-out items cleared.');
+    }
+
+    function enterStudyHall() {
+      if (checkedOutItems.length === 0) {
+        showToast('Please check out at least 1 book or lecture to enter Study Hall.');
+        return;
+      }
+      localStorage.setItem('church_study_desk', JSON.stringify(checkedOutItems));
+      window.location.href = 'study-hall.html';
+    }
+
+    // 2. SEARCH & WING FILTERING
+    function filterWing(wingKey) {
+      const buttons = document.querySelectorAll('.wing-filter-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const sections = document.querySelectorAll('.wing-section');
+      sections.forEach(sec => {
+        if (wingKey === 'all' || sec.getAttribute('data-wing') === wingKey) {
+          sec.style.display = 'block';
+        } else {
+          sec.style.display = 'none';
+        }
+      });
+    }
+
+    function filterLibrary() {
+      const q = document.getElementById('librarySearchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.book-card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('.book-title').innerText.toLowerCase();
+        const author = card.querySelector('.book-author').innerText.toLowerCase();
+        const desc = card.querySelector('.book-desc').innerText.toLowerCase();
+        
+        if (title.includes(q) || author.includes(q) || desc.includes(q)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 3. IN-PAGE PREVIEW MODAL
+    function openPreview(title, content) {
+      document.getElementById('previewModalTitle').innerText = title;
+      document.getElementById('previewModalBody').innerHTML = `
+        <strong style="color:var(--gold); display:block; margin-bottom:8px;">Archival Syllabus & Content Notes:</strong>
+        <p>${content}</p>
+        <p style="margin-top:12px; color:var(--text-muted); font-size:0.85rem;">
+          When checked out, this material will occupy one of your 5 dynamic reading panels inside <strong>study-hall.html</strong> with full text scrolling and synchronized Sovereign Notebook study.
+        </p>
+      `;
+      document.getElementById('previewModal').classList.add('active');
+    }
+
+    function closePreview() {
+      document.getElementById('previewModal').classList.remove('active');
+    }
+
+    // 4. TOAST HELPER (NO INTRUSIVE POPUPS)
+    function showToast(msg) {
+      const toast = document.getElementById('libraryToast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3500);
+    }
+  </script>
+</body>
+</html>
