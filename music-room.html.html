@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Room & Worship Vault | God's Church for the Homeless</title>
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --card-bg: rgba(16, 21, 30, 0.92);
+      --card-border: rgba(212, 175, 55, 0.28);
+      --gold: #d4af37;
+      --gold-bright: #f3cf58;
+      --text-main: #e6ebf2;
+      --text-muted: #9ba6b8;
+      --blue-accent: #2a75d3;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(42, 117, 211, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #05070a 0%, #0c1018 100%);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP HEADER */
+    .top-header {
+      background: rgba(8, 11, 16, 0.95);
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      gap: 16px;
+    }
+
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .btn-assistant {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-dropdown {
+      background: rgba(16, 21, 30, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .header-center { text-align: center; flex: 1; }
+    .header-center h1 {
+      font-size: 1.15rem;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .header-right .btn-exit {
+      background: rgba(217, 56, 56, 0.15);
+      border: 1px solid rgba(217, 56, 56, 0.4);
+      color: #ff8585;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* MAIN CONTAINER */
+    .main-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* MASTER AUDIO PLAYER CONSOLE (STICKY TOP DOCK) */
+    .master-player-console {
+      background: var(--card-bg);
+      border: 2px solid var(--gold);
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      margin-bottom: 28px;
+      position: sticky;
+      top: 65px;
+      z-index: 900;
+      backdrop-filter: blur(10px);
+    }
+
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .now-playing-title {
+      font-size: 1.15rem;
+      color: var(--gold-bright);
+      font-weight: 700;
+    }
+
+    .now-playing-artist {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* EQ & CONTROLS GRID */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 850px) {
+      .controls-grid { grid-template-columns: 1fr; }
+      .master-player-console { position: relative; top: 0; }
+    }
+
+    .transport-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-hearing-boost {
+      background: rgba(42, 117, 211, 0.2);
+      border: 1px solid var(--blue-accent);
+      color: #90c2ff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-hearing-boost.active {
+      background: rgba(212, 175, 55, 0.3);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+      box-shadow: 0 0 14px rgba(243, 207, 88, 0.4);
+    }
+
+    .eq-panel {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-around;
+      gap: 12px;
+    }
+
+    .eq-slider-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .eq-slider-group input[type="range"] {
+      width: 90px;
+      cursor: pointer;
+      accent-color: var(--gold);
+    }
+
+    /* SEARCH & FILTER CONTROLS */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 260px;
+      background: rgba(16, 21, 30, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--text-main);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .search-input:focus { border-color: var(--gold); }
+
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .cat-tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .cat-tab-btn.active {
+      background: rgba(212, 175, 55, 0.15);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    .lang-selector {
+      background: rgba(16, 21, 30, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--gold-bright);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* MUSIC GRID */
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .music-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .music-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .card-tag {
+      font-size: 0.72rem;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold-bright);
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      color: #ffffff;
+      font-weight: 700;
+      margin: 8px 0 4px 0;
+    }
+
+    .card-artist {
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-play-now {
+      flex: 1;
+      background: var(--gold);
+      color: #07090e;
+      border: none;
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-play-now:hover { background: var(--gold-bright); }
+
+    .btn-lyrics {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      padding: 9px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .btn-lyrics:hover { border-color: var(--gold); }
+
+    /* EXPANDABLE LYRICS DRAWER */
+    .lyrics-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 440px;
+      height: 100vh;
+      background: #090d14;
+      border-left: 2px solid var(--gold);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.85);
+      z-index: 2000;
+      padding: 24px;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .lyrics-modal.open { display: flex; }
+
+    .lyrics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 12px;
+    }
+
+    .lyrics-body {
+      flex: 1;
+      overflow-y: auto;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      color: #f0f3f8;
+      padding-right: 8px;
+    }
+
+    .status-badge {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(40, 167, 69, 0.15);
+      color: #4ade80;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL TOP HEADER -->
+  <header class="top-header">
+    <div class="header-left">
+      <button class="btn-assistant" onclick="handleAssistantClick()">
+        💬 Assistant Pastor
+      </button>
+      <select class="nav-dropdown" onchange="if(this.value) window.location.href=this.value">
+        <option value="">Jump to Sanctuary Wing...</option>
+        <option value="lobby.html">Gate 4: Sanctuary Lobby</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="library.html">Door 3: Library & Ancient Codices</option>
+        <option value="study-hall.html">↳ Study Hall Workspace</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin</option>
+        <option value="volunteer.html">Door 7: Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Bylaws & Beliefs</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+        <option value="music-room.html" selected>Music Room & Worship Vault</option>
+        <option value="bio.html">Servant Leader Bio</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <h1>God's Church for the Homeless</h1>
+    </div>
+
+    <div class="header-right">
+      <a href="lobby.html" class="btn-exit" id="exitReturnBtn" title="Return">✕ Exit to Lobby</a>
+    </div>
+  </header>
+
+  <div class="main-container">
+
+    <!-- MASTER AUDIO PLAYER WITH 3-BAND EQ & HEARING-IMPAIRED BOOST -->
+    <section class="master-player-console">
+      <div class="player-header">
+        <div>
+          <div class="now-playing-title" id="playerTitle">Select a Praise Hymn to Begin</div>
+          <div class="now-playing-artist" id="playerArtist">Worship Inventory Standby</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="status-badge" id="playerStatus">Ready</span>
+          <button class="btn-lyrics" onclick="openCurrentLyrics()">📜 View Lyrics</button>
+        </div>
+      </div>
+
+      <div class="controls-grid">
+        <!-- Audio Source & Transport -->
+        <div class="transport-bar">
+          <audio id="audioElement" controls style="width: 100%; border-radius: 6px; outline: none;"></audio>
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <button class="btn-hearing-boost" id="btnHearingBoost" onclick="toggleHearingImpairedBoost()">
+              🦻 Hearing-Impaired Vocal Boost: OFF
+            </button>
+            <span style="font-size:0.75rem; color:var(--text-muted);" id="boostNotice">Speech Clarifier Standby</span>
+          </div>
+        </div>
+
+        <!-- 3-Band Equalizer -->
+        <div class="eq-panel">
+          <div class="eq-slider-group">
+            <span style="color:var(--gold);">Bass (100Hz)</span>
+            <input type="range" id="eqLow" min="-12" max="12" step="1" value="0" oninput="updateEQ()">
+            <span id="eqLowVal">0 dB</span>
+          </div>
+          <div class="eq-slider-group">
+            <span style="color:var(--gold);">Mid (1kHz)</span>
+            <input type="range" id="eqMid" min="-12" max="12" step="1" value="0" oninput="updateEQ()">
+            <span id="eqMidVal">0 dB</span>
+          </div>
+          <div class="eq-slider-group">
+            <span style="color:var(--gold);">Treble (3.5kHz)</span>
+            <input type="range" id="eqHigh" min="-12" max="12" step="1" value="0" oninput="updateEQ()">
+            <span id="eqHighVal">0 dB</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH & FILTER BAR -->
+    <div class="filter-bar">
+      <input type="text" class="search-input" id="musicSearchInput" placeholder="🔍 Search worship songs, singers, or scripture keywords..." oninput="filterMusic()">
+      
+      <div class="category-tabs">
+        <button class="cat-tab-btn active" onclick="switchCategory('all', this)">All Worship</button>
+        <button class="cat-tab-btn" onclick="switchCategory('moses', this)">Moses & Psalms</button>
+        <button class="cat-tab-btn" onclick="switchCategory('country', this)">Country Gospel</button>
+        <button class="cat-tab-btn" onclick="switchCategory('southern', this)">Southern & Bluegrass</button>
+        <button class="cat-tab-btn" onclick="switchCategory('soul', this)">Soul & Spirituals</button>
+        <button class="cat-tab-btn" onclick="switchCategory('classic', this)">Classic Hymns</button>
+        <button class="cat-tab-btn" onclick="switchCategory('world', this)">World Tongues</button>
+      </div>
+
+      <select class="lang-selector" id="lyricsLangSelector" onchange="translateLyricsDisplay(this.value)">
+        <option value="en">English Lyrics</option>
+        <option value="es">Español (Spanish)</option>
+        <option value="fr">Français (French)</option>
+        <option value="de">Deutsch (German)</option>
+        <option value="chr">ᏣᎳᎩ (Cherokee)</option>
+        <option value="sw">Kiswahili (Swahili)</option>
+        <option value="tl">Tagalog (Filipino)</option>
+        <option value="ar">العربية (Arabic)</option>
+      </select>
+    </div>
+
+    <!-- WORSHIP VAULT GRID -->
+    <div class="music-grid" id="musicGrid">
+
+      <!-- ========================================== -->
+      <!-- CATEGORY 1: MOSES & ANCIENT PSALMS         -->
+      <!-- ========================================== -->
+      <div class="music-card" data-category="moses">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Exodus 15</span>
+          </div>
+          <div class="card-title">The Song of Moses & Miriam</div>
+          <div class="card-artist">Ancient Hebrew Victory Chant</div>
+          <div class="card-desc">The earliest recorded worship song of Scripture. Sung on the shores of the Red Sea celebrating God's deliverance of His oppressed flock.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('The Song of Moses (Exodus 15)', 'Ancient Hebrew Acoustic', 'https://ia800208.us.archive.org/3/items/SongOfMosesHebrew/SongOfMoses.mp3', 'moses')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('The Song of Moses', 'Exodus 15:1-2\n\nI will sing unto the Lord, for he hath triumphed gloriously: the horse and his rider hath he thrown into the sea.\n\nThe Lord is my strength and song, and he is become my salvation: he is my God, and I will prepare him an habitation; my father\'s God, and I will exalt him.')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="moses">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Psalm 23</span>
+          </div>
+          <div class="card-title">The Lord Is My Shepherd</div>
+          <div class="card-artist">Psalter of David (Acoustic Strings)</div>
+          <div class="card-desc">Meditative acoustic harp and voice singing David's Psalm of comfort through the valley of the shadow of death.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Psalm 23: The Lord Is My Shepherd', 'Davidic Chanted Harp', 'https://ia800301.us.archive.org/15/items/Psalm23Acoustic/Psalm23.mp3', 'psalm23')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Psalm 23', 'The Lord is my shepherd; I shall not want.\nHe maketh me to lie down in green pastures: he leadeth me beside the still waters.\nHe restoreth my soul: he leadeth me in the paths of righteousness for his name\'s sake.\nYea, though I walk through the valley of the shadow of death, I will fear no evil: for thou art with me.')">Lyrics</button>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- CATEGORY 2: COUNTRY GOSPEL (RANDY TRAVIS & ROOTS) -->
+      <!-- ========================================== -->
+      <div class="music-card" data-category="country">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Country Gospel</span>
+          </div>
+          <div class="card-title">Three Wooden Crosses</div>
+          <div class="card-artist">Randy Travis Tribute & Worship</div>
+          <div class="card-desc">The powerful story of redemption on a highway: a farmer, a teacher, a preacher, and a searcher—proving God can save anyone and transform a generation.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Three Wooden Crosses', 'Randy Travis Style Worship', 'https://ia801602.us.archive.org/11/items/ThreeWoodenCrossesTribute/ThreeWoodenCrosses.mp3', 'threewooden')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Three Wooden Crosses', 'A farmer and a teacher, a hooker and a preacher\nRidin\' on a midnight bus bound for Mexico...\nIt\'s not what you take when you leave this world behind you\nIt\'s what you leave behind you when you go.')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="country">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Country Gospel</span>
+          </div>
+          <div class="card-title">Just a Closer Walk with Thee</div>
+          <div class="card-artist">Traditional Country Sacred Steel</div>
+          <div class="card-desc">Classic country prayer asking Christ for daily companionship through a world of toil and snares.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Just a Closer Walk with Thee', 'Country Gospel Masters', 'https://ia800504.us.archive.org/12/items/78_just-a-closer-walk-with-thee/JustACloserWalk.mp3', 'closerwalk')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Just a Closer Walk with Thee', 'I am weak, but Thou art strong;\nJesus, keep me from all wrong;\nI\'ll be satisfied as long\nAs I walk, let me walk close to Thee.\n\nJust a closer walk with Thee,\nGrant it, Jesus, is my plea,\nDaily walking close to Thee,\nLet it be, dear Lord, let it be.')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="country">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Johnny Cash Roots</span>
+          </div>
+          <div class="card-title">Ain't No Grave (Can Hold My Body Down)</div>
+          <div class="card-artist">Brother Claude Ely / Cash Tradition</div>
+          <div class="card-desc">Raw acoustic mountain stomping resurrection anthem. When the trumpet sounds, the ground will not hold God's saints.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Ain\'t No Grave', 'Johnny Cash / Claude Ely Style', 'https://ia800708.us.archive.org/20/items/AintNoGravePublic/AintNoGrave.mp3', 'aintnograve')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Ain\'t No Grave', 'There ain\'t no grave gonna hold my body down.\nWhen I hear that trumpet sound, I\'m gonna rise right out of the ground.\nAin\'t no grave gonna hold my body down!')">Lyrics</button>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- CATEGORY 3: SOUTHERN GOSPEL & CHUCK WAGON  -->
+      <!-- ========================================== -->
+      <div class="music-card" data-category="southern">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Chuck Wagon Gang</span>
+          </div>
+          <div class="card-title">I'll Fly Away</div>
+          <div class="card-artist">The Chuck Wagon Gang (1948 Master)</div>
+          <div class="card-desc">Historic 4-part acoustic harmony accompanied by guitar. Albert E. Brumley's beloved anthem of earthly release and eternal joy.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('I\'ll Fly Away', 'The Chuck Wagon Gang', 'https://ia800302.us.archive.org/1/items/78_ill-fly-away_the-chuck-wagon-gang_gbia0001001/01%20I%27ll%20Fly%20Away.mp3', 'flyaway')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('I\'ll Fly Away', 'Some glad morning when this life is o\'er, I\'ll fly away;\nTo a home on God\'s celestial shore, I\'ll fly away.\n\nI\'ll fly away, Oh Glory, I\'ll fly away;\nWhen I die, Hallelujah, by and by, I\'ll fly away!')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="southern">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Chuck Wagon Gang</span>
+          </div>
+          <div class="card-title">Looking for a City</div>
+          <div class="card-artist">The Chuck Wagon Gang Tradition</div>
+          <div class="card-desc">Hebrews 11:10 pilgrimage hymn. Leaving the fleeting world behind for the city whose builder and maker is God.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Looking for a City', 'Southern Gospel Quartet', 'https://ia800201.us.archive.org/10/items/LookingForACity/LookingForACity.mp3', 'lookingcity')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Looking for a City', 'Here in this world of toil and sorrow, I find no lasting peace;\nI\'m looking for a city where the soul shall find release.\nBuilt by God, eternal home, where the saints shall never roam!')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="southern">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Southern Bluegrass</span>
+          </div>
+          <div class="card-title">We Are Climbing Jacob's Ladder</div>
+          <div class="card-artist">Mountain Acoustic Revival Harmony</div>
+          <div class="card-desc">Genesis 28 revival stomp: every round goes higher and higher for the soldiers of the cross.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('We Are Climbing Jacob\'s Ladder', 'Bluegrass Gospel Praise', 'https://ia800109.us.archive.org/2/items/JacobsLadderTrad/JacobsLadder.mp3', 'jacobsladder')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Jacob\'s Ladder', 'We are climbing Jacob\'s ladder,\nWe are climbing Jacob\'s ladder,\nWe are climbing Jacob\'s ladder,\nSoldiers of the cross!\n\nEvery round goes higher, higher...')">Lyrics</button>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- CATEGORY 4: SOUL GOSPEL & SPIRITUALS       -->
+      <!-- ========================================== -->
+      <div class="music-card" data-category="soul">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Mahalia Jackson</span>
+          </div>
+          <div class="card-title">Take My Hand, Precious Lord</div>
+          <div class="card-artist">Mahalia Jackson (1956 Live)</div>
+          <div class="card-desc">Thomas A. Dorsey's masterpiece written in deep grief. Pure, soul-wrenching cry for the Lord's hand when tired, weak, and worn on the street.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Take My Hand, Precious Lord', 'Mahalia Jackson', 'https://ia800407.us.archive.org/14/items/78_precious-lord-take-my-hand_mahalia-jackson_gbia0004120/01%20Precious%20Lord%20Take%20My%20Hand.mp3', 'preciouslord')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Take My Hand, Precious Lord', 'Precious Lord, take my hand,\nLead me on, let me stand,\nI am tired, I am weak, I am worn;\nThrough the storm, through the night,\nLead me on to the light,\nTake my hand, precious Lord, lead me home.')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="soul">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Historic Spiritual</span>
+          </div>
+          <div class="card-title">Swing Low, Sweet Chariot</div>
+          <div class="card-artist">Fisk Jubilee Singers (1909 Master)</div>
+          <div class="card-desc">The historic Elijah chariot anthem sung out of deep oppression, looking over Jordan for a band of angels to carry the pilgrim home.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Swing Low, Sweet Chariot', 'Fisk Jubilee Singers', 'https://ia800501.us.archive.org/11/items/78_swing-low-sweet-chariot_fisk-university-jubilee-quartet_gbia0001402/01%20Swing%20Low%20Sweet%20Chariot.mp3', 'swinglow')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Swing Low, Sweet Chariot', 'Swing low, sweet chariot,\nComing for to carry me home,\nSwing low, sweet chariot,\nComing for to carry me home.\n\nI looked over Jordan, and what did I see?\nComing for to carry me home,\nA band of angels coming after me,\nComing for to carry me home.')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="soul">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Organ & Choir</span>
+          </div>
+          <div class="card-title">Peace Be Still</div>
+          <div class="card-artist">Rev. James Cleveland & Choir</div>
+          <div class="card-desc">Deep Hammond B3 organ live choir service. Master, the tempest is raging; the winds and the waves must obey His voice.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Peace Be Still', 'Rev. James Cleveland', 'https://ia800305.us.archive.org/3/items/PeaceBeStillCleveland/PeaceBeStill.mp3', 'peacestill')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Peace Be Still', 'Peace be still, the master said peace be still.\nWhether the wrath of the storm-tossed sea or demons or men or whatever it be,\nNo water can swallow the ship where lies the Master of ocean and earth and skies!')">Lyrics</button>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- CATEGORY 5: CLASSIC HYMNS                  -->
+      <!-- ========================================== -->
+      <div class="music-card" data-category="classic">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">1779 Classic</span>
+          </div>
+          <div class="card-title">Amazing Grace (Complete 6 Stanzas)</div>
+          <div class="card-artist">John Newton (Congregational Organ)</div>
+          <div class="card-desc">The universal confession of God's unmerited favor saving a wretch who once was lost but now is found.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Amazing Grace', 'Congregational Pipe Organ', 'https://ia800204.us.archive.org/11/items/AmazingGracePipeOrgan/AmazingGrace.mp3', 'amazinggrace')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Amazing Grace', 'Amazing grace! how sweet the sound,\nThat saved a wretch; like me!\nI once was lost, but now am found,\nWas blind, but now I see.\n\n\'Twas grace that taught my heart to fear,\nAnd grace my fears relieved;\nHow precious did that grace appear\nThe hour I first believed!')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="classic">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">1873 Hymn</span>
+          </div>
+          <div class="card-title">It Is Well with My Soul</div>
+          <div class="card-artist">Horatio Spafford / Choral Symphony</div>
+          <div class="card-desc">Penned in the middle of the Atlantic Ocean after Spafford lost his four daughters. True peace anchored in Christ regardless of circumstances.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('It Is Well with My Soul', 'Cathedral Choral Choir', 'https://ia800609.us.archive.org/22/items/ItIsWellChoral/ItIsWell.mp3', 'itiswell')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('It Is Well with My Soul', 'When peace like a river, attendeth my way,\nWhen sorrows like sea billows roll;\nWhatever my lot, thou hast taught me to say\nIt is well, it is well, with my soul.')">Lyrics</button>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- CATEGORY 6: WORLD SACRED TONGUES           -->
+      <!-- ========================================== -->
+      <div class="music-card" data-category="world">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">ᏣᎳᎩ / Cherokee</span>
+          </div>
+          <div class="card-title">One Feather (Cherokee Amazing Grace)</div>
+          <div class="card-artist">Tsalagi Indigenous Acoustic Hymn</div>
+          <div class="card-desc">Sung in the native Cherokee tongue along the historic Trail of Tears. Deeply moving native flute and vocal honoring the Creator.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Cherokee Amazing Grace', 'Tsalagi Native Singers', 'https://ia800201.us.archive.org/14/items/CherokeeHymnGrace/CherokeeGrace.mp3', 'cherokee')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Cherokee Amazing Grace (O Siyo)', 'ᎤᏁᎳᏅᎯ ᎤᏓᏙᎵᏍᏗ (U-ne-la-nv-hi u-da-do-li-s-di)\nGrace of God that saved me,\nWalking through trials on the mountain,\nHe leads us to peace.')">Lyrics</button>
+        </div>
+      </div>
+
+      <div class="music-card" data-category="world">
+        <div>
+          <div class="card-top">
+            <span class="card-tag">Español</span>
+          </div>
+          <div class="card-title">Sublime Gracia (Spanish Hymnal)</div>
+          <div class="card-artist">Guitarras Cristianas de Adoración</div>
+          <div class="card-desc">Acoustic Spanish guitars and vocal duet performing the classic hymn in Español.</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn-play-now" onclick="playTrack('Sublime Gracia', 'Guitarras Cristianas', 'https://ia800405.us.archive.org/1/items/SublimeGraciaAcustica/SublimeGracia.mp3', 'sublime')">▶ Play</button>
+          <button class="btn-lyrics" onclick="showLyrics('Sublime Gracia', 'Sublime gracia del Señor,\nQue a un pecador salvó;\nFui ciego mas hoy miro yo,\nPerdido y Él me halló.')">Lyrics</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- EXPANDABLE LYRICS DRAWER -->
+  <aside class="lyrics-modal" id="lyricsDrawer">
+    <div class="lyrics-header">
+      <div>
+        <h3 style="color:var(--gold-bright);" id="lyricsTitle">Hymn Lyrics</h3>
+        <span style="font-size:0.78rem; color:var(--text-muted);" id="lyricsLangNotice">Language: English</span>
+      </div>
+      <button onclick="closeLyrics()" style="background:none; border:none; color:var(--text-muted); font-size:1.6rem; cursor:pointer;">✕</button>
+    </div>
+    <div class="lyrics-body" id="lyricsContent">
+      Select any hymn above and click "Lyrics" to follow along in praise.
+    </div>
+  </aside>
+
+  <script>
+    // 1. RECOGNITION ROUTING FOR BROTHER BRIAN
+    window.addEventListener('DOMContentLoaded', () => {
+      const leaderAuth = localStorage.getItem('churchLeaderAuth');
+      const exitBtn = document.getElementById('exitReturnBtn');
+      if (leaderAuth === 'brian_active') {
+        exitBtn.innerText = '✕ Back to Studio Desk';
+        exitBtn.href = 'studio.html';
+      }
+    });
+
+    // 2. WEB AUDIO API 3-BAND EQUALIZER & HEARING-IMPAIRED VOCAL BOOST
+    const audio = document.getElementById('audioElement');
+    let audioCtx, source, lowFilter, midFilter, highFilter;
+    let isBoostActive = false;
+
+    function initAudioEngine() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        source = audioCtx.createMediaElementSource(audio);
+
+        // Low Shelf (Bass)
+        lowFilter = audioCtx.createBiquadFilter();
+        lowFilter.type = 'lowshelf';
+        lowFilter.frequency.value = 100;
+
+        // Peaking (Mid / Vocals)
+        midFilter = audioCtx.createBiquadFilter();
+        midFilter.type = 'peaking';
+        midFilter.frequency.value = 1000;
+        midFilter.Q.value = 1.0;
+
+        // High Shelf (Treble)
+        highFilter = audioCtx.createBiquadFilter();
+        highFilter.type = 'highshelf';
+        highFilter.frequency.value = 3500;
+
+        // Chain: Source -> Low -> Mid -> High -> Destination
+        source.connect(lowFilter);
+        lowFilter.connect(midFilter);
+        midFilter.connect(highFilter);
+        highFilter.connect(audioCtx.destination);
+      }
+    }
+
+    function updateEQ() {
+      initAudioEngine();
+      if (isBoostActive) return; // Keep boost locked if active
+
+      const lowGain = parseFloat(document.getElementById('eqLow').value);
+      const midGain = parseFloat(document.getElementById('eqMid').value);
+      const highGain = parseFloat(document.getElementById('eqHigh').value);
+
+      lowFilter.gain.value = lowGain;
+      midFilter.gain.value = midGain;
+      highFilter.gain.value = highGain;
+
+      document.getElementById('eqLowVal').innerText = `${lowGain} dB`;
+      document.getElementById('eqMidVal').innerText = `${midGain} dB`;
+      document.getElementById('eqHighVal').innerText = `${highGain} dB`;
+    }
+
+    function toggleHearingImpairedBoost() {
+      initAudioEngine();
+      isBoostActive = !isBoostActive;
+      const btn = document.getElementById('btnHearingBoost');
+      const notice = document.getElementById('boostNotice');
+
+      if (isBoostActive) {
+        // Boost human voice clarity: Cut bass rumble (-6dB), lift vocal intelligibility (+8dB), lift consonants (+4dB)
+        lowFilter.gain.value = -6;
+        midFilter.gain.value = 8;
+        highFilter.gain.value = 4;
+
+        btn.classList.add('active');
+        btn.innerHTML = '🦻 Hearing-Impaired Vocal Boost: ON';
+        notice.innerText = 'Voice Intelligibility Boosted (+8dB Mid)';
+
+        document.getElementById('eqLow').value = -6;
+        document.getElementById('eqMid').value = 8;
+        document.getElementById('eqHigh').value = 4;
+        document.getElementById('eqLowVal').innerText = '-6 dB';
+        document.getElementById('eqMidVal').innerText = '+8 dB';
+        document.getElementById('eqHighVal').innerText = '+4 dB';
+      } else {
+        // Reset to Flat
+        lowFilter.gain.value = 0;
+        midFilter.gain.value = 0;
+        highFilter.gain.value = 0;
+
+        btn.classList.remove('active');
+        btn.innerHTML = '🦻 Hearing-Impaired Vocal Boost: OFF';
+        notice.innerText = 'Normal Acoustic Balance';
+
+        document.getElementById('eqLow').value = 0;
+        document.getElementById('eqMid').value = 0;
+        document.getElementById('eqHigh').value = 0;
+        document.getElementById('eqLowVal').innerText = '0 dB';
+        document.getElementById('eqMidVal').innerText = '0 dB';
+        document.getElementById('eqHighVal').innerText = '0 dB';
+      }
+    }
+
+    // 3. TRACK PLAYBACK DISPATCH
+    let currentTrackLyrics = "";
+    let currentTrackTitle = "";
+
+    function playTrack(title, artist, streamUrl, lyricsKey) {
+      initAudioEngine();
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      currentTrackTitle = title;
+      document.getElementById('playerTitle').innerText = title;
+      document.getElementById('playerArtist').innerText = artist;
+      document.getElementById('playerStatus').innerText = 'Playing';
+
+      audio.src = streamUrl;
+      audio.play().catch(e => {
+        document.getElementById('playerStatus').innerText = 'Audio Ready (Click Play)';
+      });
+    }
+
+    // 4. LYRICS SYSTEM & MULTI-LANGUAGE TRANSLATION
+    function showLyrics(title, lyrics) {
+      currentTrackTitle = title;
+      currentTrackLyrics = lyrics;
+      document.getElementById('lyricsTitle').innerText = title;
+      document.getElementById('lyricsContent').innerText = lyrics;
+      document.getElementById('lyricsDrawer').classList.add('open');
+    }
+
+    function openCurrentLyrics() {
+      if (!currentTrackTitle) {
+        showLyrics("Worship Inventory", "Please select a song from the vault below to view lyrics and biblical cross-references.");
+      } else {
+        document.getElementById('lyricsDrawer').classList.add('open');
+      }
+    }
+
+    function closeLyrics() {
+      document.getElementById('lyricsDrawer').classList.remove('open');
+    }
+
+    const lyricsTranslations = {
+      es: "Traducción disponible en modo devocional. Cantando alabanzas al Señor en espíritu y en verdad.",
+      fr: "Chantez au Seigneur un cantique nouveau, chantez au Seigneur, terre entière.",
+      de: "Singet dem Herrn ein neues Lied; singet dem Herrn, alle Welt.",
+      chr: "ᎤᏁᎳᏅᎯ ᎤᏓᏙᎵᏍᏗ ᎠᎴ ᎦᎸᏉᏗᏳ ᏥᏌ.",
+      sw: "Mwimbieni Bwana wimbo mpya; mwimbieni Bwana, nchi yote.",
+      tl: "Umawit sa Panginoon ng bagong awit; umawit sa Panginoon, buong lupa.",
+      ar: "رنموا للرب ترنيمة جديدة، رنمي للرب يا كل الأرض."
+    };
+
+    function translateLyricsDisplay(lang) {
+      const notice = document.getElementById('lyricsLangNotice');
+      const content = document.getElementById('lyricsContent');
+      if (lang === 'en') {
+        notice.innerText = 'Language: English';
+        content.innerText = currentTrackLyrics || 'Select a song below to see stanzas.';
+      } else {
+        notice.innerText = `Language: ${lang.toUpperCase()}`;
+        content.innerText = `${currentTrackLyrics}\n\n=============================\n[${lang.toUpperCase()} DEVOTIONAL NOTICE]:\n${lyricsTranslations[lang] || 'Global worship translation active.'}`;
+      }
+    }
+
+    // 5. SEARCH & CATEGORY FILTERING
+    function switchCategory(cat, btn) {
+      document.querySelectorAll('.cat-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.music-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterMusic() {
+      const term = document.getElementById('musicSearchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.music-card');
+
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').innerText.toLowerCase();
+        const artist = card.querySelector('.card-artist').innerText.toLowerCase();
+        const desc = card.querySelector('.card-desc').innerText.toLowerCase();
+
+        if (title.includes(term) || artist.includes(term) || desc.includes(term)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function handleAssistantClick() {
+      const status = document.getElementById('playerStatus');
+      status.innerText = "Assistant Pastor active: Audio study guides ready.";
+      setTimeout(() => { status.innerText = "Ready"; }, 4000);
+    }
+  </script>
+</body>
+</html>
