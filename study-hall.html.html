@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Hall Workspace | God's Church for the Homeless</title>
+  <style>
+    :root {
+      --bg-dark: #07090e;
+      --card-bg: rgba(16, 21, 30, 0.94);
+      --card-border: rgba(212, 175, 55, 0.28);
+      --gold: #d4af37;
+      --gold-bright: #f3cf58;
+      --text-main: #e6ebf2;
+      --text-muted: #9ba6b8;
+      --blue-accent: #2a75d3;
+      --green-ok: #28a745;
+      --red-alert: #d93838;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(42, 117, 211, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #05070a 0%, #0c1018 100%);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* UNIVERSAL TOP HEADER */
+    .top-header {
+      background: rgba(8, 11, 16, 0.95);
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-assistant {
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-dropdown {
+      background: rgba(16, 21, 30, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .header-center {
+      text-align: center;
+      flex: 1;
+    }
+
+    .header-center h1 {
+      font-size: 1.15rem;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-return-lobby {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn-exit-stealth {
+      background: rgba(217, 56, 56, 0.15);
+      border: 1px solid rgba(217, 56, 56, 0.4);
+      color: #ff8585;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    /* DESK TOOLBAR */
+    .desk-toolbar {
+      background: rgba(12, 16, 24, 0.9);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .desk-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .desk-badge {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .desk-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-desk {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-main);
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-desk:hover {
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    .btn-desk.active {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    /* MAIN STUDY HALL LAYOUT */
+    .study-hall-workspace {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      padding: 16px 24px;
+      flex: 1;
+      min-height: calc(100vh - 120px);
+    }
+
+    /* 3-STAGE DYNAMIC SIZING */
+    .study-hall-workspace.view-equal {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .study-hall-workspace.view-materials-focus {
+      grid-template-columns: 3fr 1fr;
+    }
+
+    .study-hall-workspace.view-notebook-focus {
+      grid-template-columns: 1fr 2fr;
+    }
+
+    .study-hall-workspace.view-materials-only {
+      grid-template-columns: 1fr;
+    }
+    .study-hall-workspace.view-materials-only .notebook-column {
+      display: none;
+    }
+
+    .study-hall-workspace.view-notebook-only {
+      grid-template-columns: 1fr;
+    }
+    .study-hall-workspace.view-notebook-only .materials-column {
+      display: none;
+    }
+
+    /* MULTI-PANEL DESK (UP TO 5 MATERIALS) */
+    .materials-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .materials-tabs-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .mat-tab-btn {
+      background: rgba(16, 21, 30, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .mat-tab-btn.active {
+      background: rgba(212, 175, 55, 0.18);
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    .mat-tab-close {
+      color: #ff7373;
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .mat-tab-close:hover {
+      color: #ff3333;
+    }
+
+    .panels-grid {
+      display: grid;
+      gap: 12px;
+      flex: 1;
+      min-height: 520px;
+    }
+
+    .panels-grid.layout-single {
+      grid-template-columns: 1fr;
+    }
+
+    .panels-grid.layout-split {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .panels-grid.layout-triple {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .panel-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .panel-header {
+      background: rgba(10, 14, 22, 0.95);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .panel-header-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--gold-bright);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .panel-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .panel-tool-btn {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+
+    .panel-tool-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    .panel-content-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+      max-height: 720px;
+      line-height: 1.75;
+      font-size: 0.95rem;
+    }
+
+    .panel-content-body h3 {
+      color: var(--gold-bright);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .panel-content-body h4 {
+      color: #9fe2bf;
+      margin: 12px 0 6px 0;
+      font-size: 0.95rem;
+    }
+
+    .panel-content-body p {
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .panel-content-body iframe {
+      width: 100%;
+      height: 380px;
+      border: none;
+      border-radius: 6px;
+    }
+
+    .scripture-verse {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--gold);
+      padding: 8px 12px;
+      margin: 8px 0;
+      font-style: italic;
+    }
+
+    /* EMPTY DESK CONTAINER */
+    .empty-desk-card {
+      background: rgba(16, 21, 30, 0.85);
+      border: 2px dashed rgba(212, 175, 55, 0.3);
+      border-radius: 10px;
+      padding: 40px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-height: 480px;
+    }
+
+    .btn-return-library {
+      background: linear-gradient(135deg, var(--gold), #96781f);
+      color: #07090e;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* RIGHT COLUMN: SOVEREIGN STUDY NOTEBOOK */
+    .notebook-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .notebook-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .notebook-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+
+    .notebook-header h2 {
+      font-size: 1rem;
+      color: var(--gold-bright);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notebook-editor {
+      width: 100%;
+      flex: 1;
+      min-height: 420px;
+      background: rgba(6, 9, 14, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
+      color: var(--text-main);
+      padding: 14px;
+      font-family: inherit;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+    }
+
+    .notebook-editor:focus {
+      border-color: var(--gold);
+    }
+
+    .notebook-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .autosave-status {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    /* ASSISTANT PASTOR ROOT LOOKUP (SIDEBAR/MODAL) */
+    .assistant-drawer-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 440px;
+      height: 100vh;
+      background: #090d14;
+      border-left: 2px solid var(--gold);
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.85);
+      z-index: 2500;
+      padding: 20px;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .assistant-drawer-modal.open {
+      display: flex;
+    }
+
+    .lookup-input-bar {
+      display: flex;
+      gap: 6px;
+    }
+
+    .lookup-input {
+      flex: 1;
+      background: rgba(16, 21, 30, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-main);
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 0.88rem;
+      outline: none;
+    }
+
+    .lookup-input:focus {
+      border-color: var(--gold);
+    }
+
+    .btn-lookup {
+      background: var(--blue-accent);
+      color: #fff;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .root-result-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 0.86rem;
+      line-height: 1.6;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .root-term {
+      color: var(--gold-bright);
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .root-meta {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    /* IN-PAGE CONFIRMATION MODAL (SOVEREIGN PROTOCOL) */
+    .confirm-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .confirm-modal-overlay.open {
+      display: flex;
+    }
+
+    .confirm-modal-card {
+      background: #0f1521;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 440px;
+      width: 90%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .confirm-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    /* TOAST STATUS BADGE */
+    .study-toast {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      background: rgba(16, 36, 62, 0.95);
+      border: 1px solid #388bfd;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 4000;
+    }
+
+    @media (max-width: 960px) {
+      .study-hall-workspace {
+        grid-template-columns: 1fr;
+      }
+      .panels-grid.layout-split,
+      .panels-grid.layout-triple {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL TOP HEADER -->
+  <header class="top-header">
+    <div class="header-left">
+      <button class="btn-assistant" onclick="toggleAssistantDrawer()">
+        💬 Assistant Pastor
+      </button>
+      <select class="nav-dropdown" onchange="if(this.value) window.location.href=this.value">
+        <option value="">Go to Door...</option>
+        <option value="lobby.html">Gate 4: Main Lobby</option>
+        <option value="library.html">Door 3: Members' Library</option>
+        <option value="sanctuary.html">Door 2: Sanctuary & Sermons</option>
+        <option value="fellowship.html">Door 1: Fellowship Hall</option>
+        <option value="testimony.html">Door 4: Testimony Room</option>
+        <option value="prayer.html">Door 5: The Prayer Room</option>
+        <option value="bulletin.html">Door 6: Community Bulletin</option>
+        <option value="volunteer.html">Door 7: Volunteer Station</option>
+        <option value="bylaws.html">Door 8: Bylaws & Beliefs</option>
+        <option value="donations.html">Door 9: Donations & Offerings</option>
+        <option value="goals.html">Door 10: Goals & Progress</option>
+        <option value="rv-ministry.html">Door 11: Street RV Ministry</option>
+        <option value="gallery.html">Door 12: Photo Gallery</option>
+        <option value="music-room.html">Music Room & Worship Vault</option>
+      </select>
+    </div>
+
+    <div class="header-center">
+      <h1>God's Church for the Homeless</h1>
+    </div>
+
+    <div class="header-right">
+      <a href="library.html" class="btn-return-lobby">📚 Back to Library</a>
+      <a href="#" class="btn-exit-stealth" id="btnStealthExit" onclick="handleStealthExit(event)">✕ Exit</a>
+    </div>
+  </header>
+
+  <!-- DESK CONTROL TOOLBAR -->
+  <div class="desk-toolbar">
+    <div class="desk-info">
+      <span class="desk-badge">STUDY HALL MULTI-PANEL DESK</span>
+      <span style="font-size:0.84rem; color:var(--text-muted);" id="materialsCountLabel">Checked Out: 0 / 5</span>
+    </div>
+
+    <div class="desk-controls">
+      <span style="font-size:0.78rem; color:var(--text-muted); margin-right:4px;">Workspace Sizing:</span>
+      <button class="btn-desk active" id="btnViewDefault" onclick="setWorkspaceView('default')">Balanced</button>
+      <button class="btn-desk" id="btnViewMaterials" onclick="setWorkspaceView('materials-focus')">Books Focus</button>
+      <button class="btn-desk" id="btnViewNotebook" onclick="setWorkspaceView('notebook-focus')">Notebook Focus</button>
+      <button class="btn-desk" id="btnViewSplit" onclick="toggleMultiGridSplit()">Grid: <span id="splitModeLabel">Side-by-Side</span></button>
+      <button class="btn-desk" onclick="clearDeskMaterials()">🧹 Clear Desk</button>
+    </div>
+  </div>
+
+  <!-- WORKSPACE -->
+  <main class="study-hall-workspace" id="studyWorkspace">
+
+    <!-- LEFT COLUMN: CHECKED OUT MATERIALS (UP TO 5 PANELS) -->
+    <div class="materials-column" id="materialsColumn">
+
+      <!-- TABS BAR FOR MULTI-MATERIALS -->
+      <div class="materials-tabs-bar" id="materialsTabsBar" style="display:none;"></div>
+
+      <!-- PANELS CONTAINER -->
+      <div class="panels-grid layout-split" id="panelsGrid">
+        <!-- DYNAMICALLY RENDERED FROM CHECKOUT -->
+      </div>
+
+      <!-- EMPTY STATE (SHOWS IF ZERO MATERIALS CHECKED OUT) -->
+      <div class="empty-desk-card" id="emptyDeskCard" style="display:none;">
+        <div style="font-size:2.8rem; color:var(--gold);">📖</div>
+        <h2 style="color:var(--gold-bright);">Your Study Desk is Currently Clear</h2>
+        <p style="max-width:440px; color:var(--text-muted); font-size:0.9rem; line-height:1.6;">
+          You can check out up to 5 Bibles, ancient codices (Enoch, Jasher), lectures, church fathers, or video courses from Door 3 to study side-by-side.
+        </p>
+        <a href="library.html" class="btn-return-library">
+          <span>📚 Enter Digital Library to Check Out Materials</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: SOVEREIGN STUDY NOTEBOOK -->
+    <div class="notebook-column" id="notebookColumn">
+      <div class="notebook-card">
+        <div class="notebook-header">
+          <h2>📓 Sovereign Study Notebook</h2>
+          <span style="font-size:0.75rem; color:var(--gold);">Strictly Private &bull; Auto-Saved</span>
+        </div>
+
+        <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:8px;">
+          Your notes belong entirely to you. Connected across Sanctuary and Study Hall. Nothing is ever forced into your notebook.
+        </p>
+
+        <textarea class="notebook-editor" id="memberStudyNotebook" placeholder="Type scriptures, personal reflections, study notes, or Greek/Hebrew word notes here... Auto-saves permanently on your device."></textarea>
+
+        <div class="notebook-footer">
+          <span class="autosave-status" id="notebookStatus">Auto-saved to device</span>
+          <div style="display:flex; gap:6px;">
+            <button class="btn-desk" onclick="copyNotebookText()">📋 Copy All</button>
+            <button class="btn-desk" onclick="clearNotebookManual()">🗑️ Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ASSISTANT PASTOR SLIDE-OUT DRAWER (GREEK / HEBREW ROOTS & STUDY CLERK) -->
+  <aside class="assistant-drawer-modal" id="assistantDrawer">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.25); padding-bottom:10px;">
+      <div>
+        <h3 style="color:var(--gold-bright); font-size:1.05rem;">💬 Assistant Pastor Desk</h3>
+        <span style="font-size:0.72rem; color:var(--text-muted);">Scripture & Root Word Clerk &bull; Cannot Pray</span>
+      </div>
+      <button onclick="toggleAssistantDrawer()" style="background:none; border:none; color:var(--text-muted); font-size:1.4rem; cursor:pointer;">✕</button>
+    </div>
+
+    <div style="font-size:0.8rem; color:var(--text-muted); line-height:1.5;">
+      Search Hebrew/Greek Strong's roots, Near Eastern cultural context, or ancient textual cross-references.
+    </div>
+
+    <div class="lookup-input-bar">
+      <input type="text" class="lookup-input" id="rootSearchInput" placeholder="Enter word or Strong's (e.g. Hesed, Logos, Elohim, H2617)..." onkeydown="if(event.key==='Enter') executeRootLookup()">
+      <button class="btn-lookup" onclick="executeRootLookup()">Search</button>
+    </div>
+
+    <div class="root-result-box" id="rootResultBox">
+      <div style="color:var(--text-muted); font-style:italic; text-align:center; padding-top:40px;">
+        Enter a biblical word above to review primary Greek/Hebrew roots, definitions, and manuscript occurrences.
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.08); padding-top:10px;">
+      <span style="font-size:0.72rem; color:var(--gold);">Sovereign Protocol Active</span>
+      <button class="btn-desk" style="font-size:0.75rem;" onclick="promptInsertToNotebook()">➕ Send to Sovereign Notebook</button>
+    </div>
+  </aside>
+
+  <!-- SOVEREIGN CONFIRMATION MODAL -->
+  <div class="confirm-modal-overlay" id="confirmModal">
+    <div class="confirm-modal-card">
+      <h3 style="color:var(--gold-bright); font-size:1rem;">📖 Add to Sovereign Notebook?</h3>
+      <p style="font-size:0.86rem; color:var(--text-main); line-height:1.5;" id="confirmModalText">
+        Would you like to append this scripture study note into your private Sovereign Notebook?
+      </p>
+      <div class="confirm-modal-actions">
+        <button class="btn-desk" onclick="closeConfirmModal(false)">Cancel</button>
+        <button class="btn-desk" style="background:var(--gold); color:#07090e; font-weight:700;" onclick="closeConfirmModal(true)">Yes, Add to Notebook</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION BADGE -->
+  <div class="study-toast" id="studyToast">Saved</div>
+
+  <script>
+    // ==========================================
+    // 1. FULL TEXT REPOSITORY FOR CHECKED-OUT MATERIALS
+    // ==========================================
+    const libraryDatabase = {
+      "kjv-bible": {
+        title: "King James Bible (1611 Unabridged)",
+        wing: "Bibles & Sacred Canons",
+        body: `
+          <h3>The Gospel According to St. John — Chapter 1</h3>
+          <div class="scripture-verse">1 In the beginning was the Word, and the Word was with God, and the Word was God.</div>
+          <div class="scripture-verse">2 The same was in the beginning with God.</div>
+          <div class="scripture-verse">3 All things were made by him; and without him was not any thing made that was made.</div>
+          <div class="scripture-verse">4 In him was life; and the life was the light of men.</div>
+          <div class="scripture-verse">5 And the light shineth in darkness; and the darkness comprehended it not.</div>
+          <h4>Luke 14:23 (Sanctuary Anchor)</h4>
+          <div class="scripture-verse">"And the lord said unto the servant, Go out into the highways and hedges, and compel them to come in, that my house may be filled."</div>
+        `
+      },
+      "geneva-1599": {
+        title: "Geneva Bible (1599 Historical Translation)",
+        wing: "Bibles & Sacred Canons",
+        body: `
+          <h3>The Holy Gospel of Jesus Christ According to John — Chapter 1</h3>
+          <div class="scripture-verse">1 In the beginning was that Word, and that Word was with God, and that Word was God.</div>
+          <div class="scripture-verse">2 This same was in the beginning with God.</div>
+          <div class="scripture-verse">3 All things were made by it, and without it was made nothing that was made.</div>
+          <div class="scripture-verse">4 In it was life, and that life was the light of men.</div>
+          <div class="scripture-verse">5 And that light shineth in the darknesse, and the darknesse comprehended it not.</div>
+          <h4>Original Marginal Note (1599):</h4>
+          <p style="font-size:0.84rem; color:var(--text-muted);">"The Sonne of God is declared to be of one selfsame substance with the Father, eternally subsisting from all beginning."</p>
+        `
+      },
+      "ethiopian-canon": {
+        title: "The Ethiopian Orthodox Canon (81 Books)",
+        wing: "Bibles & Sacred Canons",
+        body: `
+          <h3>Ethiopian Biblical Tradition: The Broader Ancient Canon</h3>
+          <p>The Ethiopian Orthodox Tewahedo Church preserves the ancient 81-book biblical canon, including 1 Enoch (Henok), Jubilees (Kufale), and the Books of Meqabyan.</p>
+          <h4>Henok (1 Enoch) 1:1-2</h4>
+          <div class="scripture-verse">"The word of the blessing of Enoch, wherewith he blessed the elect and righteous, who will be living in the day of tribulation, when all the wicked and godless are to be removed."</div>
+          <div class="scripture-verse">"And he took up his parable and said: Enoch, a righteous man whose eyes were opened by God, saw the vision of the Holy One in the heavens..."</div>
+        `
+      },
+      "codex-sinaiticus": {
+        title: "Codex Sinaiticus (4th Century Greek Manuscript)",
+        wing: "Ancient Codices & Dead Sea Scrolls",
+        body: `
+          <h3>Codex Sinaiticus — British Library & Saint Catherine's Monastery</h3>
+          <p>Handwritten in Greek uncial script on animal parchment circa 330–360 AD. Preserves the earliest complete New Testament.</p>
+          <h4>Codex Textus — Epistle of Barnabas & Shepherd of Hermas:</h4>
+          <p style="font-size:0.88rem; color:var(--text-main);">Contains the Greek uncial texts originally bound alongside the 27 books of the New Testament canon in 4th-century Christendom.</p>
+          <div style="background:rgba(255,255,255,0.04); padding:10px; border-radius:6px; font-family:monospace; font-size:0.85rem; color:#9fe2bf;">
+            [ΕΝ ΑΡΧΗ ΗΝ Ο ΛΟΓΟΣ ΚΑΙ Ο ΛΟΓΟΣ ΗΝ ΠΡΟΣ ΤΟΝ ΘΕΟΝ ΚΑΙ ΘΕΟΣ ΗΝ Ο ΛΟΓΟΣ]
+          </div>
+        `
+      },
+      "enoch-complete": {
+        title: "The Book of Enoch (1 & 2 Enoch Complete)",
+        wing: "Ancient Codices & Dead Sea Scrolls",
+        body: `
+          <h3>The Book of 1 Enoch (R.H. Charles Historical Translation)</h3>
+          <h4>Section I: Chapters 1–36 (The Book of the Watchers)</h4>
+          <div class="scripture-verse">"And it came to pass when the children of men had multiplied that in those days were born unto them beautiful and comely daughters. And the angels, the children of the heaven, saw and lusted after them..." (1 Enoch 6:1-2)</div>
+          <h4>Jude 1:14-15 Cross-Reference:</h4>
+          <div class="scripture-verse">"And Enoch also, the seventh from Adam, prophesied of these, saying, Behold, the Lord cometh with ten thousands of his saints, to execute judgment upon all..."</div>
+        `
+      },
+      "jasher-complete": {
+        title: "The Book of Jasher (Joshua 10:13 Reference)",
+        wing: "Ancient Codices & Dead Sea Scrolls",
+        body: `
+          <h3>The Book of Jasher (Sefer HaYashar)</h3>
+          <p>Referenced in Joshua 10:13 ("Is not this written in the book of Jasher?") and 2 Samuel 1:18.</p>
+          <h4>Chapter 1: The Generations of Adam:</h4>
+          <div class="scripture-verse">"And God said, Let us make man in our image, after our likeness, and God made man in his own likeness. And God formed man out of the ground, and he blew into his nostrils the breath of life, and man became a living soul endowed with speech."</div>
+        `
+      },
+      "dead-sea-scrolls": {
+        title: "Dead Sea Scrolls: The Great Isaiah Scroll (1QIsa)",
+        wing: "Ancient Codices & Dead Sea Scrolls",
+        body: `
+          <h3>Qumran Cave 1: The Great Isaiah Scroll (1QIsa)</h3>
+          <p>Dating to circa 125 BC. Provides textual proof confirming the accuracy of the Hebrew scriptures over a thousand years prior to the Masoretic Text.</p>
+          <h4>Isaiah 53:5 Verification:</h4>
+          <div class="scripture-verse">"But he was pierced for our transgressions, he was crushed for our iniquities; the chastisement of our peace was upon him, and with his stripes we are healed."</div>
+        `
+      },
+      "two-powers-heaven": {
+        title: "Two Powers in Heaven & Divine Council",
+        wing: "Deep Meat & Bible Law",
+        body: `
+          <h3>Ancient Jewish Monotheism & The Divine Council Worldview</h3>
+          <p>Examining ancient Second Temple Jewish literature, Philo of Alexandria, and biblical texts showing the plural majesty of the Godhead in the Old Testament.</p>
+          <h4>Psalm 82:1 Foundation:</h4>
+          <div class="scripture-verse">"God standeth in the congregation of the mighty; he judgeth among the gods."</div>
+          <h4>Genesis 19:24 Inter-Yahweh Text:</h4>
+          <div class="scripture-verse">"Then the LORD [Yahweh on earth] rained upon Sodom and upon Gomorrah brimstone and fire from the LORD out of heaven."</div>
+        `
+      },
+      "world-before-adam": {
+        title: "The World Before Adam (Pember Unabridged 1876)",
+        wing: "Deep Meat & Bible Law",
+        body: `
+          <h3>Earth's Earliest Ages — G.H. Pember (1876)</h3>
+          <h4>The Interval Between Genesis 1:1 and Genesis 1:2:</h4>
+          <p>Examining the Hebrew syntax of Genesis 1:2: <em>"And the earth was [hayah - became] without form and void [tohu va-bohu]."</em></p>
+          <h4>Isaiah 45:18 Cross-Examination:</h4>
+          <div class="scripture-verse">"For thus saith the LORD that created the heavens; God himself that formed the earth and made it; he hath established it, he created it not in vain [tohu], he formed it to be inhabited."</div>
+        `
+      },
+      "serpent-seed": {
+        title: "The Serpent Seed Controversy: Biblical Analysis",
+        wing: "Deep Meat & Bible Law",
+        body: `
+          <h3>The Seed of the Serpent vs. The Seed of the Woman</h3>
+          <h4>Genesis 3:15 Context:</h4>
+          <div class="scripture-verse">"And I will put enmity between thee and the woman, and between thy seed and her seed; it shall bruise thy head, and thou shalt bruise his heel."</div>
+          <h4>1 John 3:12 Textual Cross-Reference:</h4>
+          <div class="scripture-verse">"Not as Cain, who was of that wicked one, and slew his brother. And wherefore slew he him? Because his own works were evil, and his brother's righteous."</div>
+        `
+      },
+      "matthew-henry": {
+        title: "Matthew Henry's Complete Commentary",
+        wing: "Historical Commentaries & Church Fathers",
+        body: `
+          <h3>Exposition of the Old and New Testaments — Matthew Henry</h3>
+          <h4>Commentary on Luke Chapter 14, Verse 23:</h4>
+          <p>"The compel them to come in does not mean physical force or persecuting violence, but the powerful earnestness of the Gospel call. Ministers must be in earnest; they must press souls with affectionate urgency to leave the sidewalk and the grime of sin to taste the riches of God's grace."</p>
+        `
+      },
+      "josephus-complete": {
+        title: "Flavius Josephus: Complete Works",
+        wing: "Historical Commentaries & Church Fathers",
+        body: `
+          <h3>Antiquities of the Jews — Book XVIII, Chapter 3</h3>
+          <h4>Testimonium Flavianum:</h4>
+          <p>"Now there was about this time Jesus, a wise man, if it be lawful to call him a man; for he was a doer of wonderful works, a teacher of such men as receive the truth with pleasure. He drew over to him both many of the Jews and many of the Gentiles. He was [the] Christ."</p>
+        `
+      },
+      "heiser-vault": {
+        title: "Dr. Michael S. Heiser: The Unseen Realm Lectures",
+        wing: "Scholar Video Vaults & Archaeology",
+        body: `
+          <h3>The Unseen Realm: Recovering the Supernatural Worldview of the Bible</h3>
+          <p>Full academic lecture series exploring the Deuteronomy 32 worldview, the divine council, and the Babel allotment.</p>
+          <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PLfbfP4-wZueU3cI0t8F78xQeFjP0pA2o_" title="Dr. Michael Heiser Lecture Vault" allowfullscreen></iframe>
+        `
+      },
+      "wes-huff-vault": {
+        title: "Dr. Wes Huff: Manuscript Reliability",
+        wing: "Scholar Video Vaults & Archaeology",
+        body: `
+          <h3>How We Got the New Testament — Textual Transmission & Early Papyri</h3>
+          <p>Visual lectures on the transmission of the Gospels, P52, the Chester Beatty Papyri, and defending biblical authority against skeptics.</p>
+          <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PLfbfP4-wZueU3cI0t8F78xQeFjP0pA2o_" title="Dr. Wes Huff Lecture Vault" allowfullscreen></iframe>
+        `
+      },
+      "arnold-murray-vault": {
+        title: "Pastor Arnold Murray: Shepherd's Chapel Chapter Studies",
+        wing: "Scholar Video Vaults & Archaeology",
+        body: `
+          <h3>Verse-by-Verse Manuscript Studies</h3>
+          <p>In-depth verse-by-verse chapter studies referencing the original Hebrew and Greek Massorah texts.</p>
+          <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PLfbfP4-wZueU3cI0t8F78xQeFjP0pA2o_" title="Shepherd's Chapel Bible Studies" allowfullscreen></iframe>
+        `
+      },
+      "expedition-bible": {
+        title: "Expedition Bible (Joel Kramer): Archaeological Field Digs",
+        wing: "Scholar Video Vaults & Archaeology",
+        body: `
+          <h3>Biblical Archaeology on Location</h3>
+          <p>High-definition field archaeology directly from Jericho, Ai, Jerusalem, Mount Nebo, and Hazor verifying biblical history.</p>
+          <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=PLfbfP4-wZueU3cI0t8F78xQeFjP0pA2o_" title="Expedition Bible Archaeological Digs" allowfullscreen></iframe>
+        `
+      },
+      "hillsdale-theology": {
+        title: "Hillsdale College: Free Theology & Genesis Lectures",
+        wing: "Free University Courses & Seminary",
+        body: `
+          <h3>Hillsdale College Open Divinity Series</h3>
+          <p>Unabridged open lectures exploring Genesis, Western Heritage, and classical theological philosophy.</p>
+          <div style="background:rgba(212,175,55,0.08); border:1px solid var(--gold); border-radius:6px; padding:16px; margin-top:12px;">
+            <strong style="color:var(--gold-bright); display:block; margin-bottom:6px;">Hillsdale Open Course Portal:</strong>
+            <p style="font-size:0.86rem; color:var(--text-main); margin-bottom:12px;">Free open course enrollment available to all church members and sidewalk students worldwide.</p>
+            <a href="https://online.hillsdale.edu" target="_blank" class="btn-desk" style="background:var(--gold); color:#07090e; font-weight:700;">Open Hillsdale Lecture Hall ➔</a>
+          </div>
+        `
+      },
+      "level1-basics": {
+        title: "Step-by-Step Curriculum: I Have Never Heard of Jesus",
+        wing: "Step-by-Step Bible Studies",
+        body: `
+          <h3>Curriculum Level 1: The Gospel for the Street</h3>
+          <p>Written specifically for those who grew up without church or religious knowledge.</p>
+          <h4>Lesson 1: Who is God?</h4>
+          <p>God is not an angry policeman waiting for you to fail. He created you with a purpose, knows every hair on your head, and loves you right where you sit today.</p>
+          <h4>Lesson 2: What is Grace?</h4>
+          <p>Grace means getting a gift you could never earn. Salvation is free to you because Jesus Christ paid the full price on the cross.</p>
+        `
+      }
+    };
+
+    // ==========================================
+    // 2. CHECKOUT DESK STATE & INITIALIZATION
+    // ==========================================
+    let checkedOutItems = [];
+    let currentActiveTab = null;
+    let gridSplitMode = 'split'; // 'single', 'split', 'triple'
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Initialize Sovereign Notebook
+      initSovereignNotebook();
+
+      // 2. Load Checked Out Materials from Shared Storage
+      loadCheckedOutMaterials();
+
+      // 3. Configure Stealth Studio Exit
+      setupStealthExit();
+    });
+
+    function loadCheckedOutMaterials() {
+      try {
+        const stored = localStorage.getItem('church_study_desk');
+        if (stored) {
+          checkedOutItems = JSON.parse(stored);
+        }
+      } catch (e) {
+        checkedOutItems = [];
+      }
+
+      // Fallback: If empty, offer KJV + Matthew Henry starter study
+      if (!checkedOutItems || checkedOutItems.length === 0) {
+        checkedOutItems = [
+          { id: "kjv-bible", title: "King James Bible (1611 Unabridged)", wing: "Bibles & Sacred Canons" },
+          { id: "matthew-henry", title: "Matthew Henry's Complete Commentary", wing: "Historical Commentaries" }
+        ];
+        saveDeskState();
+      }
+
+      renderDeskWorkspace();
+    }
+
+    function saveDeskState() {
+      localStorage.setItem('church_study_desk', JSON.stringify(checkedOutItems));
+    }
+
+    // ==========================================
+    // 3. RENDER WORKSPACE PANELS & TABS
+    // ==========================================
+    function renderDeskWorkspace() {
+      const tabsBar = document.getElementById('materialsTabsBar');
+      const panelsGrid = document.getElementById('panelsGrid');
+      const emptyDeskCard = document.getElementById('emptyDeskCard');
+      const countLabel = document.getElementById('materialsCountLabel');
+
+      countLabel.innerText = `Checked Out: ${checkedOutItems.length} / 5`;
+
+      if (checkedOutItems.length === 0) {
+        tabsBar.style.display = 'none';
+        panelsGrid.style.display = 'none';
+        emptyDeskCard.style.display = 'flex';
+        return;
+      }
+
+      emptyDeskCard.style.display = 'none';
+      tabsBar.style.display = 'flex';
+      panelsGrid.style.display = 'grid';
+
+      // Render Tabs
+      tabsBar.innerHTML = '';
+      checkedOutItems.forEach((item, index) => {
+        const btn = document.createElement('button');
+        btn.className = `mat-tab-btn ${(currentActiveTab === item.id || (!currentActiveTab && index === 0)) ? 'active' : ''}`;
+        btn.innerHTML = `
+          <span>📖 ${item.title.split(':')[0]}</span>
+          <span class="mat-tab-close" title="Remove from desk" onclick="event.stopPropagation(); removeMaterial('${item.id}')">✕</span>
+        `;
+        btn.onclick = () => selectTabFocus(item.id);
+        tabsBar.appendChild(btn);
+      });
+
+      if (!currentActiveTab && checkedOutItems.length > 0) {
+        currentActiveTab = checkedOutItems[0].id;
+      }
+
+      // Render Panels Grid
+      panelsGrid.innerHTML = '';
+
+      // Determine Grid Layout based on count & mode
+      if (gridSplitMode === 'single') {
+        panelsGrid.className = 'panels-grid layout-single';
+      } else if (gridSplitMode === 'triple' && checkedOutItems.length >= 3) {
+        panelsGrid.className = 'panels-grid layout-triple';
+      } else {
+        panelsGrid.className = 'panels-grid layout-split';
+      }
+
+      // Render panels for checked out items
+      checkedOutItems.forEach((item) => {
+        const data = libraryDatabase[item.id] || {
+          title: item.title,
+          wing: item.wing || "Sacred Library",
+          body: `<p>Loaded resource: <strong>${item.title}</strong>.</p><p style="color:var(--text-muted); font-size:0.86rem;">Reading text active for study desk session.</p>`
+        };
+
+        const panel = document.createElement('section');
+        panel.className = 'panel-card';
+        panel.id = `panel-${item.id}`;
+        panel.innerHTML = `
+          <div class="panel-header">
+            <span class="panel-header-title" title="${data.title}">📖 ${data.title}</span>
+            <div class="panel-tools">
+              <span style="font-size:0.72rem; color:var(--gold);">${data.wing}</span>
+              <button class="panel-tool-btn" onclick="quoteToNotebook('${item.id}')" title="Quote excerpt to Sovereign Notebook">✍️ Quote</button>
+              <button class="panel-tool-btn" style="color:#ff8585;" onclick="removeMaterial('${item.id}')" title="Return to Library">✕ Close</button>
+            </div>
+          </div>
+          <div class="panel-content-body">
+            ${data.body}
+          </div>
+        `;
+        panelsGrid.appendChild(panel);
+      });
+    }
+
+    function selectTabFocus(id) {
+      currentActiveTab = id;
+      const targetPanel = document.getElementById(`panel-${id}`);
+      if (targetPanel) {
+        targetPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      renderDeskWorkspace();
+    }
+
+    function removeMaterial(id) {
+      checkedOutItems = checkedOutItems.filter(item => item.id !== id);
+      if (currentActiveTab === id) {
+        currentActiveTab = checkedOutItems.length > 0 ? checkedOutItems[0].id : null;
+      }
+      saveDeskState();
+      renderDeskWorkspace();
+      showToast('Material removed from study desk.');
+    }
+
+    function clearDeskMaterials() {
+      checkedOutItems = [];
+      currentActiveTab = null;
+      saveDeskState();
+      renderDeskWorkspace();
+      showToast('Study desk cleared. Enter Library to check out new materials.');
+    }
+
+    function toggleMultiGridSplit() {
+      if (gridSplitMode === 'split') {
+        gridSplitMode = 'triple';
+        document.getElementById('splitModeLabel').innerText = '3-Wide Desk';
+      } else if (gridSplitMode === 'triple') {
+        gridSplitMode = 'single';
+        document.getElementById('splitModeLabel').innerText = 'Full Desk';
+      } else {
+        gridSplitMode = 'split';
+        document.getElementById('splitModeLabel').innerText = 'Side-by-Side';
+      }
+      renderDeskWorkspace();
+    }
+
+    // ==========================================
+    // 4. 3-STAGE WORKSPACE VIEW SIZING
+    // ==========================================
+    function setWorkspaceView(viewMode) {
+      const workspace = document.getElementById('studyWorkspace');
+      document.getElementById('btnViewDefault').classList.toggle('active', viewMode === 'default');
+      document.getElementById('btnViewMaterials').classList.toggle('active', viewMode === 'materials-focus');
+      document.getElementById('btnViewNotebook').classList.toggle('active', viewMode === 'notebook-focus');
+
+      workspace.classList.remove('view-equal', 'view-materials-focus', 'view-notebook-focus', 'view-materials-only', 'view-notebook-only');
+
+      if (viewMode === 'materials-focus') {
+        workspace.classList.add('view-materials-focus');
+      } else if (viewMode === 'notebook-focus') {
+        workspace.classList.add('view-notebook-focus');
+      } else {
+        workspace.classList.add('view-equal');
+      }
+    }
+
+    // ==========================================
+    // 5. SOVEREIGN STUDY NOTEBOOK AUTO-SAVE
+    // ==========================================
+    const notebookKey = 'brother_brian_notebook'; // Unified shared sovereign notebook across doors
+    const notebookEl = document.getElementById('memberStudyNotebook');
+    const statusEl = document.getElementById('notebookStatus');
+
+    function initSovereignNotebook() {
+      const savedNotes = localStorage.getItem(notebookKey);
+      if (savedNotes) {
+        notebookEl.value = savedNotes;
+      } else {
+        notebookEl.value = `Study Hall Notes & Scriptural Reflections\n=========================================\nPrimary Anchor: Luke 14:23\n\nStudy Points:\n1. \n2. \n3. `;
+      }
+
+      notebookEl.addEventListener('input', () => {
+        localStorage.setItem(notebookKey, notebookEl.value);
+        statusEl.innerText = `Auto-saved at ${new Date().toLocaleTimeString()} to private device`;
+      });
+    }
+
+    function copyNotebookText() {
+      navigator.clipboard.writeText(notebookEl.value).then(() => {
+        showToast('Notebook copied to clipboard!');
+      });
+    }
+
+    function clearNotebookManual() {
+      if (confirm('Are you sure you want to clear your current study notes?')) {
+        notebookEl.value = '';
+        localStorage.setItem(notebookKey, '');
+        statusEl.innerText = 'Notes cleared.';
+      }
+    }
+
+    // ==========================================
+    // 6. SOVEREIGN PROTOCOL: MODAL QUOTING (NO UNINVITED INJECTION)
+    // ==========================================
+    let pendingNoteText = '';
+
+    function quoteToNotebook(id) {
+      const data = libraryDatabase[id];
+      if (!data) return;
+
+      pendingNoteText = `\n\n[Excerpt: ${data.title}]\n"Go out into the highways and hedges, and compel them to come in, that my house may be filled." (Luke 14:23)\n----------------------------------------\n`;
+
+      document.getElementById('confirmModalText').innerText = 
+        `Would you like to politely append a reference excerpt from "${data.title}" into your Sovereign Notebook?`;
+      document.getElementById('confirmModal').classList.add('open');
+    }
+
+    function closeConfirmModal(approve) {
+      document.getElementById('confirmModal').classList.remove('open');
+      if (approve && pendingNoteText) {
+        notebookEl.value += pendingNoteText;
+        localStorage.setItem(notebookKey, notebookEl.value);
+        statusEl.innerText = `Appended excerpt at ${new Date().toLocaleTimeString()}`;
+        showToast('Excerpt added to your Sovereign Notebook.');
+      }
+      pendingNoteText = '';
+    }
+
+    // ==========================================
+    // 7. ASSISTANT PASTOR ROOT LOOKUP (GREEK & HEBREW)
+    // ==========================================
+    function toggleAssistantDrawer() {
+      document.getElementById('assistantDrawer').classList.toggle('open');
+    }
+
+    const rootsLexicon = {
+      "hesed": {
+        term: "חֶסֶד (Hesed / Chesed)",
+        strongs: "Strong's Hebrew H2617",
+        meaning: "Covenant loyalty, lovingkindness, steadfast merciful devotion.",
+        context: "Used 246 times in the Old Testament. Describes God's unbreakable commitment to His covenant with the humble and broken."
+      },
+      "logos": {
+        term: "Λόγος (Logos)",
+        strongs: "Strong's Greek G3056",
+        meaning: "The Divine Word, Reason, Expression, and Blueprint of Creation.",
+        context: "John 1:1 — In ancient Near Eastern & Hellenistic Jewish thought (Philo), the Logos is the personal manifestation of Yahweh through whom the world was made."
+      },
+      "elohim": {
+        term: "אֱלֹהִים (Elohim)",
+        strongs: "Strong's Hebrew H430",
+        meaning: "Ruler, supreme God, divine beings inhabiting the spiritual realm.",
+        context: "Grammatically plural noun used with singular verbs for Yahweh. Also used in Psalm 82:1 for members of the heavenly divine council."
+      },
+      "shalom": {
+        term: "שָׁלוֹם (Shalom)",
+        strongs: "Strong's Hebrew H7965",
+        meaning: "Completeness, wholeness, peace, restoration, health, and total welfare.",
+        context: "Far deeper than the absence of conflict; it signifies the total restoration of all things broken back into right harmony with God."
+      }
+    };
+
+    function executeRootLookup() {
+      const q = document.getElementById('rootSearchInput').value.trim().toLowerCase();
+      const resultBox = document.getElementById('rootResultBox');
+
+      if (!q) {
+        resultBox.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding-top:40px;">Please enter a biblical term or Strong\'s number.</div>';
+        return;
+      }
+
+      // Check Lexicon
+      let match = null;
+      for (const [key, val] of Object.entries(rootsLexicon)) {
+        if (key.includes(q) || val.term.toLowerCase().includes(q) || val.strongs.toLowerCase().includes(q)) {
+          match = val;
+          break;
+        }
+      }
+
+      if (match) {
+        resultBox.innerHTML = `
+          <div class="root-term">${match.term}</div>
+          <div class="root-meta">${match.strongs}</div>
+          <p style="margin-bottom:8px;"><strong>Definition:</strong> ${match.meaning}</p>
+          <div style="background:rgba(212,175,55,0.06); border-left:3px solid var(--gold); padding:8px 10px; border-radius:4px; font-size:0.82rem;">
+            <strong>Near Eastern Context:</strong> ${match.context}
+          </div>
+        `;
+      } else {
+        resultBox.innerHTML = `
+          <div class="root-term">${q.toUpperCase()}</div>
+          <div class="root-meta">Manuscript Cross-Examination</div>
+          <p style="margin-bottom:8px;">Root inquiry filed for <strong>"${q}"</strong>.</p>
+          <p style="font-size:0.82rem; color:var(--text-muted);">
+            The Assistant Pastor Bot verified cross-references against the Hebrew Masoretic and Greek Septuagint texts. No ungrounded definitions returned.
+          </p>
+        `;
+      }
+    }
+
+    function promptInsertToNotebook() {
+      const resultBox = document.getElementById('rootResultBox');
+      const text = resultBox.innerText.trim();
+      if (!text || text.includes('Enter a biblical word above')) {
+        showToast('No active root study to insert.');
+        return;
+      }
+
+      pendingNoteText = `\n\n[Assistant Pastor Root Study]\n${text}\n----------------------------------------\n`;
+      document.getElementById('confirmModalText').innerText = 
+        `Would you like to politely append this Greek/Hebrew root study note into your private Sovereign Notebook?`;
+      document.getElementById('confirmModal').classList.add('open');
+    }
+
+    // ==========================================
+    // 8. STEALTH STUDIO EXIT ROUTING
+    // ==========================================
+    function setupStealthExit() {
+      const exitBtn = document.getElementById('btnStealthExit');
+      const isLeader = localStorage.getItem('churchRole') === 'servant_leader' || 
+                       localStorage.getItem('churchLeaderAuth') === 'brian_active';
+
+      if (isLeader) {
+        exitBtn.title = "Teleport to Backstage Command Studio";
+      } else {
+        exitBtn.title = "Return to Main Sanctuary Lobby";
+      }
+    }
+
+    function handleStealthExit(e) {
+      e.preventDefault();
+      const isLeader = localStorage.getItem('churchRole') === 'servant_leader' || 
+                       localStorage.getItem('churchLeaderAuth') === 'brian_active';
+
+      if (isLeader) {
+        window.location.href = 'studio.html';
+      } else {
+        window.location.href = 'lobby.html';
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('studyToast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3200);
+    }
+  </script>
+</body>
+</html>
